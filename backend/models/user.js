@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
+const sequelize = require('sequelize');
 
 const sequelize = new Sequelize('sqlite::memory:');
 
@@ -23,4 +24,6 @@ const User = sequelize.define("User", {
   },
 })
 
-console.log(User)
+console.log(User);
+
+module.exports = User;
