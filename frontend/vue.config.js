@@ -16,9 +16,9 @@ module.exports = {
     loaderOptions: {
       sass: {
         sassOptions: {
-          data: 
-                `@import "@/styles/_mixins-signup.scss"`
-                
+          data:
+            `@import "@/styles/_mixins-signup.scss"`
+
         }
 
       }

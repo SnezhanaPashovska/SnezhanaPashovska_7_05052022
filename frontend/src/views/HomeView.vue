@@ -12,6 +12,7 @@
   width: 95%;
   object-fit: contain;
   filter: invert(18%) sepia(25%) saturate(1883%) hue-rotate(212deg) brightness(92%) contrast(94%);
+  height: 500px;
 }
 </style>
 <script>

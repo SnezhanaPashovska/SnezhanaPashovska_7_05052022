@@ -1,8 +1,9 @@
 <template>
   <nav>
-    <router-link to="/signup">Sign up</router-link> 
+    <router-link to="/signup">Sign up</router-link>
     <router-link to="/login">Sign in</router-link>
   </nav>
+  <router-link to="/NewsFeed"></router-link>
   <router-view />
 </template>
 
@@ -50,6 +51,11 @@ nav {
   justify-content: center;
   width: 100%;
   height: 100px;
-  
+
 }
 </style>
+
+
+
+
+

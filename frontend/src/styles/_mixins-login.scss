@@ -54,10 +54,11 @@
     }
 }
 
-@mixin logoGrupomania {
+@mixin logoGrupomania-li {
   height: 200px;
   object-fit: cover;
   width: 70%;
+  filter: invert(18%) sepia(25%) saturate(1883%) hue-rotate(212deg) brightness(92%) contrast(94%);
 }
 
 //Large phone and tablet responsive---------------------------------------------
@@ -84,7 +85,7 @@
   align-self: center;
 }
 
-@mixin logoGrupomania-t {
+@mixin logoGrupomania-li-t {
   height: 150px;
   object-fit: cover;
   width: 50%;
@@ -177,7 +178,7 @@
   align-self: center;
 }
 
-@mixin logoGrupomania-tl {
+@mixin logoGrupomania-li-tl {
   height: 150px;
   object-fit: cover;
   width: 40%;
@@ -227,8 +228,167 @@
 }
 
 @mixin logoGrupomania-li-xl {
-  height: 200px;
+  height: 150px;
   object-fit: cover;
   width: 20%;
-  border: 1px solid blue;
+}
+@mixin login_btn-xl{
+  width: 30%;
+  align-items: center;
+  justify-content: center;
+  margin: 50px auto 0px auto;
+  height: 30px;
+}
+
+@mixin button_su_li-xl {
+  width: 80%;
+  height: 30px;
+  font-family: 'Josefin Sans', sans-serif;
+  border-radius: 10px 10px 10px 10px;
+  border: 1px solid transparent;
+  font-size: 17px;
+  color: white;
+  background-color: $darkest-purple;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $lighter-purple;
+    border: 1px solid transparent;
+  }
+}
+
+
+@mixin login-form-xl {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 55%;
+  height: 200px;
+  align-items: flex-start;
+  align-self: center;
+}
+
+@mixin login-xl {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 350px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300px;
+  font-size: 15px;
+  margin: 0px auto 0px auto;
+}
+
+@mixin login_btn-xxl{
+  width: 25%;
+  align-items: center;
+  justify-content: center;
+  margin: 50px auto 0px auto;
+  height: 30px;
+}
+
+@mixin button_su_li-xxl {
+  width: 70%;
+  height: 30px;
+  font-family: 'Josefin Sans', sans-serif;
+  border-radius: 10px 10px 10px 10px;
+  border: 1px solid transparent;
+  font-size: 17px;
+  color: white;
+  background-color: $darkest-purple;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $lighter-purple;
+    border: 1px solid transparent;
+  }
+}
+
+//Extra large screen----------------------------------------------------------------------
+
+
+@mixin login-form-xl {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: 130px;
+  align-self: center;
+}
+
+@mixin login_btn-xl{
+  width: 32%;
+  align-items: center;
+  justify-content: center;
+  margin: 0px auto 0px auto;
+  height: 30px;
+}
+
+@mixin button_su_li-xl {
+  width: 70%;
+  height: 30px;
+  font-family: 'Josefin Sans', sans-serif;
+  border-radius: 10px 10px 10px 10px;
+  border: 1px solid transparent;
+  font-size: 17px;
+  color: white;
+  padding: 0px 5px 0px 5px;
+  background-color: $darkest-purple;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $lighter-purple;
+    border: 1px solid transparent;
+  }
+}
+
+@mixin email_input-login-xl {
+  width: 100%;
+  align-self: center;
+  
+  
+
+  & input{
+    border-radius: 10px 10px 10px 10px;
+    border-color: $lighter-purple;
+    }
+} 
+
+@mixin password_input-login-xl {
+  width: 100%;
+  align-self: center;
+
+  & input{
+    border-radius: 10px 10px 10px 10px;
+    border-color: $lighter-purple
+    }
+}
+
+@mixin logoGrupomania-li-xl {
+  height: 150px;
+  object-fit: cover;
+  width: 20%;
+  filter: invert(18%) sepia(25%) saturate(1883%) hue-rotate(212deg) brightness(92%) contrast(94%);
+}
+
+
+@mixin login-xxl {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90%;
+  height: 450px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300px;
+  font-size: 15px;
+  margin: 0px auto 0px auto;
+}
+
+@mixin login_btn-xxl{
+  width: 23%;
+  align-items: center;
+  justify-content: center;
+  margin: 0px auto 0px auto;
+  height: 30px;
 }

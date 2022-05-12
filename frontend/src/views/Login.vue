@@ -3,7 +3,7 @@
     <header></header>
     <div class="login">
       <div class="title">
-        <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+        <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania-li">
       </div>
       <div class="login_form">
         <div class="email_input-login">
@@ -41,8 +41,8 @@ input:focus {
   box-shadow: 2px 2px 1px $lighter-purple;
 }
 
-.logoGrupomania {
-  @include logoGrupomania;
+.logoGrupomania-li {
+  @include logoGrupomania-li;
 }
 
 .login_form {
@@ -99,8 +99,8 @@ input:focus {
     @include button_su_li-t;
   }
 
-  .logoGrupomania {
-    @include logoGrupomania-tl;
+  .logoGrupomania-li {
+    @include logoGrupomania-li-tl;
   }
 }
 
@@ -131,8 +131,8 @@ input:focus {
     @include button_su_li-tl;
   }
 
-  .logoGrupomania {
-    @include logoGrupomania-tl;
+  .logoGrupomania-li {
+    @include logoGrupomania-li-tl;
   }
 }
 
@@ -163,39 +163,68 @@ input:focus {
     @include button_su_li-tl;
   }
 
-  .logoGrupomania {
+  .logoGrupomania-li {
     @include logoGrupomania-li-l;
   }
+}
 
-  @media screen and (min-width: 1200px) and (max-width: 1920px) {
-    .login {
-      @include login-tl;
-    }
-
-    .login_form {
-      @include login_form-tl;
-    }
-
-    .email_input-login {
-      @include email_input-login-tl;
-    }
-
-    .password_input-login {
-      @include password_input-login-tl;
-    }
-
-    .login_btn {
-      @include login_btn-tl;
-    }
-
-    .btn_li {
-      @include button_su_li-tl;
-    }
-
-    .logoGrupomania {
-      @include logoGrupomania-li-xl;
-    }
+@media screen and (min-width: 1200px) and (max-width: 1920px) {
+  .logoGrupomania-li {
+    @include logoGrupomania-li-xl;
   }
 
+  .login_btn {
+    @include login_btn-xl;
+  }
+
+  .btn_li {
+    @include button_su_li-xl;
+  }
+
+  .login_form {
+    @include login_form-xl;
+  }
+
+  .login {
+    @include login-xl;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  nav {
+    height: 200px;
+  }
+
+  a {
+    font-size: 40px;
+  }
+
+  .logoGrupomania-li {
+    @include logoGrupomania-li-xl;
+  }
+
+  .login_form {
+    @include login_form-xl;
+  }
+
+  .email_input-login {
+    @include email_input-login-xl;
+  }
+
+  .password_input-login {
+    @include password_input-login-xl;
+  }
+
+  .login_btn {
+    @include login_btn-xxl;
+  }
+
+  .btn_li {
+    @include button_su_li-xl;
+  }
+
+  .login {
+    @include login-xxl;
+  }
 }
 </style>

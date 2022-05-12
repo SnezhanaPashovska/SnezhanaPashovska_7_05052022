@@ -22,11 +22,10 @@
           <label for="password"></label>
           <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
-        <div class="signup_btn">
-          <button class="btn_su">Sign up</button>
+        <div id="signup_btn" class="signup_btn">
+          <button id="signup" class="btn_su" type="submit">Sign up</button>
         </div>
       </div>
-
     </div>
     <footer></footer>
   </div>
@@ -149,10 +148,11 @@ input:focus {
 //Laptop screen responsive
 @media screen and (min-width: 991px) and (max-width: 1200px) {
 
-   nav{
+  nav {
     width: 70%;
     align-self: center;
   }
+
   .signup {
     @include signup-tl;
   }
@@ -175,8 +175,8 @@ input:focus {
   }
 }
 
-@media screen and (min-width: 1200px) and (max-width: 1920px){
-   .signup {
+@media screen and (min-width: 1200px) and (max-width: 1920px) {
+  .signup {
     @include signup-tl;
   }
 
@@ -198,12 +198,13 @@ input:focus {
   }
 }
 
-@media screen and (min-width: 1200px){
-  nav{
+@media screen and (min-width: 1200px) {
+  nav {
     width: 70%;
     align-self: center;
   }
-   .signup_btn {
+
+  .signup_btn {
     @include signup_btn-xl;
   }
 
@@ -215,6 +216,18 @@ input:focus {
     @include logoGrupomania-xl;
   }
 }
+
+@media screen and (min-width: 1920px) {
+
+  .signup_btn {
+    @include signup_btn-xxl;
+  }
+}
 </style>
+
+
+<script src="../js/signup"></script>
+
+
 
 

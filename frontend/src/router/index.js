@@ -24,6 +24,21 @@ const routes = [
       return import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
     }
   },
+  {
+    path: '/NewsFeed',
+    name: 'NewsFeed',
+    component: function () {
+      return import(/* webpackChunkName: "NewsFeed" */ '../views/NewsFeed.vue')
+    }
+  },
+  {
+    path: "/signup.js",
+    name: "signup.js",
+    component: function () {
+      return import(/* webpackChunkName: "NewsFeed" */ '../js/signup.js')
+    }
+  }
+
 
 
 
