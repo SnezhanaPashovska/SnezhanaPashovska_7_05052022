@@ -40,7 +40,8 @@
 
   & input{
     border-radius: 10px 10px 10px 10px;
-    border-color: $lighter-purple
+    border-color: $lighter-purple;
+    height: 27px;
     }
 } 
 
@@ -50,7 +51,8 @@
 
   & input{
     border-radius: 10px 10px 10px 10px;
-    border-color: $lighter-purple
+    border-color: $lighter-purple;
+    height: 27px;
     }
 }
 
@@ -130,7 +132,7 @@
   width: 70%;
   height: 30px;
   font-family: 'Josefin Sans', sans-serif;
-  border-radius: 10px 10px 10px 10px;
+  border-radius: 15px 15px 15px 15px;
   border: 1px solid transparent;
   font-size: 17px;
   color: white;

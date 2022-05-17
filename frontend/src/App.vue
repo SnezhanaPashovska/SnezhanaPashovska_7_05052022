@@ -1,9 +1,5 @@
 <template>
-  <nav>
-    <router-link to="/signup">Sign up</router-link>
-    <router-link to="/login">Sign in</router-link>
-  </nav>
-  <router-link to="/NewsFeed"></router-link>
+  
   <router-view />
 </template>
 
@@ -29,21 +25,6 @@
   text-decoration: none;
   font-weight: 400px;
 }
-
-a {
-  text-decoration: none;
-  color: #332c62;
-  font-size: 20px;
-  width: 25%;
-  padding-top: 23px;
-
-}
-
-a:hover {
-  text-decoration: none;
-  color: $lighter-purple;
-}
-
 nav {
   display: flex;
   flex-direction: row;
@@ -51,11 +32,25 @@ nav {
   justify-content: center;
   width: 100%;
   height: 100px;
+}
 
+a {
+  text-decoration: none !important;
+  color: #332c62 !important;
+  font-size: 20px;
+  width: 22%;
+  padding-top: 23px;
+}
+
+a:hover {
+  text-decoration: none;
+  color: $lighter-purple !important;
 }
 </style>
 
+<script>
 
+</script>
 
 
 

@@ -14,33 +14,47 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "login" */ '../views/Login.vue')
+      return import(/* webpackChunkName: "login" */ '../components/Login.vue')
+    },
+    meta: {
+      hideNavbar: true
     }
   },
   {
     path: '/signup',
     name: 'signup',
     component: function () {
-      return import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
+      return import(/* webpackChunkName: "signup" */ '../components/Signup.vue')
+    },
+    meta: {
+      hideNavbar: true
+    }
+  },
+
+  {
+    path: '/ProfilePage',
+    name: 'ProfilePage',
+    component: function () {
+      return import(/* webpackChunkName: "ProfilePage" */ '../components/ProfilePage.vue')
+    },
+    meta: {
+      hideNavbar: true
     }
   },
   {
-    path: '/NewsFeed',
+    path: '/Newsfeed',
     name: 'NewsFeed',
     component: function () {
-      return import(/* webpackChunkName: "NewsFeed" */ '../views/NewsFeed.vue')
+      return import(/* webpackChunkName: "NewsFeed" */ '../components/NewsFeed.vue')
     }
   },
   {
-    path: "/signup.js",
-    name: "signup.js",
+    path: '/Header',
+    name: 'Header',
     component: function () {
-      return import(/* webpackChunkName: "NewsFeed" */ '../js/signup.js')
+      return import(/* webpackChunkName: "Header" */ '../components/Header.vue')
     }
   }
-
-
-
 
 ]
 

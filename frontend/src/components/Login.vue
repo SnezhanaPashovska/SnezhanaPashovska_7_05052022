@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <header></header>
+    <nav class="navigation">
+    <router-link to="/signup" class="signUp">Sign up</router-link>
+    <router-link to="/login">Sign in</router-link>
+  </nav>
     <div class="login">
       <div class="title">
         <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania-li">
@@ -19,7 +22,6 @@
         </div>
       </div>
     </div>
-    <footer></footer>
   </div>
 </template>
 <style lang="scss">
