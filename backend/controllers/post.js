@@ -1,109 +1,154 @@
-const Post = require('../models/Post');
+const { Post, User, Like, Comment } = require("../models");
+const { Seq } = require('sequelize');
 const fs = require('fs');
 
-exports.createPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
-  delete postObject._id;
-  const post = new Post({
-    ...postObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [''],
-    usersDisliked: ['']
-  });
-  post.save()
-    .then(() => res.status(201).json({ message: 'The post has been added !' }))
-    .catch(error => res.status(400).json({ error }));
+
+// 1. Create a Post
+
+exports.createPost = (req, res) => {
+  let postImage;
+  if (req.file) {
+    postImage = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+  };
+  const newPost = {
+    idUser: req.body.idUser,
+    text: req.body.text,
+    image: postImage,
+    title: req.body.title
+  };
+  Post.create(newPost)
+    .then(post => res.status(201).json(post))
+    .catch(error => res.status(500).json({ error }));
 };
 
-//--Like and dislike--//
-exports.likeOrDislikePost = (req, res, next) => {
-  let like = req.body.like
-  let iduser = req.body.iduser
-  let idposts = req.params.id
+// 2. Get all posts
 
-  switch (like) {
-    case 1:
-      Post.updateOne({ _id: idposts }, { $push: { usersLiked: iduser }, $inc: { likes: +1 } })
-        .then(() => res.status(200).json({ message: "Like" }))
-        .catch((error) => res.status(400).json({ error }))
-      break;
-
-    case 0:
-      Post.findOne({ _id: idposts })
-        .then((post) => {
-          if (post.usersLiked.includes(iduser)) {
-            Post.updateOne({ _id: idposts }, { $pull: { usersLiked: iduser }, $inc: { likes: -1 } })
-              .then(() => res.status(200).json({ message: "Neutral" }))
-              .catch((error) => res.status(400).json({ error }))
-          }
-          if (post.usersDisliked.includes(iduser)) {
-            Post.updateOne({ _id: idposts }, { $pull: { usersDisliked: iduser }, $inc: { dislikes: -1 } })
-              .then(() => res.status(200).json({ message: "Neutral" }))
-              .catch((error) => res.status(400).json({ error }))
-          }
-        })
-        .catch((error) => res.status(404).json({ error }))
-      break;
-
-    case -1:
-      Post.updateOne({ _id: idposts }, { $push: { usersDisliked: iduser }, $inc: { dislikes: +1 } })
-        .then(() => { res.status(200).json({ message: "Dislike" }) })
-        .catch((error) => res.status(400).json({ error }))
-      break;
-
-    default:
-      console.log(error);
-  }
-};
-//--GET a post--//
-
-exports.getOnePost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id })
-    .then((post) => res.status(200).json(post))
-    .catch((error) => res.status(404).json({ error: error }));
+exports.getAllPosts = (req, res) => {
+  Post.scope('formatted_date').findAll({
+    include: [
+      { model: User, as: 'User', attributes: ['name', 'lastname', 'image'] },
+      { model: Like },
+      {
+        model: Comment, include: [
+          { model: User, attributes: ['name', 'lastname', 'image'] }
+        ]
+      }
+    ],
+  })
+    .then(posts => res.status(200).json(posts))
+    .catch(error => res.status(500).json({ error }));
 };
 
-//--Modify a post--//
+// 3. Delete a post
 
-exports.modifyPost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id })
-    .then((post) => {
-      if (post.iduser !== req.auth.iduser)
-        res.status(403).json({ error: "Unauthorized request!" });
-    })
-  const postObject = req.file ?
-    {
-      ...JSON.parse(req.body.post),
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    }
-    : { ...req.body };
-  Post.updateOne({ _id: req.params.id }, { ...postObject, _id: req.params.id })
-    .then(() => res.status(200).json({ message: 'The post has been modified !' }))
-    .catch(error => res.status(400).json({ error }));
-};
-
-//--Delete a post--//
-
-exports.deletePost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id })
+exports.deletePost = (req, res) => {
+  Post.findOne({ where: { id: req.params.id } })
     .then(post => {
-      const filename = post.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
-        Post.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'The post has been deleted !' }))
-          .catch(error => res.status(400).json({ error }));
-      });
+      if (post.image != null) {
+        const filename = post.image.split('/images/')[1];
+        fs.unlink(`images/${filename}`, (err) => {
+          if (err) throw err;
+        })
+      };
+      Post.destroy({ where: { id: req.params.id } })
+        .then(() => res.status(201).json({ message: "The post has been deleted" }))
+        .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
 };
 
-//--GET all of the posts--//
+// 4. Like or dislike a post
 
-exports.getAllPosts = (req, res, next) => {
-  Post.find()
-    .then((posts) => res.status(200).json(posts))
-    .catch((error) => res.status(400).json({ error: error }));
+exports.postLike = (req, res) => {
+  Like.findOne({
+    where: {
+      idUser: req.body.idUser,
+      postId: req.body.postId
+    }
+  })
+    .then(response => {
+      if (response == null) {
+        if (req.body.likeValue == 1) {
+          Like.create({
+            idUser: req.body.idUser,
+            postId: req.body.postId,
+            liked: req.body.likeValue
+          });
+          Post.increment(
+            { likes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: 'Liked!' })
+        }
+        else if (req.body.likeValue == -1) {
+          Like.create({
+            idUser: req.body.idUser,
+            postId: req.body.postId,
+            liked: req.body.likeValue
+          });
+          Post.increment(
+            { dislikes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: 'Dislike!' })
+        }
+      }
+
+      else if (response.dataValues.liked == 1) {
+        if (req.body.likeValue == -1) {
+          Like.update(
+            { liked: -1 },
+            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
+          );
+          Post.increment(
+            { dislikes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          Post.decrement(
+            { likes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: "Neutral" });
+        }
+        else {
+          Like.destroy(
+            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
+          );
+          Post.decrement(
+            { likes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: "The like has been removed" })
+        };
+      }
+
+      else if (response.dataValues.liked == -1) {
+        if (req.body.likeValue == 1) {
+          Like.update(
+            { liked: 1 },
+            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
+          );
+          Post.increment(
+            { likes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          Post.decrement(
+            { dislikes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: "Neutral" })
+        }
+        else {
+          Like.destroy(
+            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
+          );
+          Post.decrement(
+            { dislikes: 1 },
+            { where: { id: req.body.postId } }
+          );
+          res.status(201).json({ message: "The dislike has been removed" })
+        };
+      }
+    })
+    .catch(error => res.status(500).json({ error }));
 };
-

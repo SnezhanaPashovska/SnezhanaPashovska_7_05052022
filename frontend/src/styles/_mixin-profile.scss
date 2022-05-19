@@ -205,12 +205,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 65px;
+    height: 80px;
     padding: 15px 15px 0px 15px;
     font-size: 25px;
     font-weight: 100;
     border-radius: 8px;
-    color: $darkest-purple;
+    color: $dark-purple;
     cursor: pointer;
     position: sticky;
     font-weight: lighter;
@@ -233,8 +233,6 @@
 
       & i{
         justify-self: center;
-        font-weight: lighter;
-        -webkit-text-stroke: 2px background-color;
       }
     }
 }

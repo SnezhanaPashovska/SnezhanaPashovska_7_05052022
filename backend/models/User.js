@@ -1,8 +1,15 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
-const connection = require("../app")
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const dotenv = require('dotenv')
+dotenv.config();
+let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+  host: 'localhost',
+  dialect: 'mysql',
+  port: 3306
+})
 
-const User = sequelize.define('User', {
+// User table
+
+const User = sequelize.define('user', {
   idUser: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -26,12 +33,35 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  password: DataTypes.STRING,
-  allowNull: false
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: 0
+}
 })
 
-sequelize.models.User
-
+sequelize.models.user;
 module.exports = User;
 
-console.log(User === sequelize.models.User);
+/* User.sync().then((data) => {
+  console.log("Connected")
+}).catch((err) => {
+  
+})   */
+
+
+
+
+
+
+

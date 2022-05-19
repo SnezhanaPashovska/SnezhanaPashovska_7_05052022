@@ -1,8 +1,19 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const dotenv = require('dotenv')
+dotenv.config();
+let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+  host: 'localhost',
+  dialect: 'mysql',
+  port: 3306
+})
 
-const Post = sequelize.define('Post', {
-  idposts: {
+const User = require('./User');
+
+
+// Post table
+
+const Post = sequelize.define('post', {
+  postId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -10,7 +21,6 @@ const Post = sequelize.define('Post', {
   },
   iduser: {
     type: DataTypes.INTEGER,
-    foreignKey: true,
     allowNull: false
   },
   image: {
@@ -25,26 +35,31 @@ const Post = sequelize.define('Post', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  likes: {
-    type: DataTypes.NUMBER,
-    allowNull: false
+  like: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
   },
-  dislikes: {
-    type: DataTypes.NUMBER,
-    allowNull: false
-  },
-  usersLiked: {
-    type: DataTypes.ARRAY(DataTypes.NUMBER),
-    allowNull: false
-  },
-  usersDisliked: {
-    type: DataTypes.ARRAY(DataTypes.NUMBER),
-    allowNull: false
-  }
+  dislike: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0
+}
 })
 
-sequelize.models.Post
+User.hasMany(Post, { foreignKey: 'iduser', sourceKey: 'idUser' });
+Post.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
 
-module.exports = sequelize.model('Post', Post);
 
-console.log(Post === sequelize.models.Post);
+
+
+sequelize.models.post;
+
+module.exports = Post;
+
+/* Post.sync().then((data)=>{
+  console.log("Table and model synced successfully-Post")
+}).catch((err)=>{
+  console.log("Error syncing table and model-Post")
+})   */
+

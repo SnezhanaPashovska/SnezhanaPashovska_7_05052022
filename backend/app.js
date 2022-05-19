@@ -1,32 +1,36 @@
 const express = require('express');
-var mysql = require('mysql');
-const sequelize = require ('sequelize');
 const path = require('path');
 const app = express();
-const userRoutes = require('./routes/user');
-const postsRoutes = require('./routes/posts');
-const profileRoutes = require('./routes/profiles');
+const cors = require('cors');
 const dotenv = require('dotenv')
 dotenv.config();
-app.use(sequelize);
 
-var connection = mysql.createConnection({
+// Routes
+const userRoutes = require('./routes/user.js');
+const postsRoutes = require('./routes/posts');
+const commentRoutes = require('./routes/comments');
+
+
+// Connection to Database
+const Sequelize = require('sequelize');
+let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
   host: 'localhost',
-  user: process.env.user,
-  password: process.env.password,
-  database: 'grupomania',
-  dialect: "mysql"
-});
+  dialect: 'mysql',
+  port: 3306
+})
+sequelize.authenticate().then(() => {
+  console.log("Sucessfully connected to mySQL DB!");
+}).catch((err) => {
+  console.log("Error connecting!")
+})
 
-connection.connect(function (err) {
-  if (err) {
-    console.error('Error connecting');
-    return;
-  }
-  console.log('Connected to MySQL database');
-});
 
 app.use(express.json());
+app.use(cors());
+
+
+//Headers
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -35,9 +39,14 @@ app.use((req, res, next) => {
   next();
 });
 
+
+//Access
+
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/posts', postsRoutes);
-app.use('/api/posts', profileRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/users', userRoutes);
+app.use('api/comments', commentRoutes);
+
 
 module.exports = app;
+

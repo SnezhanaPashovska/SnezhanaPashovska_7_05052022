@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
+
+const postsCtrl = require('../controllers/post');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
-const postsCtrl = require('../controllers/post');
 
 
-router.get('/', auth, postsCtrl.getAllPosts);
-router.post('/', auth, multer, postsCtrl.createPost);
-router.get('/:id', auth, postsCtrl.getOnePost);
-router.put('/:id', auth, multer, postsCtrl.modifyPost);
+router.post('', auth, multer, postsCtrl.createPost);
+router.get('', auth, postsCtrl.getAllPosts);
 router.delete('/:id', auth, postsCtrl.deletePost);
-router.post("/:id/like", auth, postsCtrl.likeOrDislikePost);
+router.post('/like', auth, postsCtrl.postLike);
 
 module.exports = router;

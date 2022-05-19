@@ -88,6 +88,7 @@
             <i class="fa-solid fa-plus" title="Create a post"></i>
           </div>
           <div class="footer_section__signout">
+            
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
           </div>
         </div>

@@ -1,37 +1,54 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const dotenv = require('dotenv')
+dotenv.config();
+let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+  host: 'localhost',
+  dialect: 'mysql',
+  port: 3306
+})
 
-const Comment = sequelize.define('Comment', {
+const User = require('./User')
+const Post = require('./Post')
+
+
+//Comment table
+
+const Comment = sequelize.define('comment', {
   idcomments: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
+    autoIncrement: true
   },
+
   idposts: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
     allowNull: false,
-    foreignKey: true
   },
   iduser: {
     type: DataTypes.INTEGER,
-    autoIncrement: true,
     allowNull: false,
-    foreignKey: true
   },
+
   text: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: DataTypes.TEXT,
+    allowNull: false,
+    defaultValue: 'Hello from vs studio'
   },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: true
-  }
 })
 
-sequelize.models.Comment
+User.hasMany(Comment, { foreignKey: 'iduser', sourceKey: 'idUser' });
+Comment.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
 
-module.exports = sequelize.model('Comment', Comment);
+Post.hasMany(Comment, { foreignKey: 'idposts', sourceKey: 'postId' });
+Comment.belongsTo(Post, { foreignKey: 'idposts', targetKey: 'postId' });
 
-console.log(Comment === sequelize.models.Comment);
+sequelize.models.comment;
+
+module.exports = Comment;
+/* 
+Comment.sync().then(() => {
+  console.log("SYNCED")
+}).catch(() => {
+  console.log("NOT SYNCED")
+}) */

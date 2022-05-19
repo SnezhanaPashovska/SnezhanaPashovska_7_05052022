@@ -221,6 +221,7 @@ a{
   a{
     width: 10%
   }
+
   .name_input{
     @include name_input-xxl;
   }
