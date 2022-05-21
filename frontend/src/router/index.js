@@ -54,6 +54,14 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "Header" */ '../components/Header.vue')
     }
+  },
+
+  {
+    path: '/Settings',
+    name: 'Settings',
+    component: function () {
+      return import(/* webpackChunkName: "Header" */ '../components/Settings.vue')
+    }
   }
 
 ]

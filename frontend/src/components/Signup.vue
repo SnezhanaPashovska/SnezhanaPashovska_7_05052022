@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <nav class="navigation">
-    <router-link to="/signup" class="signUp">Sign up</router-link>
-    <router-link to="/login">Sign in</router-link>
-  </nav>
+      <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+    </nav>
     <div class="signup">
-      <div class="signup__title">
-        <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+      <div class="links">
+        <router-link to="/signup" class="signUp">Sign up</router-link>
+        <router-link to="/login" class="signIn">Sign in</router-link>
       </div>
       <div class="signup_form">
         <div class="name_input">
@@ -39,19 +39,8 @@
 @import "../styles/mixins-signup.scss";
 
 body {
- background-image: url("../assets/background-1536x922.jpg");
- background-color: #cccccc;
-  background-size: 100%;
+  background-color: $light-beige;
 }
-
- nav {
-    width: 100%;
-    align-self: center;
-    border-bottom: 1px solid $darkest-purple;
-    box-shadow: 0px 1px 12px $lighter-purple;
-    border-radius: 8px;
-    backdrop-filter: blur (20px);
-  }
 
 input {
   border-radius: 10px 10px 10px 10px;
@@ -65,8 +54,13 @@ input:focus {
   border-color: $lighter-purple;
   box-shadow: 2px 2px 1px $lighter-purple;
 }
-a{
+
+a {
   width: 25%;
+}
+
+.links {
+  @include links;
 }
 
 .signup {
@@ -143,13 +137,17 @@ a{
 //Tablet and small laptop responsive
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
-   a{
+  a {
     width: 15%
   }
 
 
   .signup {
     @include signup-tl;
+  }
+
+  .links {
+    @include links-tl;
   }
 
   .signup_form {
@@ -172,19 +170,22 @@ a{
 //Laptop screen responsive
 @media screen and (min-width: 991px) and (max-width: 1200px) {
 
-  nav {
-    width: 100%;
-    align-self: center;
-    border-bottom: 1px solid $darkest-purple;
-    box-shadow: 0px 1px 12px $lighter-purple;
-    border-radius: 8px;
-    backdrop-filter: blur (20px);
-  }
- a{
+
+  a {
     width: 10%
   }
 
+  .links {
+    @include links
+  }
 
+  .signUp {
+    @include signUp
+  }
+
+  .signIn {
+    @include signIn
+  }
 
   .signup {
     @include signup-tl;
@@ -208,31 +209,35 @@ a{
   }
 }
 
-@media screen and (min-width: 1200px) {
-  nav {
-    width: 100%;
-    align-self: center;
-    border-bottom: 1px solid $darkest-purple;
-    box-shadow: 0px 1px 12px $lighter-purple;
-    border-radius: 8px;
-    backdrop-filter: blur (20px);
-  }
+@media screen and (min-width: 1201px) {
 
-  a{
+
+  a {
     width: 10%
   }
 
-  .name_input{
+  .name_input {
     @include name_input-xxl;
   }
-  .lastname_input{
+
+  .lastname_input {
     @include lastname_input-xxl;
   }
-  .email_input-signup{
+
+  .email_input-signup {
     @include email_input-signup-xxl
   }
-  .password_input-signup{
+
+  .password_input-signup {
     @include password_input-signup-xxl
+  }
+
+  .signUp {
+    @include signUp
+  }
+
+  .signIn {
+    @include signIn
   }
 
   .signup_btn {

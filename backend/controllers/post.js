@@ -14,11 +14,10 @@ exports.createPost = (req, res) => {
     idUser: req.body.idUser,
     text: req.body.text,
     image: postImage,
-    title: req.body.title
   };
   Post.create(newPost)
     .then(post => res.status(201).json(post))
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(400).json({ error }));
 };
 
 // 2. Get all posts
@@ -36,7 +35,7 @@ exports.getAllPosts = (req, res) => {
     ],
   })
     .then(posts => res.status(200).json(posts))
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(400).json({ error }));
 };
 
 // 3. Delete a post
@@ -52,9 +51,9 @@ exports.deletePost = (req, res) => {
       };
       Post.destroy({ where: { id: req.params.id } })
         .then(() => res.status(201).json({ message: "The post has been deleted" }))
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(400).json({ error }));
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(400).json({ error }));
 };
 
 // 4. Like or dislike a post
@@ -72,10 +71,10 @@ exports.postLike = (req, res) => {
           Like.create({
             idUser: req.body.idUser,
             postId: req.body.postId,
-            liked: req.body.likeValue
+            like: req.body.likeValue
           });
           Post.increment(
-            { likes: 1 },
+            { liked: 1 },
             { where: { id: req.body.postId } }
           );
           res.status(201).json({ message: 'Liked!' })
@@ -84,10 +83,10 @@ exports.postLike = (req, res) => {
           Like.create({
             idUser: req.body.idUser,
             postId: req.body.postId,
-            liked: req.body.likeValue
+            like: req.body.likeValue
           });
           Post.increment(
-            { dislikes: 1 },
+            { dislike: 1 },
             { where: { id: req.body.postId } }
           );
           res.status(201).json({ message: 'Dislike!' })
@@ -150,5 +149,5 @@ exports.postLike = (req, res) => {
         };
       }
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(400).json({ error }));
 };

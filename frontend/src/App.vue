@@ -1,6 +1,9 @@
 <template>
   
   <router-view />
+
+
+  
 </template>
 
 <style lang="scss">
@@ -34,18 +37,19 @@ nav {
   height: 100px;
 }
 
-a {
-  text-decoration: none !important;
-  color: #332c62 !important;
+.welcome {
+  text-decoration: none;
+  color: #332c62;
   font-size: 20px;
   width: 22%;
   padding-top: 23px;
 }
 
-a:hover {
+.welcome:hover {
   text-decoration: none;
-  color: $lighter-purple !important;
+  color: $lighter-purple;
 }
+
 </style>
 
 <script>

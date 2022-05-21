@@ -33,7 +33,6 @@ const Comment = sequelize.define('comment', {
   text: {
     type: DataTypes.TEXT,
     allowNull: false,
-    defaultValue: 'Hello from vs studio'
   },
 })
 

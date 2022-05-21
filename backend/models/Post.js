@@ -31,10 +31,7 @@ const Post = sequelize.define('post', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
+  
   like: {
     type: DataTypes.INTEGER,
     allowNull: false,

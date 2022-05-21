@@ -2,13 +2,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  //border: 1px solid red;
+  border: 1px solid transparent;
+  box-shadow: 1px 1px 3px $dark-purple;
   width: 100%;
-  height: 550px;
+  height: 450px;
   font-family: 'Lato', sans-serif;
   font-weight: 400px;
   font-size: 15px;
+  background-color: white;
   //border: 1px solid blue;
+}
+
+@mixin links {
+  display: inline-flex;
 }
 
 @mixin signup_form {
@@ -185,6 +191,18 @@
   margin: 0px auto 0px auto;
 }
 
+@mixin links-tl {
+  width: 56%;
+}
+
+@mixin signUp {
+  width: 30%;
+}
+
+@mixin signIn {
+  width: 30%;
+}
+
 @mixin signup_form-tl {
   display: flex;
   flex-direction: column;
@@ -256,6 +274,7 @@
     border: 1px solid transparent;
   }
 }
+//
 
 @mixin signup_btn-xl {
   width: 30%;
@@ -265,7 +284,7 @@
   height: 35px;
 }
 @mixin button_su_li-xl {
-  width: 80%;
+  width: 82%;
   height: 35px;
   font-family: 'Josefin Sans', sans-serif;
   border-radius: 15px 15px 15px 15px;
@@ -342,4 +361,6 @@
     width: 50%;
   }
 }
+
+
 

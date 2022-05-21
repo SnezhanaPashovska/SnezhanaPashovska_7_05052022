@@ -1,13 +1,18 @@
 <template>
   <div class="home">
-    <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+   
   </div>
   <div class="links">
     <router-link class="welcome" to="/signup">Sign up</router-link>
     <router-link class="welcome" to="/login">Sign in</router-link>
+    
   </div>
+  <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
 </template>
 <style lang="scss">
+
+
+
 .home {
   width: 100%;
   box-sizing: content-box;
@@ -18,6 +23,7 @@
   object-fit: contain;
   filter: invert(18%) sepia(25%) saturate(1883%) hue-rotate(212deg) brightness(92%) contrast(94%);
   height: 250px;
+  justify-self: center;
 }
 
 .links {

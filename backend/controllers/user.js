@@ -60,7 +60,7 @@ exports.getAllUsers = (req, res) => {
   // Les mots de passe utilisateurs ne sont pas enregistrés dans la réponse
   User.scope('noPassword').findAll({})
     .then(user => res.status(200).json(user))
-    .catch(error => res.status(500).json({ error }))
+    .catch(error => res.status(400).json({ error }))
 };
 
 // 4. Get one user
@@ -68,7 +68,7 @@ exports.getAllUsers = (req, res) => {
 exports.getOneUser = (req, res) => {
   User.findOne({ where: { id: req.params.id } })
     .then(user => res.status(200).json(user))
-    .catch(error => res.status(500).json({ error }))
+    .catch(error => res.status(404).json({ error }))
 };
 
 
@@ -116,7 +116,7 @@ exports.updateUser = (req, res) => {
         );
       };
     })
-    .catch(error => res.status(500).json({ error }));
+    .catch(error => res.status(400).json({ error }));
 };
 
 
