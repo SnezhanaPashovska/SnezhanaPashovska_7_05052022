@@ -18,7 +18,8 @@
           <input type="password" id="password" name="password" placeholder="Password" required>
         </div>
         <div class="login_btn">
-          <button class="btn_li">Log in</button>
+          <button @click="login" class="btn_li">Log in</button>
+          <!--  <p>Incorrect email or password</p> -->
         </div>
       </div>
     </div>
@@ -190,3 +191,26 @@ input:focus {
 
 }
 </style>
+<script>
+
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+
+  },
+  methods: {
+    login() {
+      axios.post('user/login', {
+        email: this.email,
+        password: this.password
+      })
+    }
+  }
+}
+
+</script>

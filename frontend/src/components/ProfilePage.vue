@@ -14,7 +14,7 @@
       <div class="col-1-of-2">
         <div class="header_section">
           <div class="header_section__profile-photo">
-            <img src="../assets/Cat_March_2010-1.jpg" alt="Photo">
+            <!-- <img src="" alt="Profile Photo"> -->
           </div>
           <div class="header_section__information">
             <p class="header_section__information-name">Name</p>
@@ -44,19 +44,16 @@
     </div>
     <div class="row">
       <div class="col-1-of-3">
-        <div class="posts_section">
+        <!-- <div class="posts_section">
           <div class="posts_section__title">
             <h2>
               Posts
             </h2>
             <div class="posts_section__images">
               <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <img src="../assets/thumb-1920-1144782.jpg" alt="">
+              <div class="post_section_images__icon">
+                <i class="fa-solid fa-trash"></i>
+              </div>
             </div>
             <div class="posts_section__text">
               <p>
@@ -75,9 +72,12 @@
                 surrounded.
                 Points six way enough she its father.
               </p>
+              <div class="post_section_text__icon">
+                <i class="fa-solid fa-trash"></i>
+              </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -89,8 +89,9 @@
       <a href=""><i class="fa-solid fa-plus" title="Create a post"></i></a>
     </div>
     <div class="footer_section__signout">
-
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <a href="./Login.vue">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      </a>
     </div>
   </div>
 </template>
@@ -99,12 +100,14 @@
 @import "../styles/mixin-profile.scss";
 @import "../styles/variables.scss";
 
+
 a {
   color: white;
 }
 
 .profile_page {
   scroll-behavior: smooth;
+  height: auto
 }
 
 .profile_page_nav {
@@ -137,6 +140,14 @@ a {
 
 .posts_section {
   @include posts_section;
+}
+
+.post_section_images__icon {
+  @include trashcan;
+}
+
+.post_section_text__icon {
+  @include text-trashcan;
 }
 
 .footer_section {
@@ -249,21 +260,25 @@ a {
   .header_section {
     @include header_section-laptop;
   }
-  .about_section{
+
+  .about_section {
     @include about_section-laptop;
   }
-  .settings-icon{
+
+  .settings-icon {
     @include settings-icon-laptop;
   }
-  .posts_section{
+
+  .posts_section {
     @include posts_section-laptop;
   }
-  .footer_section{
+
+  .footer_section {
     @include footer_section-laptop
   }
 }
 
-@media screen and (min-width: 1201px){
+@media screen and (min-width: 1201px) {
   .row {
     width: 70%;
     justify-self: center;
@@ -271,18 +286,31 @@ a {
     border-left: 1px solid transparent;
     box-shadow: 0px 0px 0px 00px gray;
   }
-  .section{
+
+  .section {
     background-color: $light-gray;
   }
-  .header_section{
+
+  .settings-icon{
+    @include settings-icon-laptop-1;
+  }
+
+  .header_section {
     @include header_section-laptop-1;
   }
-  .about_section{
+
+  .about_section {
     @include about_section-laptop-1
   }
-  .posts_section{
+
+  .posts_section {
     @include posts_section-laptop-1;
   }
 }
 </style>
+
+<script>
+
+
+</script>
 

@@ -8,25 +8,29 @@
         <router-link to="/signup" class="signUp">Sign up</router-link>
         <router-link to="/login" class="signIn">Sign in</router-link>
       </div>
-      <div class="signup_form">
+      <div class="signup_form" method="post" @submit.prevent="signup()">
         <div class="name_input">
           <label for="name"></label>
-          <input type="text" id="name" name="name" placeholder="Name" required>
+          <input type="text" id="name" name="name" v-model="name" placeholder="Name" required>
+          <!-- <p>Please enter a valid name</p> -->
         </div>
         <div class="lastname_input">
           <label for="lastname"></label>
-          <input type="text" id="lastname" name="lastname" placeholder="Last Name" required>
+          <input type="text" id="lastname" name="lastname" v-model="lastname" placeholder="Last Name" required>
+          <!--  <p>Please enter a valid lastname</p> -->
         </div>
         <div class="email_input-signup">
           <label for="email"></label>
-          <input type="text" id="email" name="email" placeholder="Email" required>
+          <input type="text" id="email" name="email" v-model="email" placeholder="Email" required>
+          <!-- <p>Please enter a valid email address</p> -->
         </div>
         <div class="password_input-signup">
           <label for="password"></label>
-          <input type="password" id="password" name="password" placeholder="Password" required>
+          <input type="password" id="password" name="password" v-model="password" placeholder="Password" required>
+          <!-- <p>Please enter a valid password</p> -->
         </div>
         <div id="signup_btn" class="signup_btn">
-          <button id="signup" class="btn_su" type="signup">Sign up</button>
+          <button @click="signup" href="./ProfilePage.vue" id="signup" class="btn_su" type="signup">Sign up</button>
         </div>
       </div>
     </div>
@@ -262,7 +266,60 @@ a {
 </style>
 
 
-<script src="../js/signupPage.js" async>
+<script>
+
+const axios = require('axios').default;
+let nameError = document.getElementsByClassName('name_input')
+
+
+export default {
+  data() {
+    return {
+      name: null,
+      lastname: null,
+      email: null,
+      password: null
+    }
+  },
+  methods: {
+
+    signup() {
+      let nameInput = document.getElementById('name');
+      let lastnameInput = document.getElementById('lastname');
+      let emailInput = document.getElementById('email');
+      let passwordInput = document.getElementById('password');
+
+      //Dom
+
+      let nameError = document.getElementsByClassName('name_input');
+      let lasnameError = document.getElementsByClassName('lastname_input');
+      let emailError = document.getElementsByClassName('email_input-signup');
+      let passwordError = document.getElementsByClassName('password_input-signup');
+
+      if (nameInput.value === null || lastnameInput.value === null || emailInput.value === null || passwordInput.value === null) {
+        nameError.innerHTML = "<p>Please enter a valid name</p>";
+        lasnameError.innerHTML = "<p>Please enter a valid lastname</p>";
+        emailError.innerHTML = "<p>Please enter a valid email</p>";
+        passwordError.innerHTML = "<p>Please enter a valid name</p>";
+      }
+      else {
+        axios.post('http://localhost:3000/api/users', {
+          name: this.name,
+          lastname: this.lastname,
+          email: this.email,
+          password: this.password
+        })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    }
+  }
+
+}
 
 </script>
 

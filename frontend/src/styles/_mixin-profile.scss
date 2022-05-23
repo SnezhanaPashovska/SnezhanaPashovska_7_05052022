@@ -137,14 +137,12 @@
 
 @mixin posts_section{
   margin: 90px 0px 120px 0px;
-  background-color: $light-gray;
   height: 790px;
 
   &__title{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: scroll;
     
 
     h2{
@@ -161,7 +159,7 @@
     }
     p{
       justify-self: left;
-      width: 100%;
+      width: 90%;
       font-family: Lato, sans-serif;
       margin-top: 50px;
       text-align: justify;
@@ -176,7 +174,7 @@
   &__images{
     display: flex;
     flex-direction: row;
-    height: 290px;
+    height: 350px;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
@@ -190,7 +188,7 @@
       object-fit: cover;
       border: 3px solid transparent;
       border-radius: 25px 25px 25px 25px;
-      width: 45%;
+      width: 90%;
       justify-content: space-between;
       justify-items: center;
       height: auto;
@@ -202,6 +200,32 @@
         box-shadow: 1px 1px 4px $light-pink;
       }
     }
+  }
+  &__text{
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@mixin text-trashcan {
+  margin-top: 50px;
+  color: $darkest-purple;
+  cursor: pointer;
+
+  & :hover{
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+  }
+}
+
+@mixin trashcan {
+  color: $darkest-purple;
+  cursor: pointer;
+  margin-top: 7px;
+
+  & :hover{
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
   }
 }
 
@@ -333,7 +357,6 @@
 
 @mixin posts_section-425-519{
   margin: 90px 0px 120px 0px;
-  background-color: $light-gray;
   height: 790px;
 
   &__title{
@@ -357,7 +380,7 @@
     }
     p{
       justify-self: left;
-      width: 100%;
+      width: 90%;
       font-family: Lato, sans-serif;
       margin-top: 50px;
       text-align: justify;
@@ -372,7 +395,7 @@
   &__images{
     display: flex;
     flex-direction: row;
-    height: 290px;
+    height: 350px;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
@@ -386,7 +409,7 @@
       object-fit: cover;
       border: 3px solid transparent;
       border-radius: 25px 25px 25px 25px;
-      width: 45%;
+      width: 90%;
       justify-content: space-between;
       justify-items: center;
       height: auto;
@@ -522,9 +545,15 @@
 
 @mixin posts_section-tablet{
   margin: 0px 0px 0px 0px;
-  background-color: $light-gray;
   height: 800px;
   background-color: white;
+
+  &__images{
+    width: 97%;
+    & img{
+      width: 90%;
+    }
+  }
 }
 
 // @media screen and (min-width: 768px) and (max-width: 991px)
@@ -640,7 +669,7 @@
     }
     p{
       justify-self: left;
-      width: 100%;
+      width: 92%;
       font-family: Lato, sans-serif;
       margin-top: 100px;
       text-align: justify;
@@ -669,7 +698,7 @@
       object-fit: cover;
       border: 3px solid transparent;
       border-radius: 25px 25px 25px 25px;
-      width: 45%;
+      width: 90%;
       justify-content: space-between;
       justify-items: center;
       height: auto;
@@ -773,7 +802,7 @@
       justify-self: left;
       width: 25%;
       font-family: Lato, sans-serif;
-      font-size: 28px;
+      font-size: 25px;
       text-align: left;
       padding-left: 15px;
       color: $darkest-purple;
@@ -788,7 +817,7 @@
       margin-top: 7px;
       text-align: justify;
       padding: 20px 25px 0px 25px;
-      font-size: 20px;
+      font-size: 17px;
       overflow: scroll;
     }
   }
@@ -808,7 +837,7 @@
 @mixin posts_section-laptop{
   margin: 0px 0px 0px 0px;
   background-color: $light-gray;
-  height: 990px;
+  height: 1500px;
   background-color: white;
 
   &__title{
@@ -832,7 +861,7 @@
     }
     p{
       justify-self: left;
-      width: 100%;
+      width: 90%;
       font-family: Lato, sans-serif;
       margin-top: 100px;
       text-align: justify;
@@ -847,7 +876,7 @@
   &__images{
     display: flex;
     flex-direction: row;
-    height: 420px;
+    height: 650px;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
@@ -861,7 +890,7 @@
       object-fit: cover;
       border: 3px solid transparent;
       border-radius: 25px 25px 25px 25px;
-      width: 45%;
+      width: 90%;
       justify-content: space-between;
       justify-items: center;
       height: auto;
@@ -953,12 +982,15 @@
   flex-direction: column;
   justify-content: space-between;
   background-color: white;
+ 
+  
   
 
   &__text{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
    
     h1{
       justify-self: left;
@@ -979,8 +1011,10 @@
       margin-top: 7px;
       text-align: justify;
       padding: 20px 35px 0px 35px;
-      font-size: 18px;
-      height: 200px
+      font-size: 16px;
+      height: 200px;
+      overflow-x: hidden;
+    overflow-y: hidden;
     }
   }
 }
@@ -988,14 +1022,13 @@
 @mixin posts_section-laptop-1{
   margin: 0px 0px 0px 0px;
   background-color: $light-gray;
-  height: 890px;
+  height: 1500px;
   background-color: white;
 
   &__title{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: scroll;
     
 
     h2{
@@ -1012,28 +1045,30 @@
     }
     p{
       justify-self: left;
-      width: 100%;
+      width: 95%;
       font-family: Lato, sans-serif;
       margin-top: 50px;
       text-align: justify;
       padding: 0px 35px 0px 35px;
       font-size: 15px;
       overflow: scroll;
+      overflow-y: hidden;
       height: 250px;
       justify-self: center;
+      overflow-x: hidden;
     }
   
   }
   &__images{
     display: flex;
     flex-direction: row;
-    height: 550px;
+    height: 650px;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
     padding: 0px 35px 0px 35px;
     overflow: scroll;
-    scroll-behavior: smooth;
+    overflow-x: hidden;
     padding-top: 20px;
     margin: 7px 1px 7px 1px;
 
@@ -1053,6 +1088,18 @@
         box-shadow: 1px 1px 4px $light-pink;
       }
     }
+  }
+}
+
+@mixin settings-icon-laptop-1{
+  color: white !important;
+  width: 40%;
+  font-size: 25px;
+  margin: 0px 0px 0px -500px;
+
+  & :hover{
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
   }
 }
 

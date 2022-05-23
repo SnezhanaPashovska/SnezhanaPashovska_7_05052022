@@ -27,7 +27,8 @@ const User = sequelize.define('user', {
 
   image: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true,
+    defaultValue:0
   },
   email: {
     type: DataTypes.STRING,
@@ -45,9 +46,9 @@ const User = sequelize.define('user', {
 
   isAdmin: {
     type: DataTypes.BOOLEAN,
-    allowNull: false,
+    allowNull: true,
     defaultValue: 0
-}
+  }
 })
 
 sequelize.models.user;
@@ -57,8 +58,8 @@ module.exports = User;
   console.log("Connected")
 }).catch((err) => {
   
-})   */
-
+})
+ */
 
 
 

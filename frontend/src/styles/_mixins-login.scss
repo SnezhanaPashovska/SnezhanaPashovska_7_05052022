@@ -19,6 +19,12 @@
   width: 100%;
   height: 150px;
   align-items: flex-start;
+
+  p{
+    font-size: 12px;
+    color: $darkest-purple;
+    padding-bottom: 10px;
+  }
 }
 
 @mixin login_btn{
@@ -186,7 +192,8 @@
   align-items: center;
   justify-content: center;
   margin: 50px auto 0px auto;
-  height: 35px;
+  height: 55px;
+  padding-bottom: 20px;
 }
 
 @mixin button_su_li-tl {
@@ -235,18 +242,19 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 400px;
+  height: 350px;
   font-family: 'Lato', sans-serif;
   font-weight: 300px;
   font-size: 15px;
   margin: 0px auto 0px auto;
+  padding-bottom: 20px;
 }
 
 @mixin sigin_btn-tl {
   width: 80%;
   align-items: center;
   justify-content: center;
-  margin: 50px auto 0px auto;
+  margin: 50px auto 20px auto;
   height: 35px;
 }
 @mixin button_si_li-425 {
