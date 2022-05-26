@@ -14,14 +14,13 @@
       <div class="col-1-of-2">
         <div class="header_section">
           <div class="header_section__profile-photo">
-            <!-- <img src="" alt="Profile Photo"> -->
+            <img src="" alt="Profile photo">
           </div>
           <div class="header_section__information">
-            <p class="header_section__information-name">Name</p>
-            <p class="header_section__information-lastname">Lastname</p>
+            <p class="header_section__information-name"></p>
+            <p class="header_section__information-lastname"></p>
           </div>
           <div class="header_section__settings">
-
           </div>
         </div>
       </div>
@@ -89,9 +88,9 @@
       <a href=""><i class="fa-solid fa-plus" title="Create a post"></i></a>
     </div>
     <div class="footer_section__signout">
-      <a href="./Login.vue">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      </a>
+      <!--   <a href="./Login.vue"> -->
+      <i  class="fa-solid fa-arrow-right-from-bracket"></i>
+      <!--  </a> -->
     </div>
   </div>
 </template>
@@ -291,7 +290,7 @@ a {
     background-color: $light-gray;
   }
 
-  .settings-icon{
+  .settings-icon {
     @include settings-icon-laptop-1;
   }
 
@@ -310,6 +309,15 @@ a {
 </style>
 
 <script>
+
+
+
+export default {
+
+
+  
+}
+
 
 
 </script>

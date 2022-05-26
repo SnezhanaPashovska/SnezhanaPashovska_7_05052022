@@ -5,7 +5,8 @@ validator.validate("test@email.com");
 
 module.exports = (req, res, next) => {
   if (!checkEmail.validate(req.body.email)) {
-    return res.status(400).json({ message: "Please enter a valid email address" });
+    return res.status(400).json({ message: "Please enter a valid email address" },
+      alert("Please enter a valid email address"));
   } else {
     next();
   }

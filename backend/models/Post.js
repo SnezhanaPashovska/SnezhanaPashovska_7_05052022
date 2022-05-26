@@ -1,7 +1,7 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
-let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306
@@ -31,7 +31,7 @@ const Post = sequelize.define('post', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  
+
   like: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -41,14 +41,11 @@ const Post = sequelize.define('post', {
     type: DataTypes.INTEGER,
     allowNull: false,
     defaultValue: 0
-}
+  }
 })
 
 User.hasMany(Post, { foreignKey: 'iduser', sourceKey: 'idUser' });
 Post.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
-
-
-
 
 sequelize.models.post;
 

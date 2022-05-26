@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
-let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306

@@ -1,8 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../models')
-const User = db.users
 const fs = require('fs');
+const User = require('../models/User');
 
 
 // 1. Sign up
@@ -11,7 +10,7 @@ exports.signup = (req, res) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const newUser = {
-        name: req.body.name,
+        firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
         password: hash
@@ -19,11 +18,10 @@ exports.signup = (req, res) => {
       // Creating User/Profile
       User.create(newUser)
         .then(() => res.status(200).json({ message: 'Profile created' }))
-        .catch(() => res.status(400).json({ message: 'The user already exists' }))
+        .catch(() => res.status(400).json({ message: 'Error' }))
     })
     .catch(error => res.status(500).json({ error }));
 };
-
 
 // 2. Sign in/log in
 
@@ -100,14 +98,14 @@ exports.updateUser = (req, res) => {
           { lastname: req.body.lastname },
           { where: { id: req.body.idUser } }
         );
-        res.status(201).json({ message: 'The last name has been changed' })
+        res.status(201).json({ message: 'The last firstname has been changed' })
       };
-      if (req.body.name && req.body.name != user.name) {
+      if (req.body.firstname && req.body.firstname != user.firstname) {
         User.update(
-          { name: req.body.name },
+          { firstname: req.body.firstname },
           { where: { id: req.body.idUser } }
         );
-        res.status(201).json({ message: 'The first name has been changed' })
+        res.status(201).json({ message: 'The first firstname has been changed' })
       };
       if (req.body.description && req.body.description != user.description) {
         User.update(

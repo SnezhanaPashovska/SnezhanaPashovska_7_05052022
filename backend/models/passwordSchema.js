@@ -6,7 +6,7 @@ const passwordSchema = new passwordValidator();
 //--Password properties--//
 
 passwordSchema
-  .is().min(10)
+  .is().min(8)
   .is().max(30)
   .has().uppercase()
   .has().lowercase()

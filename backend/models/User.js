@@ -1,11 +1,13 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
-let sequelize = new Sequelize('grupomania', process.env.user, process.env.password, {
+let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql',
   port: 3306
 })
+
+//let sequelize = require('../config/dbConfig');
 
 // User table
 
@@ -14,9 +16,10 @@ const User = sequelize.define('user', {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-    allowNull: false
+    allowNull: true,
+    isAdmin: true
   },
-  name: {
+  firstname: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -28,7 +31,6 @@ const User = sequelize.define('user', {
   image: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue:0
   },
   email: {
     type: DataTypes.STRING,
@@ -44,21 +46,28 @@ const User = sequelize.define('user', {
     allowNull: true
   },
 
-  isAdmin: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true,
-    defaultValue: 0
+},
+  {
+    timestamps: false,
+
+  },
+  {
+    createdAt: false,
+  },
+  {
+    updatedAt: false,
   }
-})
+)
 
 sequelize.models.user;
 module.exports = User;
 
-/* User.sync().then((data) => {
-  console.log("Connected")
+/*  User.sync()
+ .then((data) => {
+  console.log("User")
 }).catch((err) => {
   
-})
+}) 
  */
 
 

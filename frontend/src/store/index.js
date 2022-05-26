@@ -4,19 +4,22 @@ import router from '../router';
 
 export default createStore({
   state: {
-
+    isLogged: localStorage.getItem('token'),
   },
+
   getters: {
 
   },
   mutations: {
 
   },
+
   actions: {
 
   },
 
   modules: {
   }
+
 
 })

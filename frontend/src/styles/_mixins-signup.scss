@@ -117,6 +117,7 @@
   font-weight: 300px;
   font-size: 15px;
   margin: 0px auto 0px auto;
+  padding-top: 20px;
 }
 
 @mixin signup_form-t {
@@ -194,10 +195,12 @@
   font-weight: 300px;
   font-size: 15px;
   margin: 0px auto 0px auto;
+  padding-top: 20px;
 }
 
 @mixin links-tl {
   width: 56%;
+ 
 }
 
 @mixin signUp {

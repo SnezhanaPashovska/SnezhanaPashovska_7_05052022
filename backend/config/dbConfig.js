@@ -3,9 +3,10 @@ dotenv.config();
 
 module.exports = {
   host: 'localhost',
-  user: process.env.user,
-  password: process.env.password,
+  user: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
   DB: 'grupomania',
   dialect: 'mysql',
   port: 3306
 }
+
