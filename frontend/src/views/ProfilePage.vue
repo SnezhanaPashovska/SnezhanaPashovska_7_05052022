@@ -14,12 +14,13 @@
       <div class="col-1-of-2">
         <div class="header_section">
           <div class="header_section__profile-photo">
-            <img src="" alt="Profile photo">
+            <img src={{uimage}} alt="Profile photo ">
           </div>
           <div class="header_section__information">
-            <p class="header_section__information-name"></p>
-            <p class="header_section__information-lastname"></p>
+            <p class="header_section__information-name">{{ fname }} </p>
+            <p class="header_section__information-lastname">{{ lname }}</p>
           </div>
+
           <div class="header_section__settings">
           </div>
         </div>
@@ -30,14 +31,13 @@
             <h1 class="about_section__text-title">
               About
             </h1>
+
             <p class="about_section__text-description">
-              Wrong do point avoid by fruit learn or in death. So passage however besides invited comfort elderly be me.
-              Walls began of child civil am heard hoped my. Satisfied pretended mr on do determine by.
-              Old post took and ask seen fact rich. Man entrance settling believed eat joy.
-              Money as drift begin on to. Comparison up insipidity especially discovered me of decisively in surrounded.
-              Points six way enough she its father.
+              {{ description }}
             </p>
+
           </div>
+
         </div>
       </div>
     </div>
@@ -84,19 +84,19 @@
     <div class="footer_section__newsfeed-icon">
       <i class="fa-solid fa-house" title="News Feed"></i>
     </div>
-    <div class="footer_section__upload">
-      <a href=""><i class="fa-solid fa-plus" title="Create a post"></i></a>
-    </div>
     <div class="footer_section__signout">
       <!--   <a href="./Login.vue"> -->
-      <i  class="fa-solid fa-arrow-right-from-bracket"></i>
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
       <!--  </a> -->
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+//Mixins
 @import "../styles/mixin-profile.scss";
+
+//Colors
 @import "../styles/variables.scss";
 
 
@@ -305,19 +305,65 @@ a {
   .posts_section {
     @include posts_section-laptop-1;
   }
+
+  .footer_section {
+    @include footer_section-laptop-1;
+  }
 }
 </style>
 
 <script>
-
-
+import router from '../router'
 
 export default {
+  name: 'ProfilePage',
 
+  data() {
+    return {
+      idUser: Number,
+      fname: "",
+      lname: "",
+      uimage: "",
+      isAdmin: true,
+      description: ""
+    }
+  },
+  mounted() {
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+    let idUser = localStorageData;
+    let token = localStorage.token;
+    console.log(idUser, "idUser")
+    console.log(localStorageData, "localStorageData")
+    console.log(localStorage, "localStorage")
+    console.log(token, "token")
+    //Fetching Data
+    fetch(`http://localhost:3000/api/users/${idUser}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    }
+    )
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            this.fname = data.firstname;
+            this.lname = data.lastname;
+            this.uimage = data.image;
+            this.id = data.idUser;
+            this.description = data.description
+            this.isAdmin = data.isAdmin;
+            console.log(data, "data")
+            console.log(response, "response")
 
-  
+          });
+      })
+      .catch((error) => console.log(error, 'error'));
+    console.log(fetch)
+  },
 }
-
 
 
 </script>

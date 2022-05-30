@@ -11,12 +11,12 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "login" */ '../components/Login.vue')
+      return import(/* webpackChunkName: "login" */ '../views/Login.vue')
     },
     meta: {
       hideNavbar: true
@@ -24,9 +24,9 @@ const routes = [
   },
   {
     path: '/signup',
-    name: 'signup',
+    name: 'Signup',
     component: function () {
-      return import(/* webpackChunkName: "signup" */ '../components/Signup.vue')
+      return import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
     },
     meta: {
       hideNavbar: true
@@ -37,7 +37,7 @@ const routes = [
     path: '/ProfilePage',
     name: 'ProfilePage',
     component: function () {
-      return import(/* webpackChunkName: "ProfilePage" */ '../components/ProfilePage.vue')
+      return import(/* webpackChunkName: "ProfilePage" */ '../views/ProfilePage.vue')
     },
     meta: {
       hideNavbar: true
@@ -47,7 +47,7 @@ const routes = [
     path: '/Newsfeed',
     name: 'NewsFeed',
     component: function () {
-      return import(/* webpackChunkName: "NewsFeed" */ '../components/NewsFeed.vue')
+      return import(/* webpackChunkName: "NewsFeed" */ '../views/NewsFeed.vue')
     }
   },
   {
@@ -62,9 +62,17 @@ const routes = [
     path: '/Settings',
     name: 'Settings',
     component: function () {
-      return import(/* webpackChunkName: "Header" */ '../components/Settings.vue')
+      return import(/* webpackChunkName: "Header" */ '../views/Settings.vue')
     }
-  }
+  },
+  {
+    path: '/PostBox',
+    name: 'PostBox',
+    component: function () {
+      return import(/* webpackChunkName: "Header" */ '../components/PostBox.vue')
+    }
+  },
+
 
 ]
 
@@ -74,9 +82,9 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	const isLogged = store.state.isLogged
-	if ((to.name !== 'Login' && !isLogged) && (to.name !== 'Signup' && !isLogged)) next({ name: 'Login' })
-	else next()
+  const isLogged = store.state.isLogged
+  if ((to.name !== 'Login' && !isLogged) && (to.name !== 'Signup' && !isLogged)) next({ name: 'Login' })
+  else next()
 })
 
 export default router

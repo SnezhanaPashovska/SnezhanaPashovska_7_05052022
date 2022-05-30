@@ -2,9 +2,9 @@ import { createApp, VueElement } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import ProfilePage from './components/ProfilePage'
+import ProfilePage from './views/ProfilePage'
 import Header from './components/Header'
-import NewsFeed from './components/NewsFeed'
+import NewsFeed from './views/NewsFeed'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from '@fortawesome/free-solid-svg-icons'

@@ -71,6 +71,5 @@ app.use('/api/posts', postsRoutes);
 app.use('/api/users', userRoutes);
 app.use('api/comments', commentRoutes);
 
-
 module.exports = app;
 

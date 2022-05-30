@@ -6,15 +6,15 @@ const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 const checkPassword = require('../middleware/password-validator');
 const checkEmail = require('../middleware/email-validation');
-const rateLimit = require('../middleware/passwordEntryLimit');
+//const rateLimit = require('../middleware/passwordEntryLimit');
 
 
 router.post('/signup', checkPassword, checkEmail, userCtrl.signup);
-router.post('/login', rateLimit, userCtrl.login);
-router.put('/', auth, multer, userCtrl.updateUser);
+router.post('/login', /* rateLimit */ userCtrl.login);
 router.put('/image', auth, multer, userCtrl.updateImage)
-router.delete('/:id', auth, userCtrl.deleteUser);
-router.get('/', auth, userCtrl.getAllUsers);
-router.get('/:id', auth, userCtrl.getOneUser);
+router.delete('/profile/:id', auth, userCtrl.deleteUser);
+router.get('/all', auth, userCtrl.getAllUsers);
+router.get('/:id', auth, multer, userCtrl.getOneUser);
+router.put('/:id', auth, multer, userCtrl.updateUser);
 
 module.exports = router;

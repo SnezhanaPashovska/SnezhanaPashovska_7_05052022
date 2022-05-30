@@ -1,0 +1,241 @@
+@mixin settings_page__nav {
+  background-color: $darkest-purple;
+
+  & a{
+    color: white;
+  }
+}
+
+@mixin settings_change {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 450px;
+  margin-top: 50px;
+  background-color: $light-gray;
+
+  &__photo{
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+   &__image{
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 12px $lighter-purple;
+    -webkit-backdrop-filter: blur 20px;
+    backdrop-filter: blur 20px; 
+     width: 30%;
+     height: 100px;
+     justify-self: center;
+     margin: 20px auto 0px auto;
+     cursor: pointer;
+
+     & img{
+       width: 100%;
+       height: 100%;
+       object-fit: contain;
+     }
+   }
+   &__upload{
+     visibility: hidden;
+     width: 10%;
+   }
+  }
+  &__names{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    &__firstname{
+      & input{
+        height: 35px;
+        width: 70%;
+        border: 1px solid transparent;
+        box-shadow: 0px 1px 12px $lighter-purple;
+        -webkit-backdrop-filter: blur 20px;
+        backdrop-filter: blur 20px; 
+        border-radius: 20px 20px 20px 20px;
+        padding-left: 10px;
+        font-family: Lato, sans-serif;
+      }
+    }
+    &__lastname{
+      & input{
+        height: 35px;
+        width: 70%;
+        border: 1px solid transparent;
+        box-shadow: 0px 1px 12px $lighter-purple;
+        -webkit-backdrop-filter: blur 20px;
+        backdrop-filter: blur 20px; 
+        border-radius: 20px 20px 20px 20px;
+        padding-left: 10px;
+        font-family: Lato, sans-serif;
+      }
+    }
+  }
+  &__save{
+    margin-bottom: 15px;
+    height: 35px;
+   
+    &__btn{
+      font-size: 25px;
+      color: $dark-purple;
+      border: transparent;
+      cursor: pointer;
+
+      & :hover{
+        color: $lighter-purple;
+      }
+    }
+  }
+  &__description{
+    & textarea {
+      border: 1px solid transparent;
+      box-shadow: 0px 1px 12px $lighter-purple;
+      -webkit-backdrop-filter: blur 20px;
+      backdrop-filter: blur 20px; 
+      width: 70%;
+      height: 70px;
+      padding: 8px 5px 5px 8px;
+      font-family: Lato, sans-serif;
+      border-radius: 15px 15px 15px 15px;
+      font-size: 15px;
+    }
+  }
+}
+
+@mixin upload_image {
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 25px;
+  width: 10%;
+  color: $darkest-purple;
+  
+  & :hover{
+    color: $lighter-purple;
+  }
+}
+
+//@media screen and (min-width: 768px) and (max-width: 991px)
+@mixin settings_change-tablet {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 520px;
+  margin-top: 50px;
+  background-color: $light-gray;
+
+  &__photo{
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+   &__image{
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 12px $lighter-purple;
+    -webkit-backdrop-filter: blur 20px;
+    backdrop-filter: blur 20px; 
+     width: 23%;
+     height: 140px;
+     justify-self: center;
+     margin: 20px auto 0px auto;
+  }
+  }
+}
+
+//@media screen and (min-width: 768px) and (max-width: 991px)
+
+@mixin settings_change-tablet-1{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 520px;
+  margin: 50px auto 50px auto;
+  background-color: $light-gray;
+
+  &__photo{
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+   &__image{
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 12px $lighter-purple;
+    -webkit-backdrop-filter: blur 20px;
+    backdrop-filter: blur 20px; 
+     width: 25%;
+     height: 120px;
+     justify-self: center;
+     margin: 20px auto 0px auto;
+    }
+  }
+}
+
+//@media screen and (min-width: 991px) and (max-width: 1200px)
+
+@mixin settings_change-laptop{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 550px;
+  margin: 50px auto 50px auto;
+  background-color: $light-gray;
+
+  &__photo{
+    height: 230px;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+   &__image{
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 12px $lighter-purple;
+    -webkit-backdrop-filter: blur 20px;
+    backdrop-filter: blur 20px; 
+     width: 25%;
+     height: 150px;
+     justify-self: center;
+     margin: 20px auto 0px auto;
+    }
+  }
+}
+
+//@media screen and (min-width: 1201px)
+
+@mixin settings_change-laptop-1{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 550px;
+  margin: 50px auto 50px auto;
+  background-color: $light-gray;
+
+  &__photo{
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+   justify-content: space-between;
+
+   &__image{
+    border: 1px solid transparent;
+    box-shadow: 0px 1px 12px $lighter-purple;
+    -webkit-backdrop-filter: blur 20px;
+    backdrop-filter: blur 20px; 
+     width: 27%;
+     height: 170px;
+     justify-self: center;
+     margin: 20px auto 0px auto;
+    }
+  }
+}
+
+

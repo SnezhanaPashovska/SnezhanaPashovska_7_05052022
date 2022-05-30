@@ -39,10 +39,9 @@
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 80%;
-}
+  }
 }
 
 @mixin lastname_input {
@@ -51,7 +50,6 @@
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 80%;
 }
@@ -64,7 +62,6 @@
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 80%;
     }
@@ -75,7 +72,6 @@
   align-self: center;
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 80%;
   }
@@ -324,11 +320,9 @@
 @mixin name_input-xxl {
   width: 50%;
   align-self: center;
-  
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 50%;
 }
@@ -340,12 +334,10 @@
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 50%;
+} 
 }
-  
-  }
 
 @mixin email_input-signup-xxl {
   width: 50%; 
@@ -353,7 +345,6 @@
 
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 50%;
     }
@@ -364,7 +355,6 @@
   align-self: center;
   & input{
     border-radius: 15px 15px 15px 15px;
-    border-color: $lighter-purple;
     height: 35px;
     width: 50%;
   }

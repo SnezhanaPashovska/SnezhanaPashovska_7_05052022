@@ -25,7 +25,7 @@ exports.signup = (req, res) => {
 
 // 2. Sign in/log in
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then(user => {
       console.log(user)
@@ -38,9 +38,9 @@ exports.login = (req, res) => {
             return res.status(401).json({ error: 'The password is incorrect' });
           }
           res.status(200).json({
-            idUser: user.id,
+            idUser: user.idUser,
             token: jwt.sign(
-              { idUser: user.id },
+              { idUser: user.idUser },
               'RANDOM_TOKEN_SECRET',
               { expiresIn: '24h' }
             )
@@ -49,26 +49,21 @@ exports.login = (req, res) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
-
-
-
 //3. Get all users
 
-exports.getAllUsers = (req, res) => {
-  // Les mots de passe utilisateurs ne sont pas enregistrés dans la réponse
-  User.scope('noPassword').findAll({})
+exports.getAllUsers = (req, res, next) => {
+  //The user's password is not registered
+  User.scope().findAll({})
     .then(user => res.status(200).json(user))
     .catch(error => res.status(400).json({ error }))
 };
 
 // 4. Get one user
-
-exports.getOneUser = (req, res) => {
-  User.findOne({ where: { id: req.params.id } })
+exports.getOneUser = (req, res, next) => {
+  User.findOne({ where: { idUser: req.params.id } })
     .then(user => res.status(200).json(user))
-    .catch(error => res.status(404).json({ error }))
-};
-
+    .catch(error => res.status(400).json({ error }))
+}
 
 // 5. Update a user
 exports.updateUser = (req, res) => {
@@ -78,7 +73,7 @@ exports.updateUser = (req, res) => {
         bcrypt.compare(req.body.oldPassword, user.password)
           .then(valid => {
             if (!valid) {
-              return res.status(401).json({ error: 'Le mot de passe saisi ne correspond pas au mot de passe actuel' })
+              return res.status(401).json({ error: "The password is incorrect" })
             } else {
               bcrypt.hash(req.body.newPassword, 10)
                 .then(newHash => {
@@ -86,7 +81,7 @@ exports.updateUser = (req, res) => {
                     { password: newHash },
                     { where: { id: req.body.idUser } }
                   );
-                  res.status(201).json({ message: 'Mot de passe changé' })
+                  res.status(201).json({ message: "Password changed" })
                 })
                 .catch(error => res.status(500).json({ error }))
             }
@@ -98,14 +93,14 @@ exports.updateUser = (req, res) => {
           { lastname: req.body.lastname },
           { where: { id: req.body.idUser } }
         );
-        res.status(201).json({ message: 'The last firstname has been changed' })
+        res.status(201).json({ message: 'The firstname has been changed' })
       };
       if (req.body.firstname && req.body.firstname != user.firstname) {
         User.update(
           { firstname: req.body.firstname },
           { where: { id: req.body.idUser } }
         );
-        res.status(201).json({ message: 'The first firstname has been changed' })
+        res.status(201).json({ message: 'The lastname has been changed' })
       };
       if (req.body.description && req.body.description != user.description) {
         User.update(

@@ -51,8 +51,10 @@ body {
 
 input {
   border-radius: 10px 10px 10px 10px;
-  border-color: $darkest-purple;
-  color: $darkest-purple;
+  border: 1px solid transparent;
+  box-shadow: 0px 1px 12px $lighter-purple;
+  -webkit-backdrop-filter: blur 20px;
+  backdrop-filter: blur 20px;
   padding: 0px 0px 0px 5px;
 }
 
@@ -270,6 +272,7 @@ a {
 
 
 <script>
+import router from '../router'
 
 export default {
 
@@ -321,8 +324,9 @@ export default {
             this.dataSignup.lastname = null;
             this.dataSignup.firstname = null;
             this.dataSignup.password = null;
+
             alert("The profile has been created")
-            this.$router.push("/ProfilePage");
+            router.push({ path: 'ProfilePage' })
           })
           .catch((error) => console.log(error));
       } else {

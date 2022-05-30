@@ -16,7 +16,7 @@ const User = sequelize.define('user', {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
-    allowNull: true,
+    allowNull: false,
     isAdmin: true
   },
   firstname: {
@@ -31,6 +31,7 @@ const User = sequelize.define('user', {
   image: {
     type: DataTypes.STRING,
     allowNull: true,
+    defaultValue: "../images/default-profile.png"
   },
   email: {
     type: DataTypes.STRING,

@@ -9,22 +9,22 @@
 </template>
 
 <style lang="scss">
-.header{
+.header {
   display: flex;
   width: 100%;
   height: 80px;
 }
 
-.logoIcon{
+.logoIcon {
   width: 100%;
   object-fit: contain;
-   height: 40px;
-}
-.logoIcon img{
-  object-fit: cover;
   height: 40px;
 }
 
+.logoIcon img {
+  object-fit: cover;
+  height: 40px;
+}
 </style>
 <script>
 export default {

@@ -21,28 +21,39 @@ const Post = sequelize.define('post', {
   },
   iduser: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
-  image: {
+  imageUrl: {
     type: DataTypes.STRING,
     allowNull: true
   },
   text: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: true
   },
 
   like: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     defaultValue: 0
   },
   dislike: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     defaultValue: 0
   }
-})
+
+},
+  {
+    timestamps: false,
+  },
+  {
+    createdAt: false,
+  },
+  {
+    updatedAt: false,
+  }
+)
 
 User.hasMany(Post, { foreignKey: 'iduser', sourceKey: 'idUser' });
 Post.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });

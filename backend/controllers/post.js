@@ -1,21 +1,19 @@
-const { Post, User, Like, Comment } = require("../models");
-const { Seq } = require('sequelize');
 const fs = require('fs');
-
+const User = require("../models/User");
+const Post = require("../models/Post");
 
 // 1. Create a Post
 
 exports.createPost = (req, res) => {
-  let postImage;
+  let imageUrl = "";
   if (req.file) {
-    postImage = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   };
-  const newPost = {
+  Post.create({
     idUser: req.body.idUser,
     text: req.body.text,
-    image: postImage,
-  };
-  Post.create(newPost)
+    imageUrl: imageUrl,
+  })
     .then(post => res.status(201).json(post))
     .catch(error => res.status(400).json({ error }));
 };
@@ -23,19 +21,15 @@ exports.createPost = (req, res) => {
 // 2. Get all posts
 
 exports.getAllPosts = (req, res) => {
-  Post.scope('formatted_date').findAll({
-    include: [
-      { model: User, as: 'User', attributes: ['name', 'lastname', 'image'] },
-      { model: Like },
-      {
-        model: Comment, include: [
-          { model: User, attributes: ['name', 'lastname', 'image'] }
-        ]
-      }
-    ],
-  })
-    .then(posts => res.status(200).json(posts))
-    .catch(error => res.status(400).json({ error }));
+  try {
+    Post.findAll({ include: User })
+      .then(posts => {
+        res.status(200).json(posts);
+      })
+      .catch(error => res.status(400).json(error))
+  } catch {
+    error => res.status(500).json(error);
+  }
 };
 
 // 3. Delete a post
