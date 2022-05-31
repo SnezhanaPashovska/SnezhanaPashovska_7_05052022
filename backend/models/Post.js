@@ -21,7 +21,7 @@ const Post = sequelize.define('post', {
   },
   iduser: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: false
   },
   imageUrl: {
     type: DataTypes.STRING,
@@ -48,7 +48,7 @@ const Post = sequelize.define('post', {
     timestamps: false,
   },
   {
-    createdAt: false,
+    createdAt: true,
   },
   {
     updatedAt: false,

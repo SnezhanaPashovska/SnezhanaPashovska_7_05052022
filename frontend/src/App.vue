@@ -1,9 +1,9 @@
 <template>
-  
+
   <router-view />
 
 
-  
+
 </template>
 
 <style lang="scss">
@@ -16,6 +16,8 @@
   list-style: none;
   box-sizing: border-box;
   text-decoration: none;
+  //overflow-x: hidden;
+  //overflow-y: hidden;
   //border: 1px solid red;
 }
 
@@ -28,6 +30,7 @@
   text-decoration: none;
   font-weight: 400px;
 }
+
 nav {
   display: flex;
   flex-direction: row;
@@ -49,7 +52,6 @@ nav {
   text-decoration: none;
   color: $lighter-purple;
 }
-
 </style>
 
 <script>

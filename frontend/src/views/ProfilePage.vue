@@ -14,7 +14,7 @@
       <div class="col-1-of-2">
         <div class="header_section">
           <div class="header_section__profile-photo">
-            <img src={{uimage}} alt="Profile photo ">
+            <img v-show="uimage != ''" alt="Profile photo" :src="uimage">
           </div>
           <div class="header_section__information">
             <p class="header_section__information-name">{{ fname }} </p>

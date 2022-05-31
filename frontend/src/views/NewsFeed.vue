@@ -1,11 +1,12 @@
 <template>
-
   <div class="news_feed">
     <nav class="newsfeed_nav">
+      <!-- <div class="newsfeed_nav__links"> -->
       <router-link title="Profile Page" class="link-icon" to="/ProfilePage"><i class="fa-solid fa-user"></i>
       </router-link>
       <router-link title="Sign out" class="signout-icon" to="/NewsFeed"><i
           class="fa-solid fa-arrow-right-from-bracket"></i></router-link>
+      <!--  </div> -->
       <!-- <div class="profile_page_nav__settings-icon">
         <router-link title="Settings" class="settings-icon" to="/Settings"><i class="fa-solid fa-ellipsis-vertical"></i>
         </router-link>
@@ -16,18 +17,12 @@
     <div class="row">
       <div class="col-1-of-2">
         <div class="post_bloc">
-          <div class="post_bloc__profile-photo">
-            <img src="../assets/default-profile.png" alt="Profile photo">
-          </div>
           <div class="post_bloc__posts">
             <label for="post">
               <textarea v-model.trim="text" type="text" id=post maxlength="255" required
                 placeholder="What's on your mind?"></textarea>
             </label>
             <div class="post_bloc__icons">
-              <div class="post_bloc__icons__delete">
-                <i class="fa-solid fa-trash" title="Delete post"></i>
-              </div>
               <div class="post_bloc__icons__share">
                 <button @click.prevent="createPost()" class="post_bloc__icons__share__btn">
                   <i class="fa-solid fa-share" title="Share"></i>
@@ -43,7 +38,6 @@
             </div>
           </div>
           <PostBox>
-
           </PostBox>
         </div>
       </div>
@@ -60,8 +54,18 @@
 
 @import "../styles/news-feed.scss";
 
+*{
+  overflow-x: hidden;
+}
+
 body {
   background-color: white !important;
+  margin: 0;
+   overflow-x: hidden;
+}
+
+.news_feed{
+  overflow-x: hidden;
 }
 
 .newsfeed_nav {
@@ -70,7 +74,7 @@ body {
 
 a {
   color: white;
-  margin: 0px 25px 0px 25px;
+  padding: 0px 25px 0px 25px;
   //width: 50%;
 
   &:hover {
@@ -110,7 +114,7 @@ a {
 
   a {
     color: white;
-    margin: 0px 35px 0px 35px;
+    padding: 0px 35px 0px 35px;
   }
 }
 
@@ -129,7 +133,7 @@ a {
 
   a {
     color: white;
-    margin: 0px 45px 0px 45px;
+    padding: 0px 45px 0px 45px;
     //width: 50%;
 
     &:hover {
@@ -148,7 +152,7 @@ a {
 
   a {
     color: white;
-    margin: 0px 190px 0px 190px;
+    padding: 0px 190px 0px 190px;
     //width: 50%;
 
     &:hover {
@@ -175,7 +179,8 @@ a {
 
   a {
     color: white;
-    margin: 0px 390px 0px 370px;
+    padding: 0px 390px 0px 370px;
+    //border: 1px solid white;
     //width: 50%;
 
     &:hover {
@@ -183,6 +188,20 @@ a {
       transform: scale(1.2);
     }
   }
+
+  /* .newsfeed_nav {
+    &__links{
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border: 1px solid white;
+      color: white;
+      & a{
+        color: white;
+      }
+    }
+  } */
 }
 </style>
 
@@ -247,12 +266,8 @@ export default {
           Authorization: `Bearer ${token}`
         }
       }).then((response) => {
-        /*  if (this.text == null || this.uploadImage == null) {
-           alert("Cannot publish an empty post")
-         } else { */
         response.json().then((formData) => {
-          this.idUser = "",
-            this.imageUrl = formData.imageUrl,
+          this.imageUrl = formData.imageUrl,
             this.uploadImage = ""
           console.log(response, "response")
           console.log(this.imageUrl, "imageUrl")
@@ -263,37 +278,7 @@ export default {
     },
   },
 
-  mounted: function () {
-    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-    let token = localStorage.token;
 
-    fetch("http://localhost:3000/api/posts/", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-    }).then((response) => {
-      response.json((data) => {
-        for (let i = 0; i < data.length; i++) {
-          this.posts.push({
-            postId: data[i].postId,
-            userId: data[i].userId,
-            text: data[i].text,
-            fname: data[i].user.firstname,
-            lname: data[i].user.lastname,
-            imageUrl: data[i].imageUrl,
-            image: data[i].user.image,
-            
-          });
-        }
-      })
-      console.log(response, "Response Get");
-     
-    })
-      .catch((error) => console.log(error));
-  },
 
 
 }

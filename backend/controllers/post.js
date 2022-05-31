@@ -10,26 +10,22 @@ exports.createPost = (req, res) => {
     imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   };
   Post.create({
-    idUser: req.body.idUser,
+    iduser: req.body.idUser,
     text: req.body.text,
     imageUrl: imageUrl,
   })
     .then(post => res.status(201).json(post))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(401).json({ error }));
 };
 
 // 2. Get all posts
 
 exports.getAllPosts = (req, res) => {
-  try {
-    Post.findAll({ include: User })
-      .then(posts => {
-        res.status(200).json(posts);
-      })
-      .catch(error => res.status(400).json(error))
-  } catch {
-    error => res.status(500).json(error);
-  }
+  Post.findAll({ include: User })
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(error => res.status(400).json(error))
 };
 
 // 3. Delete a post
