@@ -31,7 +31,6 @@
             <h1 class="about_section__text-title">
               About
             </h1>
-
             <p class="about_section__text-description">
               {{ description }}
             </p>

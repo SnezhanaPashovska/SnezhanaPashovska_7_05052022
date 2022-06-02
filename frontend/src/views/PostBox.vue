@@ -5,9 +5,13 @@
         <div class="block-sent-post__post">
           <div class="block-sent-post__user">
             <div class="post-content__delete">
-              <i class="fa-solid fa-xmark" title="Delete post"></i>
+              <button @click="deletePost(post.id)" v-if="(post.idUser === currentUserId) || (this.isAdmin == true)">
+                <i class="fa-solid fa-xmark" title="Delete post"></i></button>
             </div>
-            <i class="fa-regular fa-pen-to-square" title="Edit post"></i>
+            <router-link :to="{ name: 'ModifyPost', params: { id: post.id } }" title="Edit post">
+              <i v-if="(post.idUser === currentUserId) || (this.isAdmin == true)"
+                class="fa-regular fa-pen-to-square"></i>
+            </router-link>
             <p>{{ post.fname }} {{ post.lname }}</p>
             <div class="block-sent-post__profile-photo">
               <img v-show="image != ''" :src="image" alt="Profile photo">
@@ -47,7 +51,8 @@
 //Mixin
 
 @import "../styles/news-feed.scss";
-*{
+
+* {
   overflow-x: hidden;
 }
 
@@ -158,25 +163,27 @@ import NewsFeed from "../views/NewsFeed"
 import router from '../router'
 
 export default {
-  name: "PosBox",
+  name: "PostBox",
 
 
   data: function () {
     return {
       posts: [],
-      idUser: "",
       imageUrl: "",
       uploadImage: "",
       text: "",
       fname: "",
       lname: "",
       image: "",
-      postId: ""
+      postId: "",
+      isAdmin: false,
+      currentUserId: ""
     }
   },
 
   mounted: function () {
     let token = localStorage.token;
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
 
     fetch("http://localhost:3000/api/posts/", {
       method: "GET",
@@ -187,26 +194,72 @@ export default {
       },
     }).then((response) => {
       if (response.status == 401 || response.status == 500) {
-        this.status = "error_post";
       } else {
         response.json().then((data) => {
           for (let i = 0; i < data.length; i++) {
             this.posts.push({
-              postId: data[i].postId,
-              idUser: data[i].idUser,
+              id: data[i].postId,
+              idUser: data[i].user.idUser,
               text: data[i].text,
               fname: data[i].user.firstname,
               lname: data[i].user.lastname,
-              description: data[i].description,
               imageUrl: data[i].imageUrl,
               image: data[i].user.image,
+              createdAt: data[i].createdAt.slice(0, 10).split('-').reverse().join('/'),
             });
           }
+          console.log(data, "data")
         });
       }
+
+    }).catch((error) => console.log(error));
+
+    this.currentUserId = localStorageData;
+    console.log(this.currentUserId, "Current user id")
+    fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
     })
+      .then((response) => {
+        response.json().then((data) => {
+          this.isAdmin = data.isAdmin;
+        });
+      })
       .catch((error) => console.log(error));
   },
+
+  methods: {
+    //supprimer d'un post
+    deletePost: function (postId) {
+      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+
+      let token = localStorage.token;
+      console.log(postId)
+
+
+      fetch(`http://localhost:3000/api/posts/${postId}`, {
+        method: "delete",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      })
+        .then((response) => {
+          if (response.status == 401 || response.status == 400 || response.status == 404) {
+          } else {
+            console.log(response);
+            alert("The post has been deleted!")
+            window.location.reload();
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+  }
 }
 
 

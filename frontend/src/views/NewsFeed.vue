@@ -54,17 +54,17 @@
 
 @import "../styles/news-feed.scss";
 
-*{
+* {
   overflow-x: hidden;
 }
 
 body {
   background-color: white !important;
   margin: 0;
-   overflow-x: hidden;
+  overflow-x: hidden;
 }
 
-.news_feed{
+.news_feed {
   overflow-x: hidden;
 }
 
@@ -206,7 +206,23 @@ a {
 </style>
 
 <script>
-import PostBox from '../components/PostBox'
+import PostBox from '../views/PostBox'
+import router from '@/router'
+import { defineAsyncComponent } from 'vue'
+
+
+const ThePost = defineAsyncComponent({
+  // the loader function
+  loader: () => import('../views/PostBox.vue'),
+
+  // A component to use while the async component is loading
+  loadingComponent: PostBox,
+  // Delay before showing the loading component. Default: 200ms.
+  delay: 200,
+  // The error component will be displayed if a timeout is
+  // provided and exceeded. Default: Infinity.
+  timeout: 3000
+})
 
 export default {
 
@@ -225,7 +241,8 @@ export default {
       fname: "",
       lname: "",
       image: "",
-      postId: ""
+      postId: "",
+      
     }
   },
 
@@ -268,19 +285,21 @@ export default {
       }).then((response) => {
         response.json().then((formData) => {
           this.imageUrl = formData.imageUrl,
-            this.uploadImage = ""
+            this.uploadImage = "",
+            this.postId = "",
+            alert("Post created")
+          this.$router.push("/NewsFeed")
+          this.$router.go()
           console.log(response, "response")
           console.log(this.imageUrl, "imageUrl")
           console.log(this.uploadImage, "uploadImage")
         })
       }
       ).catch((error) => console.log(error));
+
+
     },
   },
-
-
-
-
 }
 
 

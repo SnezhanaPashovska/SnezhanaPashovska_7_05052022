@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import store from '../store/index.js'
 import NewsFeed from '../views/NewsFeed'
-import PostBox from '../components/PostBox'
+import PostBox from '../views/PostBox'
 
 
 const routes = [
@@ -64,16 +64,23 @@ const routes = [
     path: '/Settings',
     name: 'Settings',
     component: function () {
-      return import(/* webpackChunkName: "Header" */ '../views/Settings.vue')
+      return import(/* webpackChunkName: "Settings" */ '../views/Settings.vue')
     }
   },
   {
-    path: '/PostBox',
-    name: 'PostBox',
+    path: '/post',
+    name: 'post',
     component: function () {
-      return import(/* webpackChunkName: "Header" */ '../components/PostBox.vue')
+      return import(/* webpackChunkName: "PostBox" */ '../views/PostBox.vue')
     }
   },
+  {
+    path: '/post/:id',
+    name: 'ModifyPost',
+    component: function () {
+      return import(/* webpackChunkName: "PostBox" */ '../views/ModifyPost.vue')
+    }
+  }
 
 
 ]

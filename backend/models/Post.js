@@ -41,8 +41,11 @@ const Post = sequelize.define('post', {
     type: DataTypes.INTEGER,
     allowNull: true,
     defaultValue: 0
+  },
+  createdAt: {
+    type: DataTypes.DATE,
+    defaultValue: 0
   }
-
 },
   {
     timestamps: false,
@@ -62,9 +65,9 @@ sequelize.models.post;
 
 module.exports = Post;
 
-/* Post.sync().then((data)=>{
+/* Post.sync().then((data) => {
   console.log("Table and model synced successfully-Post")
-}).catch((err)=>{
+}).catch((err) => {
   console.log("Error syncing table and model-Post")
-})   */
-
+})
+ */
