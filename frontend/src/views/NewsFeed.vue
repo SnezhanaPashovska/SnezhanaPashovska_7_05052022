@@ -4,7 +4,7 @@
       <!-- <div class="newsfeed_nav__links"> -->
       <router-link title="Profile Page" class="link-icon" to="/ProfilePage"><i class="fa-solid fa-user"></i>
       </router-link>
-      <router-link title="Sign out" class="signout-icon" to="/NewsFeed"><i
+      <router-link @click="signOut()" title="Sign out" class="signout-icon" to="/NewsFeed"><i
           class="fa-solid fa-arrow-right-from-bracket"></i></router-link>
       <!--  </div> -->
       <!-- <div class="profile_page_nav__settings-icon">
@@ -31,20 +31,117 @@
               <div class="post_bloc__icons__image">
                 <label for="uploadimage">
                   <i class="fa-regular fa-image" title="Upload an image"></i>
+                  <input type="file" id="uploadimage" @change="getImage($event)">
                 </label>
-                <input type="file" id="uploadimage" @change="getImage($event)">
-                <div id="display-name-of-image"></div>
               </div>
             </div>
           </div>
-          <PostBox>
-          </PostBox>
+          <AsyncPost>
+          </AsyncPost>
+        
         </div>
       </div>
     </div>
 
   </section>
 </template>
+
+
+<script>
+import post from '../views/PostBox'
+import router from '@/router'
+import { defineAsyncComponent } from 'vue'
+const AsyncPost = defineAsyncComponent(() => import('../views/PostBox.vue'))
+
+
+export default {
+
+  name: 'NewsFeed',
+
+  components: {
+    AsyncPost,
+    
+  },
+  data: function () {
+    return {
+      posts: [],
+      idUser: "",
+      imageUrl: "",
+      uploadImage: "",
+      text: "",
+      fname: "",
+      lname: "",
+      image: "",
+      postId: "",
+      createdAt: "",
+      likes: ""
+    }
+  },
+
+  computed: {
+    postText: function () {
+      if (this.text) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+
+  methods: {
+    getImage: function (event) {
+      this.uploadImage = event.target.files[0];
+    },
+
+    createPost: function () {
+      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+      const formData = new FormData();
+      let token = localStorage.token;
+      console.log(token, "token")
+      console.log(localStorageData, "localStorageData")
+      console.log(formData, "postdata")
+
+      formData.append("image", this.uploadImage);
+      formData.append("text", this.text);
+      formData.append("imageUrl", this.imageUrl)
+      formData.append("idUser", localStorageData);
+
+      console.log(formData, "postdata2")
+
+      fetch("http://localhost:3000/api/posts/", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        response.json().then((formData) => {
+          this.imageUrl = formData.imageUrl,
+            this.uploadImage = "",
+            this.postId = "",
+            //alert("Post created")
+          this.$router.push("/NewsFeed")
+          this.$router.go()
+          console.log(response, "response")
+          console.log(this.imageUrl, "imageUrl")
+          console.log(this.uploadImage, "uploadImage")
+        })
+      }
+      ).catch((error) => console.log(error));
+
+
+    },
+
+    signOut: function () {
+      localStorage.clear();
+      alert("You have signed out")
+      this.$router.push("/");
+    }
+  },
+}
+</script>
+
+
 
 <style lang="scss" scoped>
 //Colors
@@ -204,104 +301,3 @@ a {
   } */
 }
 </style>
-
-<script>
-import PostBox from '../views/PostBox'
-import router from '@/router'
-import { defineAsyncComponent } from 'vue'
-
-
-const ThePost = defineAsyncComponent({
-  // the loader function
-  loader: () => import('../views/PostBox.vue'),
-
-  // A component to use while the async component is loading
-  loadingComponent: PostBox,
-  // Delay before showing the loading component. Default: 200ms.
-  delay: 200,
-  // The error component will be displayed if a timeout is
-  // provided and exceeded. Default: Infinity.
-  timeout: 3000
-})
-
-export default {
-
-  name: 'NewsFeed',
-
-  components: {
-    PostBox
-  },
-  data: function () {
-    return {
-      posts: [],
-      idUser: "",
-      imageUrl: "",
-      uploadImage: "",
-      text: "",
-      fname: "",
-      lname: "",
-      image: "",
-      postId: "",
-      
-    }
-  },
-
-  computed: {
-    postText: function () {
-      if (this.text) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  },
-
-  methods: {
-    getImage: function (event) {
-      this.uploadImage = event.target.files[0];
-    },
-
-    createPost: function () {
-      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-      const formData = new FormData();
-      let token = localStorage.token;
-      console.log(token, "token")
-      console.log(localStorageData, "localStorageData")
-      console.log(formData, "postdata")
-
-      formData.append("image", this.uploadImage);
-      formData.append("text", this.text);
-      formData.append("imageUrl", this.imageUrl)
-      formData.append("idUser", localStorageData);
-
-      console.log(formData, "postdata2")
-
-      fetch("http://localhost:3000/api/posts/", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then((response) => {
-        response.json().then((formData) => {
-          this.imageUrl = formData.imageUrl,
-            this.uploadImage = "",
-            this.postId = "",
-            alert("Post created")
-          this.$router.push("/NewsFeed")
-          this.$router.go()
-          console.log(response, "response")
-          console.log(this.imageUrl, "imageUrl")
-          console.log(this.uploadImage, "uploadImage")
-        })
-      }
-      ).catch((error) => console.log(error));
-
-
-    },
-  },
-}
-
-
-
-</script>

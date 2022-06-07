@@ -9,34 +9,41 @@
         <div class="col-1-of-2">
           <div class="settings_change">
             <div class="settings_change__photo">
-              <img src="../assets/default-profile.png" alt="Profile photo" class="settings_change__photo__image">
-              <label for="choose-image">
-                <i class="fa-solid fa-camera" title="Choose a file" id="upload_image"></i>
-              </label>
-              <input type="file" class="settings_change__photo__upload" id="choose-image">
+              <img :src="photoUrl" alt="Profile photo" class="settings_change__photo__image">
+              <div class="choose-an-image">
+                <label for="choose-image">
+                  <i class="fa-solid fa-camera" title="Choose a file" id="upload_image"></i>
+                  <input @change="onFileSelected($event)" type="file" class="settings_change__photo__upload"
+                    id="choose-image">
+                </label>
+              </div>
             </div>
             <div class="settings_change__names">
               <div class="settings_change__names__firstname">
                 <label for="firstname">
-                  <input type="text" class="firstname" placeholder="Name">
+                  <input type="text" class="firstname" v-model.trim="firstname">
                 </label>
               </div>
               <div class="settings_change__names__lastname">
                 <label for="lastname">
-                  <input type="text" class="lastname" placeholder="Lastname">
+                  <input type="text" class="lastname" v-model.trim="lastname">
                 </label>
               </div>
             </div>
             <div class="settings_change__description">
-              <textarea type="text" class="description" placeholder="Tell us something about yourself"></textarea>
+              <textarea v-model.trim="description" type="text" class="description"></textarea>
             </div>
             <div class="settings_change__save">
-              <button class="settings_change__save__btn" type="submit" title="Save changes">
+              <button @click="saveUserInfo()" class="settings_change__save__btn" type="submit" title="Save changes">
                 <i class="fa-solid fa-floppy-disk"></i>
               </button>
-
             </div>
-
+            <div class="settings_change__delete">
+              <button @click="deleteAccount()" class="settings_change__delete__btn" type="submit"
+                title="Delete account">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+            </div>
           </div>
 
         </div>
@@ -110,4 +117,141 @@ textarea:focus {
 </style>
 
 <script>
+import router from '@/router'
+
+export default {
+  name: "Settings",
+
+  data() {
+    return {
+      idUser: Number,
+      firstname: "",
+      lastname: "",
+      photoUrl: "",
+      isAdmin: false,
+      description: "",
+      photoUrlToUpload: "",
+    }
+  },
+
+  mounted: function () {
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+    console.log(localStorageData, "local storage data")
+
+
+    const idUser = localStorageData;
+    let token = localStorage.token;
+    console.log(token)
+    console.log(idUser, "idUser")
+    fetch(`http://localhost:3000/api/users/${idUser}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then((response) => {
+        if (response.status == 401 || response.status == 500) {
+        } else {
+          response.json()
+            .then((data) => {
+              this.firstname = data.firstname,
+                this.lastname = data.lastname,
+                this.description = data.description,
+                this.photoUrl = data.photoUrl
+              console.log(data, "data")
+            })
+            .catch((error) => console.log(error));
+          console.log(data, "data")
+        }
+
+      })
+      .catch((error) => console.log(error));
+  },
+
+  methods: {
+    //Select a file to upload
+    onFileSelected: function (event) {
+      this.photoUrlToUpload = event.target.files[0];
+    },
+    //Save new user's info
+    saveUserInfo: function () {
+      const formData = new FormData();
+      formData.append("image", this.photoUrlToUpload);
+      formData.append("firstname", this.firstname);
+      formData.append("lastname", this.lastname);
+      formData.append("description", this.description);
+      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+
+      const idUser = localStorageData;
+      let token = localStorage.token;
+      fetch(`http://localhost:3000/api/users/${idUser}`, {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          mode: "no-cors",
+          'Accept': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (response.status == 401) {
+          } else {
+            response.json().then((formData) => {
+              if (formData.user.photoUrl != "") {
+                this.photoUrl = formData.user.photoUrl;
+                this.photoUrlToUpload = "";
+                this.firstname = "",
+                  this.lastname = "",
+                  this.description = ""
+                alert("Profile updated")
+                this.$router.push("/ProfilePage");
+                console.log(response, "RESPONSE")
+                console.log(this.firstname, "fname")
+                console.log(this.lastname, "lname")
+                console.log(this.description, "RESPONSE")
+              }
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+
+    //Delete the account
+    deleteAccount: function () {
+      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+      console.log(localStorageData, "local storage data")
+
+      const idUser = localStorageData;
+      let token = localStorage.token;
+
+      fetch(`http://localhost:3000/api/users/${idUser}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      })
+        .then((response) => {
+          if (
+            response.status == 400 ||
+            response.status == 404 ||
+            response.status == 403
+          ) {
+            this.status = "error_saveUserInfo";
+          } else {
+            localStorage.clear();
+            alert("Your account has been deleted!");
+            // We are redirected to the home page
+            this.$router.push("/");
+          }
+        })
+        .catch((error) => console.log(error));
+    }
+  }
+
+}
+
 </script>

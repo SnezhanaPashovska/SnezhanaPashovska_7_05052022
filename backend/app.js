@@ -2,7 +2,6 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const cors = require('cors');
 const helmet = require('helmet');
 const nocache = require("nocache");
 const dotenv = require('dotenv')
@@ -13,7 +12,8 @@ dotenv.config();
 // Routes
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
-const commentRoutes = require('./routes/comments');
+const commentsRoutes = require("./routes/comments")
+const likeRoutes = require("./routes/like");
 
 
 // Connection to Database
@@ -33,9 +33,14 @@ sequelize.authenticate()
 
 
 app.use(express.json());
-app.use(cors(
+const cors = require('cors');
 
-));
+// Import cors to secure API access, reserved here for localhost:8080
+let corsOptions = {
+  origin: 'http://localhost:8080'
+};
+
+
 app.use(bodyParser.json());
 
 //Security
@@ -55,6 +60,9 @@ app.use((req, res, next) => {
 });
 app.disable("x-powered-by");
 
+
+app.use(cors(corsOptions));
+
 //Headers
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -69,7 +77,8 @@ app.use((req, res, next) => {
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', userRoutes);
-app.use('api/comments', commentRoutes);
+app.use("/api/comment", commentsRoutes);
+app.use('/api/likes', likeRoutes);
 
 module.exports = app;
 

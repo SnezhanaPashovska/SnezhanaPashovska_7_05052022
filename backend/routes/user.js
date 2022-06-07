@@ -11,8 +11,7 @@ const checkEmail = require('../middleware/email-validation');
 
 router.post('/signup', checkPassword, checkEmail, userCtrl.signup);
 router.post('/login', /* rateLimit */ userCtrl.login);
-router.put('/image', auth, multer, userCtrl.updateImage)
-router.delete('/profile/:id', auth, userCtrl.deleteUser);
+router.delete('/:id', auth, userCtrl.deleteUser);
 router.get('/all', auth, userCtrl.getAllUsers);
 router.get('/:id', auth, multer, userCtrl.getOneUser);
 router.put('/:id', auth, multer, userCtrl.updateUser);

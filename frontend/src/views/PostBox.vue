@@ -5,7 +5,8 @@
         <div class="block-sent-post__post">
           <div class="block-sent-post__user">
             <div class="post-content__delete">
-              <button @click="deletePost(post.id)" v-if="(post.idUser === currentUserId) || (this.isAdmin == true)">
+              <button @click="deletePost(post.id)" v-if="(post.idUser === currentUserId) || (this.isAdmin == true)"
+                class="delete-post">
                 <i class="fa-solid fa-xmark" title="Delete post"></i></button>
             </div>
             <router-link :to="{ name: 'ModifyPost', params: { id: post.id } }" title="Edit post">
@@ -14,38 +15,213 @@
             </router-link>
             <p>{{ post.fname }} {{ post.lname }}</p>
             <div class="block-sent-post__profile-photo">
-              <img v-show="image != ''" :src="image" alt="Profile photo">
+              <img v-show="photoUrl != ''" alt="Profile photo" :src="post.photoUrl">
             </div>
-          </div>
+          </div> 
           <div class="post-content">
             <p class="post-content__text">{{ post.text }} </p>
             <img v-show="post.imageUrl != ''" alt="Post Image" class="post-content__imageUrl" :src="post.imageUrl">
           </div>
         </div>
-        <div class="block-sent-post__like-dislike">
-          <div class="block-sent-post__like-dislike__like">
-            <i class="fa-solid fa-thumbs-up" title="Like"></i>
-          </div>
-          <div class="block-sent-post__like-dislike__dislike">
-            <i class="fa-solid fa-thumbs-down" title="Dislike"></i>
+        <div class="block-sent-post__like">
+          <div class="block-sent-post__like__like">
+            <button @click="likePost(post.id)" class="like-post">
+              <i class="fa-solid fa-thumbs-up" title="Like"></i></button>
+            <p>{{ like[post.id] }} {{ postId }}</p>
           </div>
         </div>
-        <!-- <div class="block-sent-post__comment">
-          <div class="block-sent-post__comment-input">
-            <textarea type="text" id="comment" maxlength="225" required placeholder="Comment"></textarea>
-          </div>
-          <div class="block-sent-post__comment-text">
-            <p>
-              <i class="fa-regular fa-trash-can" title="Delete comment"></i>
-            </p>
-          </div>
-        </div> -->
+        <CommentBox :postId="post.id">
+        </CommentBox>
+
+        <CommentSent :postId="post.id" :isAdmin="this.isAdmin">
+        </CommentSent>
       </div>
     </div>
   </div>
 </template>
 
-    <style lang="scss" scoped>
+   
+
+<script>
+import NewsFeed from "../views/NewsFeed"
+import router from '../router'
+import CommentBox from '../views/CommentBox'
+import CommentSent from "../views/CommentSent"
+
+export default {
+  name: "PostBox",
+
+  components: {
+    CommentBox,
+    CommentSent
+  },
+
+  data: function () {
+    return {
+      posts: [],
+      imageUrl: "",
+      uploadImage: "",
+      text: "",
+      fname: "",
+      lname: "",
+      photoUrl: "",
+      postId: "",
+      isAdmin: false,
+      currentUserId: "",
+      createdAt: "",
+      like: [],
+      textComment: "",
+    }
+  },
+
+  mounted: function () {
+    let token = localStorage.token;
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+
+    //Get all posts
+
+    fetch("http://localhost:3000/api/posts/", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    }).then((response) => {
+      if (response.status == 401 || response.status == 500) {
+      } else {
+        response.json().then((data) => {
+          for (let i = data.length - 1; i >= 0; i--) {
+            this.posts.push({
+              id: data[i].postId,
+              idUser: data[i].user.idUser,
+              text: data[i].text,
+              fname: data[i].user.firstname,
+              lname: data[i].user.lastname,
+              imageUrl: data[i].imageUrl,
+              createdAt: data[i].createdAt.slice(0, 10).split('-').reverse(),
+              photoUrl: data[i].user.photoUrl,
+            });
+          }
+          console.log(data, "data")
+        });
+      }
+
+    }).catch((error) => console.log(error));
+
+    this.currentUserId = localStorageData;
+    console.log(this.currentUserId, "Current user id")
+    fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          this.isAdmin = data.isAdmin;
+        });
+      })
+      .catch((error) => console.log(error));
+  },
+
+  methods: {
+    //Delete a post
+    deletePost: function (postId) {
+
+      let token = localStorage.token;
+      console.log(postId)
+
+      fetch(`http://localhost:3000/api/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+      })
+        .then((response) => {
+          if (response.status == 401 || response.status == 400 || response.status == 404) {
+          } else {
+            console.log(response);
+            alert("The post has been deleted!")
+            window.location.reload();
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+
+    likePost: function (postId) {
+      let localStorageData = JSON.parse(localStorage.getItem("idUser"));
+      let token = localStorage.token;
+      const formData = new FormData();
+      formData.append("idUser", localStorageData);
+      formData.append("postId", this.postId);
+      formData.append("like", this.likes)
+      console.log(localStorageData, "id user");
+      console.log(formData)
+
+      fetch(`http://localhost:3000/api/likes/posts/${postId}`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      })
+        .then((response) => {
+          console.log(response)
+          //window.location.reload();
+          console.log("Like")
+        })
+        .catch((error) => console.log(error))
+    }
+  },
+
+  sendComment: function () {
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+    this.idUser = localStorageData
+    let token = localStorage.token;
+
+    const data = {
+      textComment: this.textComment,
+      idUser: this.idUser,
+      postId: this.postId,
+    };
+    console.log(data)
+
+    fetch("http://localhost:3000/api/comments/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (textComment == null) {
+          console.log("Cannot send an empty comment")
+        } else if (response.status == 400) {
+          this.status = "error_send";
+        }
+        else {
+          response.json().then(() => {
+            this.status = "success_comment";
+            //window.location.reload();
+            //this.$router.push("/list")
+          });
+        }
+      }).catch((error) => console.log(error));
+  }
+
+
+}
+
+</script>
+
+ <style lang="scss" scoped>
+//Colors
 @import "../styles/variables.scss";
 
 //Mixin
@@ -59,35 +235,36 @@
 .block-sent-post {
   @include block-sent-post;
 
-  &__like-dislike {
+  &__like {
     display: flex;
     flex-direction: row;
-    width: 25%;
+    width: 100%;
     padding-top: 2px;
     align-items: center;
     color: $darkest-purple;
-    //border:1px solid red;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
     justify-content: space-between;
-    padding: 0px 0px 10px 25px;
+    padding: 5px 0px 10px 25px;
 
 
     &__like {
-      width: 50%;
+      width: 10%;
       padding-bottom: 3px;
+      color: $darkest-purple;
+      border: transparent;
+
+      & {
+        color: $darkest-purple;
+      }
 
       & :hover {
         color: $coral-pink;
       }
-    }
 
-    &__dislike {
-      width: 30%;
-      padding-top: 2px;
-
-      & :hover {
-        color: $mint-green;
+      & :focus {
+        color: $coral-pink;
       }
-
     }
   }
 
@@ -108,27 +285,49 @@
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
-    width: 100%;
+    width: 90%;
     justify-self: left;
     justify-content: space-between;
     font-weight: 600;
     color: $darkest-purple;
     padding: 10px 10px 0px 2px;
-    font-size: 13px
+    font-size: 13px;
+    margin: 0px auto 6px auto;
   }
 }
 
-.block-sent-post__comment-input {
-  @include comment-input;
-
+.fa-pen-to-square {
+  color: $darkest-purple;
 }
 
-.block-sent-post__comment-text {
-  @include comment-text;
+.delete-post {
+  border: transparent;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.fa-xmark {
+  color: $darkest-purple;
+}
+
+.fa-thumbs-up {
+  border: transparent;
+  background-color: transparent;
+  cursor: pointer;
+  color: $darkest-purple;
+}
+
+.like-post {
+  border: transparent;
+  background-color: transparent;
 }
 
 .post-content {
   @include post-content;
+}
+
+.comment-sent {
+  @include comment-sent;
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
@@ -157,112 +356,3 @@
   }
 }
 </style>
-
-<script>
-import NewsFeed from "../views/NewsFeed"
-import router from '../router'
-
-export default {
-  name: "PostBox",
-
-
-  data: function () {
-    return {
-      posts: [],
-      imageUrl: "",
-      uploadImage: "",
-      text: "",
-      fname: "",
-      lname: "",
-      image: "",
-      postId: "",
-      isAdmin: false,
-      currentUserId: ""
-    }
-  },
-
-  mounted: function () {
-    let token = localStorage.token;
-    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-
-    fetch("http://localhost:3000/api/posts/", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-    }).then((response) => {
-      if (response.status == 401 || response.status == 500) {
-      } else {
-        response.json().then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            this.posts.push({
-              id: data[i].postId,
-              idUser: data[i].user.idUser,
-              text: data[i].text,
-              fname: data[i].user.firstname,
-              lname: data[i].user.lastname,
-              imageUrl: data[i].imageUrl,
-              image: data[i].user.image,
-              createdAt: data[i].createdAt.slice(0, 10).split('-').reverse().join('/'),
-            });
-          }
-          console.log(data, "data")
-        });
-      }
-
-    }).catch((error) => console.log(error));
-
-    this.currentUserId = localStorageData;
-    console.log(this.currentUserId, "Current user id")
-    fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-    })
-      .then((response) => {
-        response.json().then((data) => {
-          this.isAdmin = data.isAdmin;
-        });
-      })
-      .catch((error) => console.log(error));
-  },
-
-  methods: {
-    //supprimer d'un post
-    deletePost: function (postId) {
-      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-
-      let token = localStorage.token;
-      console.log(postId)
-
-
-      fetch(`http://localhost:3000/api/posts/${postId}`, {
-        method: "delete",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-      })
-        .then((response) => {
-          if (response.status == 401 || response.status == 400 || response.status == 404) {
-          } else {
-            console.log(response);
-            alert("The post has been deleted!")
-            window.location.reload();
-          }
-        })
-        .catch((error) => console.log(error));
-    },
-  }
-}
-
-
-
-
-</script>

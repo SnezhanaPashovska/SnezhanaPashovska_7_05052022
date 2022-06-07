@@ -50,7 +50,6 @@ body {
 }
 
 input {
-  border-radius: 10px 10px 10px 10px;
   border: 1px solid transparent;
   box-shadow: 0px 1px 12px $lighter-purple;
   -webkit-backdrop-filter: blur 20px;
@@ -324,9 +323,8 @@ export default {
             this.dataSignup.lastname = null;
             this.dataSignup.firstname = null;
             this.dataSignup.password = null;
-
             alert("The profile has been created")
-            router.push({ path: 'ProfilePage' })
+            router.push({ path: "/login" })
           })
           .catch((error) => console.log(error));
       } else {

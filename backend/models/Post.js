@@ -8,6 +8,7 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
 })
 
 const User = require('./User');
+const Likes = require('./Likes')
 
 
 // Post table
@@ -32,23 +33,17 @@ const Post = sequelize.define('post', {
     allowNull: true
   },
 
-  like: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0
-  },
-  dislike: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    defaultValue: 0
-  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: 0
+  },
+  like: {
+    type: DataTypes.INTEGER,
+    allowNull: true
   }
 },
   {
-    timestamps: false,
+    timestamps: true,
   },
   {
     createdAt: true,
@@ -61,6 +56,12 @@ const Post = sequelize.define('post', {
 User.hasMany(Post, { foreignKey: 'iduser', sourceKey: 'idUser' });
 Post.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
 
+User.hasMany(Likes, { foreignKey: 'user_id_like', sourceKey: 'idUser' });
+Likes.belongsTo(User, { foreignKey: 'user_id_like', targetKey: 'idUser' });
+
+Post.hasMany(Likes, { foreignKey: 'post_id_like', sourceKey: 'postId' });
+Likes.belongsTo(Post, { foreignKey: 'post_id_like', targetKey: 'postId' });
+
 sequelize.models.post;
 
 module.exports = Post;
@@ -70,4 +71,4 @@ module.exports = Post;
 }).catch((err) => {
   console.log("Error syncing table and model-Post")
 })
- */
+  */

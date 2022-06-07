@@ -4,7 +4,7 @@
       <router-link title="News Feed" class="link-icon" to="/Newsfeed"><i class="fa-solid fa-arrow-left-long"></i>
       </router-link>
       <div class="profile_page_nav__settings-icon">
-        <router-link title="Settings" class="settings-icon" to="/Settings"><i class="fa-solid fa-ellipsis-vertical"></i>
+        <router-link title="Settings" class="settings-icon" to="/Settings"><i class="fa-solid fa-gear"></i>
         </router-link>
       </div>
     </nav>
@@ -14,11 +14,11 @@
       <div class="col-1-of-2">
         <div class="header_section">
           <div class="header_section__profile-photo">
-            <img v-show="uimage != ''" alt="Profile photo" :src="uimage">
+            <img alt="Profile photo" :src="photoUrl">
           </div>
           <div class="header_section__information">
-            <p class="header_section__information-name">{{ fname }} </p>
-            <p class="header_section__information-lastname">{{ lname }}</p>
+            <p class="header_section__information-name">{{ firstname }} </p>
+            <p class="header_section__information-lastname">{{ lastname }}</p>
           </div>
 
           <div class="header_section__settings">
@@ -81,12 +81,13 @@
   </section>
   <div class="footer_section">
     <div class="footer_section__newsfeed-icon">
-      <i class="fa-solid fa-house" title="News Feed"></i>
+      <router-link to = "/NewsFeed"><i class="fa-solid fa-house" title="News Feed"></i></router-link>
+      
     </div>
-    <div class="footer_section__signout">
-      <!--   <a href="./Login.vue"> -->
+    <div @click="signOut()" class="footer_section__signout" title="Sign out">
+
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      <!--  </a> -->
+
     </div>
   </div>
 </template>
@@ -320,11 +321,12 @@ export default {
   data() {
     return {
       idUser: Number,
-      fname: "",
-      lname: "",
-      uimage: "",
-      isAdmin: true,
-      description: ""
+      firstname: "",
+      lastname: "",
+      photoUrl: "",
+      isAdmin: false,
+      description: "",
+      status: "",
     }
   },
   mounted() {
@@ -335,33 +337,47 @@ export default {
     console.log(localStorageData, "localStorageData")
     console.log(localStorage, "localStorage")
     console.log(token, "token")
+
     //Fetching Data
     fetch(`http://localhost:3000/api/users/${idUser}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+       /*  'Content-Type': 'application/json',
+        'Accept': 'application/json' */
       },
     }
     )
       .then((response) => {
         response.json()
           .then((data) => {
-            this.fname = data.firstname;
-            this.lname = data.lastname;
-            this.uimage = data.image;
+            this.firstname = data.firstname;
+            this.lastname = data.lastname;
+            this.photoUrl = data.photoUrl;
             this.id = data.idUser;
             this.description = data.description
             this.isAdmin = data.isAdmin;
             console.log(data, "data")
             console.log(response, "response")
-
+            if (data.isAdmin == true) {
+              this.status = "Success";
+            }
+            if (data.photoUrl != "") {
+              this.photoUrl = data.photoUrl;
+            }
           });
       })
       .catch((error) => console.log(error, 'error'));
     console.log(fetch)
   },
+
+  methods: {
+    signOut: function () {
+      localStorage.clear();
+      alert("You have signed out")
+      this.$router.push("/");
+    }
+  }
 }
 
 

@@ -13,7 +13,8 @@ exports.signup = (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         email: req.body.email,
-        password: hash
+        password: hash,
+        isAdmin: false
       }
       // Creating User/Profile
       User.create(newUser)
@@ -66,95 +67,65 @@ exports.getOneUser = (req, res, next) => {
 }
 
 // 5. Update a user
-exports.updateUser = (req, res) => {
-  User.findOne({ where: { id: req.body.idUser } })
-    .then(user => {
-      if (req.body.oldPassword && req.body.newPassword) {
-        bcrypt.compare(req.body.oldPassword, user.password)
-          .then(valid => {
-            if (!valid) {
-              return res.status(401).json({ error: "The password is incorrect" })
-            } else {
-              bcrypt.hash(req.body.newPassword, 10)
-                .then(newHash => {
-                  User.update(
-                    { password: newHash },
-                    { where: { id: req.body.idUser } }
-                  );
-                  res.status(201).json({ message: "Password changed" })
-                })
-                .catch(error => res.status(500).json({ error }))
-            }
-          })
-          .catch(error => res.status(500).json({ error }))
+exports.updateUser = (req, res, next) => {
+  const userObject = req.file ? {
+    ...req.body, photoUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+  } : { ...req.body };
+
+  User.findOne({ where: { idUser: req.params.id } })
+    .then((user) => {
+      if (
+        user.photoUrl = "" &&
+        req.file
+      ) {
+        const oldFilename = user.photoUrl.split("/images/")[1];
+        fs.unlink(`images/${oldFilename}`, (error) => {
+          console.log(error);
+        });
       }
-      if (req.body.lastname && req.body.lastname != user.lastname) {
-        User.update(
-          { lastname: req.body.lastname },
-          { where: { id: req.body.idUser } }
-        );
-        res.status(201).json({ message: 'The firstname has been changed' })
-      };
-      if (req.body.firstname && req.body.firstname != user.firstname) {
-        User.update(
-          { firstname: req.body.firstname },
-          { where: { id: req.body.idUser } }
-        );
-        res.status(201).json({ message: 'The lastname has been changed' })
-      };
-      if (req.body.description && req.body.description != user.description) {
-        User.update(
-          { description: req.body.description },
-          { where: { id: req.body.idUser } }
-        );
-      };
     })
-    .catch(error => res.status(400).json({ error }));
+    .catch((error) => {
+      return res.status(400).json({ error });
+    });
+  // Update the database
+  User.update(
+    { ...userObject, idUser: req.params.id },
+    { where: { idUser: req.params.id } }
+  ).then((user) =>
+    // If the update us successful
+    User.findOne({ where: { idUser: req.params.id } })
+      .then((user) => {
+        // Get the updated profile
+        res.status(200).json({ message: "Profil bien à jour !", user });
+      })
+      .catch((error) => res.status(410).json(error))
+  );
 };
 
 
 // 6. Delete a user
-
-exports.deleteUser = (req, res) => {
-  User.findOne({ where: { id: req.params.id } })
-    .then(user => {
-      const filename = user.image.split('/images/')[1];
-      if (filename != "image_profil_default.jpg") {
-        fs.unlink(`images/${filename}`, (err) => {
-          if (err) {
-            console.log("Erreur: " + err);
-          };
+exports.deleteUser = (req, res, next) => {
+  User.findOne({ where: { idUser: req.params.id } })
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({ error: "Utilisateur non trouvé !" });
+      }
+      const filename = user.photoUrl.split("/images/")[1];
+      if (user.photoUrl = "") {
+        fs.unlink(`images/${filename}`, (error) => {
+          if (error) {
+            console.log(error);
+          }
         });
-      };
-      User.destroy({ where: { id: req.params.id } })
-        .then(() => res.status(200).json({ message: "Deleted!" }))
-        .catch(error => res.status(500).json({ error }));
+      }
+      // Removing the user from the database
+      User.destroy({ where: { idUser: req.params.id } })
+        .then((user) =>
+          res.status(200).json({ message: "Utilisateur supprimé !" })
+        )
+        .catch((error) => res.status(400).json({ error }));
     })
-    .catch(error => res.status(500).json({ error }))
+    .catch((error) => res.status(400).json({ error }));
 };
 
-// 7. Update an image
-
-exports.updateImage = (req, res) => {
-  User.findOne({ where: { id: req.body.idUser } })
-    .then(user => {
-      if (req.file) {
-        const filename = user.image.split('/images/')[1];
-        if (filename != "image_profil_default.jpg") {
-          fs.unlink(`images/${filename}`, (err) => {
-            if (err) throw err;
-          });
-        }
-        const newImage = {
-          image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        };
-        User.update(
-          newImage, { where: { id: req.body.idUser } }
-        )
-          .then(() => res.status(201).json({ message: 'Image modifiée' }))
-          .catch(error => res.status(500).json({ error }));
-      };
-    })
-    .catch(error => res.status(500).json({ error }));
-}
 

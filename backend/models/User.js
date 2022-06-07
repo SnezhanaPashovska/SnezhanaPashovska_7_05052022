@@ -28,10 +28,10 @@ const User = sequelize.define('user', {
     allowNull: false
   },
 
-  image: {
+  photoUrl: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: "../images/default-profile.png"
+    defaultValue: ""
   },
   email: {
     type: DataTypes.STRING,
@@ -45,6 +45,10 @@ const User = sequelize.define('user', {
   description: {
     type: DataTypes.STRING,
     allowNull: true
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
   },
 
 },
@@ -63,13 +67,14 @@ const User = sequelize.define('user', {
 sequelize.models.user;
 module.exports = User;
 
-/*  User.sync()
+/* User.sync()
  .then((data) => {
   console.log("User")
 }).catch((err) => {
   
-}) 
- */
+})  */
+
+
 
 
 

@@ -29,8 +29,7 @@ const Comment = sequelize.define('comment', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-
-  text: {
+  textComment: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

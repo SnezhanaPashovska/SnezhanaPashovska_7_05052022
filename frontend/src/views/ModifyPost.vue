@@ -13,7 +13,7 @@
             <div class="modify-post-container__image__upload">
               <label for="upload-image" title="Upload an image">
                 <i class="fa-solid fa-upload"></i>
-                <input type="file" id="upload-image" style="visibility:hidden;" @change="onFileSelected($event)">
+                <input type="file" id="upload-image" @change="onFileSelected($event)">
               </label>
             </div>
             <div class="modify-post-container__text">
@@ -59,11 +59,6 @@ a {
   @include modify-post-container;
 }
 
-.fa-upload {
-  color: $darkest-purple;
-  cursor: pointer;
-  font-size: 21px;
-}
 
 .fa-floppy-disk {
   color: $darkest-purple;

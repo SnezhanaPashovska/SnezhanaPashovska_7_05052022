@@ -56,7 +56,7 @@ module.exports = {
     }
   }
 };
-module.exports = {
+/* module.exports = {
   devServer: {
     port: 8080,
     proxy: {
@@ -66,6 +66,6 @@ module.exports = {
       }
     }
   }
-};
+}; */
 
 

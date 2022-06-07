@@ -24,18 +24,7 @@
   padding: 20px 20px 20px 20px;
   background-color: $light-gray;
 
-  &__profile-photo{
-    border: 1px solid black;
-    width: 20%;
-    height: 40px;
-    cursor: pointer;
-
-    & img{
-      object-fit: scale-down;
-      height: 100%;
-      width: 100%;
-    }
-  }
+  
 
   &__posts{
     display: flex;
@@ -44,15 +33,15 @@
     width: 100%;
 
     & textarea{
-      height: 100px;
+      height: 90px;
       overflow: scroll;
-      border-radius: 15px 15px 15px 15px;
-      width: 80%;
-      border-color: $darkest-purple;
+      width: 100%;
+      border-color: transparent;
       text-align: justify;
       padding: 8px 8px 8px 8px;
       font-family: Lato, sans-serif;
       font-size: 16px;
+      margin: 0px auto 10px auto;
 
       & :focus{
         color: $lighter-purple;
@@ -63,40 +52,65 @@
   &__icons{
     display: flex;
     flex-direction: row-reverse;
-    width: 50%;
+    width: 70%;
     color: $darkest-purple;
     justify-self: left;
     justify-content: space-around;
-    margin:0px auto 10px auto;
+    margin:0px auto 20px auto;
     cursor: pointer;
 
     &__share{
-      width: 10%;
-      padding-top: 2px;
-      border: none;
-      color: $darkest-purple;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items: center;  
+    overflow:hidden;
+    transition: all 1s;
+    color: $darkest-purple;
+    font-size:20px;
+    cursor: pointer;
+      
       & :hover{
         color: $lighter-purple;
       }
       & button{
         color:$darkest-purple;
         border: none;
+        font-size:20px;
+        cursor: pointer;
       }
     }
     &__image{
-      width: 15%;
-      padding-top: 2px;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items: center;  
+    overflow:hidden;
+    transition: all 1s;
+    color: $darkest-purple;
+    font-size:20px;
+    cursor: pointer;
+      
       & :hover{
         color: $lighter-purple;
       }
 
-      & input {
-        visibility: hidden;
+      & :active{
+        color: $lightest-gray;
       }
+
+      & input {
+      width:200px;
+      position:absolute;
+      top:0;
+      left:0;
+      opacity:0;
+      cursor:pointer;
+      };
+
     }
   }
 }
-
 
 @mixin block-sent-post{
   display: flex;
@@ -106,42 +120,44 @@
   width: 100%;
   justify-self: center;
   cursor: pointer;
-  background-color: $lightest-gray;
-  -webkit-backdrop-filter: blur 20px;
+  background-color: white;
   overflow-x: hidden;
+
 }
+
 @mixin comment-input {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  height: 90px;
+  justify-content: space-around;
+  height: 55px;
+  border-bottom: 1px solid $light-gray;
+  width: 100%;
 
   & textarea{
-    border-radius: 10px 10px 10px 10px;
-    border-color: $darkest-purple;
-    height: 80px;
-    width: 90%;
+    border-color: $light-pink;
+    height: 30px;
+    width: 80%;
     text-align: justify;
       padding: 8px 8px 8px 8px;
       font-family: Lato, sans-serif;
-      font-size: 16px;
+      font-size: 13px;
       margin-top: 5px;
+      overflow: hidden;
+      margin: 5px 0px 0px 0px;
+  }
+
+  & button{
+    border: transparent;
+    height: 13px;
+    color: $darkest-purple;
+    background-color: transparent;
+    cursor: pointer;
+    margin: 10px 15px 10px 15px;
   }
 }
 
 @mixin comment-text {
-  //height: 260px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px 15px 10px 15px;
-  overflow: scroll;
-  text-align: justify;
-  margin-bottom: 10px;
-
-  & p{
-    //padding: 0px 10px 10px 0px;
-  }
+ 
 }
 
 @mixin post-content {
@@ -155,7 +171,7 @@
   &__imageUrl{
     width: 95%;
     justify-self: center;
-    margin: 0px auto 0px auto;
+    margin: 10px auto 0px auto;
     object-fit: contain;
     overflow-x: hidden;
     & img{
@@ -165,9 +181,17 @@
   &__text{
     text-align: justify;
     overflow-x: hidden;
-    padding: 0px 5px 0px 5px;
-  }
-  
+    padding: 0px 6px 10px 6px;
+  } 
+}
+
+@mixin comment-sent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-evenly;
+
+   
 }
 //@media screen and (min-width: 520px) and (max-width: 768px)
 @mixin section-tablet {

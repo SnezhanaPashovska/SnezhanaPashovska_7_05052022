@@ -1,24 +1,69 @@
-const Comment = require("../models");
+const Comment = require("../models/Comment");
+const User = require("../models/User");
+const Post = require("../models/Post")
 
 // 1. Create a comment
 
-exports.createComment = (req, res) => {
-  const newComment = {
-    idUser: req.body.idUser,
-    text: req.body.text,
-    idposts: req.body.idposts
-  };
-  Comment.create(newComment)
-    .then(() => res.status(201).json({ message: "The comment has been added" }))
-    .catch(error => res.status(500).json({ error }));
+exports.createComment = (req, res, next) => {
+  if (!req.body.postId || !req.body.idUser || !req.body.textComment) {
+    res.status(400).json({ message: "Merci de bien vérifier si les champs sont tous remplis !" });
+    return;
+  }
+  Comment.create({
+    idposts: req.body.postId,
+    iduser: req.body.idUser,
+    textComment: req.body.textComment,
+  })
+    .then((comment) =>
+      res.status(201).json({ message: "Commentaire ajouté!", comment })
+    )
+    .catch((error) => res.status(401).json({ error }));
 };
 
-// 2. Delete a comment
+// 2. Get a comment
+exports.getAllComments = (req, res, next) => {
+  Comment.findAll({
+    where: {
+      idposts: req.params.postid,
+    },
+    include: {
+      model: User,
+      attributes: {
+        exclude: ["id", "password", "email", "createdAt", "updatedAt"],
+      },
+    },
+    order: [["createdAt", "DESC"]],
+  })
+    .then((comment) => res.status(200).json(comment))
+    .catch((error) => res.status(405).json({ error }));
+};
 
-exports.deleteComment = (req, res) => {
-  Comment.destroy(
-    { where: { id: req.params.id } }
-  )
-    .then(() => res.status(200).json({ message: "The comment has been deleted" }))
-    .catch(error => res.status(500).json({ error }));
+// 3. Delete a comment
+
+exports.deleteComment = (req, res, next) => {
+  Comment.findOne({ where: { idcomments: req.params.id } })
+    .then((comment) => {
+      if (!comment) {
+        return res.status(404).json({ error: "Commentaire non trouvé !" });
+      }
+
+      //vérifier celui qui veut modifier le post est bien l'auteur du post ou l'administrateur
+      User.findOne({ where: { idUser: req.auth.idUser } })
+        .then((user) => {
+          if (!user.isAdmin && req.auth.idUser != comment.iduser) {
+            return res
+              .status(401)
+              .json({ error: "Suppression non autorisée !" });
+          }
+        })
+        .catch((error) => res.status(409).json({ error }));
+
+      Comment.destroy({ where: { idcomments: req.params.id } })
+        .then(() =>
+          res.status(200).json({ message: "Commentaire supprimé !" })
+        )
+      //.catch((error) => res.status(402).json({ error }));
+    })
+
+    .catch((error) => res.status(403).json({ error }));
 };

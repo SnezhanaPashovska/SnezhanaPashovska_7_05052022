@@ -15,7 +15,7 @@ exports.createPost = (req, res) => {
     imageUrl: imageUrl,
   })
     .then(post => res.status(201).json(post))
-    .catch(error => res.status(401).json({ error }));
+    .catch(error => res.status(402).json({ error }));
 };
 
 // 2. Get all posts
@@ -126,7 +126,7 @@ exports.getOnePost = (req, res, next) => {
 
 // 6. Like or dislike a post
 
-exports.postLike = (req, res) => {
+/* exports.postLike = (req, res) => {
   Like.findOne({
     where: {
       idUser: req.body.idUser,
@@ -218,4 +218,5 @@ exports.postLike = (req, res) => {
       }
     })
     .catch(error => res.status(400).json({ error }));
-};
+}; */
+

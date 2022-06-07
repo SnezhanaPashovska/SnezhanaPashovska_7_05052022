@@ -68,8 +68,8 @@ const routes = [
     }
   },
   {
-    path: '/post',
-    name: 'post',
+    path: '/PostBox',
+    name: 'PostBox',
     component: function () {
       return import(/* webpackChunkName: "PostBox" */ '../views/PostBox.vue')
     }
@@ -79,6 +79,20 @@ const routes = [
     name: 'ModifyPost',
     component: function () {
       return import(/* webpackChunkName: "PostBox" */ '../views/ModifyPost.vue')
+    }
+  },
+  {
+    path: "/CommentBox",
+    name: "CommentBox",
+    component: function () {
+      return import(/* webpackChunkName: "PostBox" */ '../views/CommentBox.vue')
+    }
+  },
+  {
+    path: "/CommentSent",
+    name: "CommentSent",
+    component: function () {
+      return import(/* webpackChunkName: "PostBox" */ '../views/CommentSent.vue')
     }
   }
 
