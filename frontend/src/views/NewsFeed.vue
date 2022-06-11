@@ -1,16 +1,11 @@
 <template>
   <div class="news_feed">
     <nav class="newsfeed_nav">
-      <!-- <div class="newsfeed_nav__links"> -->
       <router-link title="Profile Page" class="link-icon" to="/ProfilePage"><i class="fa-solid fa-user"></i>
       </router-link>
+      <img src="../assets/icon-left-font-monochrome-white.png" alt="" class="logo-Groupomania">
       <router-link @click="signOut()" title="Sign out" class="signout-icon" to="/NewsFeed"><i
           class="fa-solid fa-arrow-right-from-bracket"></i></router-link>
-      <!--  </div> -->
-      <!-- <div class="profile_page_nav__settings-icon">
-        <router-link title="Settings" class="settings-icon" to="/Settings"><i class="fa-solid fa-ellipsis-vertical"></i>
-        </router-link>
-      </div> -->
     </nav>
   </div>
   <section class="section">
@@ -38,7 +33,7 @@
           </div>
           <AsyncPost>
           </AsyncPost>
-        
+
         </div>
       </div>
     </div>
@@ -60,7 +55,7 @@ export default {
 
   components: {
     AsyncPost,
-    
+
   },
   data: function () {
     return {
@@ -97,16 +92,11 @@ export default {
       const localStorageData = JSON.parse(localStorage.getItem("idUser"));
       const formData = new FormData();
       let token = localStorage.token;
-      console.log(token, "token")
-      console.log(localStorageData, "localStorageData")
-      console.log(formData, "postdata")
 
       formData.append("image", this.uploadImage);
       formData.append("text", this.text);
       formData.append("imageUrl", this.imageUrl)
       formData.append("idUser", localStorageData);
-
-      console.log(formData, "postdata2")
 
       fetch("http://localhost:3000/api/posts/", {
         method: "POST",
@@ -120,11 +110,8 @@ export default {
             this.uploadImage = "",
             this.postId = "",
             //alert("Post created")
-          this.$router.push("/NewsFeed")
+            this.$router.push("/NewsFeed")
           this.$router.go()
-          console.log(response, "response")
-          console.log(this.imageUrl, "imageUrl")
-          console.log(this.uploadImage, "uploadImage")
         })
       }
       ).catch((error) => console.log(error));
@@ -153,6 +140,10 @@ export default {
 
 * {
   overflow-x: hidden;
+}
+
+.logo-Groupomania {
+  width: 30%;
 }
 
 body {
@@ -186,6 +177,11 @@ a {
 
 .post_bloc {
   @include post_bloc;
+  background-color: $lightest-gray;
+}
+
+.row {
+  width: 100%;
 }
 
 @media screen and (min-width: 520px) and (max-width: 768px) {
@@ -217,11 +213,9 @@ a {
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .row {
-    width: 60%;
+    width: 80%;
     justify-self: center;
     margin: 0px auto 0px auto;
-    border-left: 1px solid transparent;
-    box-shadow: 0px 0px 0px 00px gray;
   }
 
   .newsfeed_nav {
@@ -241,8 +235,19 @@ a {
 }
 
 @media screen and (min-width: 991px) and (max-width: 1200px) {
+
+  .logo-Groupomania {
+    width: 10%;
+    display: block !important;
+    height: 100px;
+  }
+
+  .post_bloc {
+    background-color: $lightest-gray;
+  }
+
   .row {
-    width: 65%;
+    width: 70%;
     justify-self: center;
     margin: 0px auto 0px auto;
   }
@@ -260,10 +265,20 @@ a {
 }
 
 @media screen and (min-width: 1201px) {
+  .logo-Groupomania {
+    width: 7%;
+    display: block !important;
+    height: 100px;
+  }
+
   .row {
-    width: 50%;
+    width: 60%;
     justify-self: center;
     margin: 0px auto 0px auto;
+  }
+
+  .post_bloc {
+    background-color: $lightest-gray;
   }
 
   .post_bloc__posts {
@@ -276,7 +291,7 @@ a {
 
   a {
     color: white;
-    padding: 0px 390px 0px 370px;
+    padding: 0px 300px 0px 300px;
     //border: 1px solid white;
     //width: 50%;
 
@@ -285,19 +300,5 @@ a {
       transform: scale(1.2);
     }
   }
-
-  /* .newsfeed_nav {
-    &__links{
-      width: 90%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      border: 1px solid white;
-      color: white;
-      & a{
-        color: white;
-      }
-    }
-  } */
 }
 </style>

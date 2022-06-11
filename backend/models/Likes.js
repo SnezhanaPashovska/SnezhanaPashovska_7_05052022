@@ -1,3 +1,4 @@
+//database configuration
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -6,8 +7,7 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
   dialect: 'mysql',
   port: 3306
 })
-
-
+//likes table
 const Like = sequelize.define('like', {
 
   id_likes: {
@@ -31,15 +31,7 @@ const Like = sequelize.define('like', {
     timestamps: false
   }
 )
-
-
-
 sequelize.models.like;
 
 module.exports = Like;
 
-/* Like.sync().then(() => {
-  console.log("Table and model synced successfully-likes")
-}).catch(() => {
-  console.log("Error syncing table and model")
-})  */

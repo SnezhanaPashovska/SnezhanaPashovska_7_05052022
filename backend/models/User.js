@@ -1,3 +1,4 @@
+//configuration of database
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
@@ -7,10 +8,7 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
   port: 3306
 })
 
-//let sequelize = require('../config/dbConfig');
-
-// User table
-
+// users table
 const User = sequelize.define('user', {
   idUser: {
     type: DataTypes.INTEGER,
@@ -63,16 +61,11 @@ const User = sequelize.define('user', {
     updatedAt: false,
   }
 )
-
 sequelize.models.user;
+
 module.exports = User;
 
-/* User.sync()
- .then((data) => {
-  console.log("User")
-}).catch((err) => {
-  
-})  */
+
 
 
 

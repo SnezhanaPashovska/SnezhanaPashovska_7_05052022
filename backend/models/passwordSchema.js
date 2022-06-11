@@ -4,7 +4,6 @@ const passwordValidator = require('password-validator');
 const passwordSchema = new passwordValidator();
 
 //--Password properties--//
-
 passwordSchema
   .is().min(8)
   .is().max(30)

@@ -45,11 +45,8 @@
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
-
     </section>
   </div>
 </template>
@@ -83,6 +80,10 @@ textarea:focus {
   outline: none !important;
   border-color: $lighter-purple;
   box-shadow: 2px 2px 1px $lighter-purple;
+}
+
+.settings_change__delete {
+  @include settings_change__delete;
 }
 
 //Tablet and small laptop responsive
@@ -136,13 +137,10 @@ export default {
 
   mounted: function () {
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-    console.log(localStorageData, "local storage data")
-
 
     const idUser = localStorageData;
     let token = localStorage.token;
-    console.log(token)
-    console.log(idUser, "idUser")
+
     fetch(`http://localhost:3000/api/users/${idUser}`, {
       method: "GET",
       headers: {
@@ -160,10 +158,8 @@ export default {
                 this.lastname = data.lastname,
                 this.description = data.description,
                 this.photoUrl = data.photoUrl
-              console.log(data, "data")
             })
             .catch((error) => console.log(error));
-          console.log(data, "data")
         }
 
       })
@@ -207,10 +203,6 @@ export default {
                   this.description = ""
                 alert("Profile updated")
                 this.$router.push("/ProfilePage");
-                console.log(response, "RESPONSE")
-                console.log(this.firstname, "fname")
-                console.log(this.lastname, "lname")
-                console.log(this.description, "RESPONSE")
               }
             });
           }
@@ -221,8 +213,7 @@ export default {
     //Delete the account
     deleteAccount: function () {
       const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-      console.log(localStorageData, "local storage data")
-
+  
       const idUser = localStorageData;
       let token = localStorage.token;
 

@@ -1,3 +1,5 @@
+// database config
+
 const dotenv = require('dotenv')
 dotenv.config();
 

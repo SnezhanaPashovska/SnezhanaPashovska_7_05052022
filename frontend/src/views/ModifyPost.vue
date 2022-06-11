@@ -160,12 +160,10 @@ export default {
 
   mounted: function () {
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-    console.log(localStorageData, "local storage data")
 
     let postId = this.$route.params.id
     let token = localStorage.token;
-    console.log(token)
-    console.log(postId, "postId")
+    
     fetch(`http://localhost:3000/api/posts/${postId}`, {
       method: "GET",
       headers: {
@@ -180,35 +178,27 @@ export default {
           response.json()
             .then((data) => {
               this.text = data.text,
-                this.imageUrl = data.imageUrl,
-                console.log(data, "data")
+                this.imageUrl = data.imageUrl
             })
             .catch((error) => console.log(error));
-          console.log(data, "data")
         }
-
       })
       .catch((error) => console.log(error));
   },
 
   methods: {
-    //sélectionner un fichier à uploader
+    //select a file to upload
     onFileSelected: function (event) {
-      console.log(event)
       this.uploadImage = event.target.files[0];
     },
     modifyPost: function () {
       const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-      console.log(localStorageData, "edit")
 
       const formData = new FormData();
       formData.append("image", this.uploadImage);
       formData.append("text", this.text);
       formData.append("idUser", localStorageData);
       formData.append("imageUrl", this.imageUrl)
-      console.log(this.imageUrl, "this.imageUrl");
-      console.log(this.uploadImage, "this.uploadImage");
-      console.log(formData, "edit")
 
       let token = localStorage.token;
       let postId = this.$route.params.id
@@ -234,8 +224,6 @@ export default {
               alert("The post has been successfully modified")
               this.$router.push("/NewsFeed");
             });
-            console.log(formData, "FORM DATA");
-            console.log(response, "RESPONSE")
           }
         })
         .catch((error) => console.log(error));

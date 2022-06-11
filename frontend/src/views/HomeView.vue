@@ -38,6 +38,7 @@
 .welcome {
 
   width: 25%;
+  justify-self: center;
 }
 
 @media screen and (min-width: 520px) and (max-width: 768px) {

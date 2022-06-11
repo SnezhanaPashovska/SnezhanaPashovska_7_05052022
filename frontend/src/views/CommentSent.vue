@@ -1,25 +1,17 @@
 <template>
-  <div class="row">
-    <div class="col-1-of-2">
-      <div>
-        <div class="comment-box">
-          <div class="comment-sent" v-for="comment in comments" :key="comment.id">
-            <div class="comment-names">
-              <p class="name-lastname"> {{ comment.firstname }} {{ comment.lastname }}</p>
-              <button @click="deleteComment(comment.id)"
-                v-if="(comment.idUser === currentUserId) || (this.isAdmin == true)" class="delete-comment"><i
-                  class="fa-solid fa-xmark" title="Delete comment"></i></button>
-            </div>
-            <div class="comment-content">
-              <p class="block-sent-post__comment__paragraph">{{ comment.textComment }}</p>
-
-            </div>
-          </div>
+  <div class="comment-box-main_content">
+    <div class="comment-box">
+      <div class="comment-sent" v-for="comment in comments" :key="comment.id">
+        <div class="comment-names">
+          <p class="name-lastname"> {{ comment.firstname }} {{ comment.lastname }}</p>
+          <button @click="deleteComment(comment.id)" v-if="(comment.idUser === currentUserId) || (this.isAdmin == true)"
+            class="delete-comment"><i class="fa-solid fa-xmark" title="Delete comment"></i></button>
+        </div>
+        <div class="comment-content">
+          <p class="block-sent-post__comment__paragraph">{{ comment.textComment }}</p>
         </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
@@ -49,10 +41,8 @@ export default {
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
     this.currentUserId = localStorageData;
     let postId = this.postId
-    console.log(postId, 'this post id')
 
     let token = localStorage.token;
-    console.log(this.currentUserId, "current user")
 
     fetch(`http://localhost:3000/api/comment//allcomments/${postId}`, {
       method: "GET",
@@ -76,7 +66,6 @@ export default {
                 lastname: data[i].user.lastname,
               })
             }
-            console.log(data, "data comments")
           });
         }
       })
@@ -88,8 +77,6 @@ export default {
     deleteComment: function (idcomments) {
       const localStorageData = JSON.parse(localStorage.getItem("idUser"));
       this.idUser = localStorageData;
-      /* this.isAdmin = data.isAdmin;
-      console.log(this.isAdmin) */
       let postId = this.postId;
       let token = localStorage.token;
 
@@ -105,7 +92,6 @@ export default {
         .then((response) => {
           if (response.status == 401 || response.status == 400 || response.status == 404) {
           } else {
-            console.log(response);
             alert("The comment has been deleted!")
             window.location.reload();
           }
@@ -123,6 +109,11 @@ export default {
 //Mixin
 @import "../styles/news-feed.scss";
 
+.row {
+  margin: 0px auto 0px auto;
+  justify-self: center;
+}
+
 .comment-sent {
   display: flex;
   flex-direction: column;
@@ -130,10 +121,10 @@ export default {
 }
 
 .comment-content {
-
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid $light-gray;
+  //border-bottom: 1px solid $light-gray;
+
   padding: 2px 0px 2px 0px;
   width: 100%;
 }
@@ -142,6 +133,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 2px 0px 2px 0px;
+  width: 100%;
 }
 
 .comment-names {
@@ -149,5 +141,7 @@ export default {
   flex-direction: row;
   justify-content: space-between;
   margin: 2px 0px 2px 0px;
+  border-top: 1px solid $light-gray;
+  width: 100%;
 }
 </style>

@@ -42,52 +42,15 @@
     </div>
     <div class="row">
       <div class="col-1-of-3">
-        <!-- <div class="posts_section">
-          <div class="posts_section__title">
-            <h2>
-              Posts
-            </h2>
-            <div class="posts_section__images">
-              <img src="../assets/wp6021466.jpg" alt="">
-              <div class="post_section_images__icon">
-                <i class="fa-solid fa-trash"></i>
-              </div>
-            </div>
-            <div class="posts_section__text">
-              <p>
-                Post Title
-                Oh he decisively impression attachment friendship so if everything. Whose her enjoy chief new young.
-                Felicity if ye required likewise so doubtful. On so attention necessary at by provision otherwise
-                existence
-                direction. Unpleasing up announcing unpleasant themselves oh do on. Way advantage age led listening
-                belonging
-                supposing.
-                Wrong do point avoid by fruit learn or in death. So passage however besides invited comfort elderly be
-                me.
-                Walls began of child civil am heard hoped my. Satisfied pretended mr on do determine by.
-                Old post took and ask seen fact rich. Man entrance settling believed eat joy.
-                Money as drift begin on to. Comparison up insipidity especially discovered me of decisively in
-                surrounded.
-                Points six way enough she its father.
-              </p>
-              <div class="post_section_text__icon">
-                <i class="fa-solid fa-trash"></i>
-              </div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </section>
   <div class="footer_section">
     <div class="footer_section__newsfeed-icon">
-      <router-link to = "/NewsFeed"><i class="fa-solid fa-house" title="News Feed"></i></router-link>
-      
+      <router-link to = "/NewsFeed"><i class="fa-solid fa-house" title="News Feed"></i></router-link>  
     </div>
     <div @click="signOut()" class="footer_section__signout" title="Sign out">
-
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
     </div>
   </div>
 </template>
@@ -333,18 +296,12 @@ export default {
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
     let idUser = localStorageData;
     let token = localStorage.token;
-    console.log(idUser, "idUser")
-    console.log(localStorageData, "localStorageData")
-    console.log(localStorage, "localStorage")
-    console.log(token, "token")
-
+    
     //Fetching Data
     fetch(`http://localhost:3000/api/users/${idUser}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
-       /*  'Content-Type': 'application/json',
-        'Accept': 'application/json' */
       },
     }
     )
@@ -357,8 +314,6 @@ export default {
             this.id = data.idUser;
             this.description = data.description
             this.isAdmin = data.isAdmin;
-            console.log(data, "data")
-            console.log(response, "response")
             if (data.isAdmin == true) {
               this.status = "Success";
             }
@@ -368,7 +323,6 @@ export default {
           });
       })
       .catch((error) => console.log(error, 'error'));
-    console.log(fetch)
   },
 
   methods: {

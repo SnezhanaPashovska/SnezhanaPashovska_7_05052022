@@ -3,12 +3,13 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 
 // 1. Create a Post
-
 exports.createPost = (req, res) => {
+  //if the post contains an image
   let imageUrl = "";
   if (req.file) {
     imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   };
+  //validation of fields
   Post.create({
     iduser: req.body.idUser,
     text: req.body.text,
@@ -19,7 +20,6 @@ exports.createPost = (req, res) => {
 };
 
 // 2. Get all posts
-
 exports.getAllPosts = (req, res) => {
   Post.findAll({ include: User })
     .then(posts => {
@@ -29,25 +29,25 @@ exports.getAllPosts = (req, res) => {
 };
 
 // 3. Delete a post
-
 exports.deletePost = (req, res) => {
   Post.findOne({ where: { postId: req.params.id } })
     .then(post => {
       if (post.image != null) {
+        //deleting of the image if it exists
         const filename = post.image.split('/images/')[1];
         fs.unlink(`images/${filename}`, (err) => {
           if (err) throw err;
         })
       };
+      // we delete the post from the database by indicating the id
       Post.destroy({ where: { postId: req.params.id } })
         .then(() => res.status(201).json({ message: "The post has been deleted" }))
         .catch(error => res.status(401).json({ error }));
     })
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(401).json({ error }));
 };
 
 // 4. Modify a post
-
 exports.modifyPost = (req, res, next) => {
   const postObject = req.file ? {
     ...req.body, imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
@@ -61,20 +61,17 @@ exports.modifyPost = (req, res, next) => {
           console.log(error);
         });
       }
-
       //Checking if the post exist
       if (!post) {
-        return res.status(404).json({ error: "Post non trouvé !" });
+        return res.status(404).json({ error: "Post hasn't been found !" });
       }
-
-      //postIdalidation of the fields
+      //postId - validation of the fields
       if (!req.body.text) {
         res.status(400).json({
-          message: "Merci de bien vérifier si les champs sont tous remplis !",
+          message: "Please make sure that all fields are filled in !",
         });
         return;
       }
-
       User.findOne({ where: { idUser: req.auth.idUser } })
         .then((user) => {
           //Verification if the post is beeing modified by the creator or the administrator
@@ -91,13 +88,13 @@ exports.modifyPost = (req, res, next) => {
                     // Getting the updated post
                     res
                       .status(200)
-                      .json({ message: "Post bien à jour !", post });
+                      .json({ message: "The post has been updated !", post });
                   })
                   .catch((error) => res.status(402).json(error))
               )
               .catch((error) => res.status(403).json(error));
           } else {
-            return res.status(401).json({ error: "Modification non autorisée !" });
+            return res.status(401).json({ error: "Unauthorized !" });
           }
         })
         .catch((error) => res.status(405).json(error));
@@ -106,7 +103,6 @@ exports.modifyPost = (req, res, next) => {
 };
 
 // 5. Get one post
-
 exports.getOnePost = (req, res, next) => {
   Post.findOne({
     where: { postId: req.params.id },
@@ -115,6 +111,7 @@ exports.getOnePost = (req, res, next) => {
     },
   })
     .then((post) => {
+      //if the post does not exist
       if (post === null) {
         return res.status(404).json({ message: "Doesn't exist" });
       } else {
@@ -123,100 +120,3 @@ exports.getOnePost = (req, res, next) => {
     })
     .catch((error) => res.status(404).json({ error }));
 };
-
-// 6. Like or dislike a post
-
-/* exports.postLike = (req, res) => {
-  Like.findOne({
-    where: {
-      idUser: req.body.idUser,
-      postId: req.body.postId
-    }
-  })
-    .then(response => {
-      if (response == null) {
-        if (req.body.likeValue == 1) {
-          Like.create({
-            idUser: req.body.idUser,
-            postId: req.body.postId,
-            like: req.body.likeValue
-          });
-          Post.increment(
-            { liked: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: 'Liked!' })
-        }
-        else if (req.body.likeValue == -1) {
-          Like.create({
-            idUser: req.body.idUser,
-            postId: req.body.postId,
-            like: req.body.likeValue
-          });
-          Post.increment(
-            { dislike: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: 'Dislike!' })
-        }
-      }
-
-      else if (response.dataValues.liked == 1) {
-        if (req.body.likeValue == -1) {
-          Like.update(
-            { liked: -1 },
-            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
-          );
-          Post.increment(
-            { dislikes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          Post.decrement(
-            { likes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: "Neutral" });
-        }
-        else {
-          Like.destroy(
-            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
-          );
-          Post.decrement(
-            { likes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: "The like has been removed" })
-        };
-      }
-
-      else if (response.dataValues.liked == -1) {
-        if (req.body.likeValue == 1) {
-          Like.update(
-            { liked: 1 },
-            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
-          );
-          Post.increment(
-            { likes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          Post.decrement(
-            { dislikes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: "Neutral" })
-        }
-        else {
-          Like.destroy(
-            { where: { [Seq.and]: [{ postId: req.body.postId }, { idUser: req.body.idUser }] } }
-          );
-          Post.decrement(
-            { dislikes: 1 },
-            { where: { id: req.body.postId } }
-          );
-          res.status(201).json({ message: "The dislike has been removed" })
-        };
-      }
-    })
-    .catch(error => res.status(400).json({ error }));
-}; */
-

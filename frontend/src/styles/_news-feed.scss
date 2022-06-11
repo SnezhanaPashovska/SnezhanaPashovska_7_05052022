@@ -4,16 +4,15 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  position: sticky;
 }
 
-@mixin section{
+@mixin section {
   height: 100%;
   background-color: white !important;
   margin: 0px;
 }
 
-@mixin post_bloc{
+@mixin post_bloc {
   margin: 25px auto 25px auto;
   width: 100%;
   height: 100%;
@@ -22,17 +21,14 @@
   flex-wrap: wrap;
   justify-content: space-around;
   padding: 20px 20px 20px 20px;
-  background-color: $light-gray;
 
-  
-
-  &__posts{
+  &__posts {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     width: 100%;
 
-    & textarea{
+    & textarea {
       height: 90px;
       overflow: scroll;
       width: 100%;
@@ -43,85 +39,91 @@
       font-size: 16px;
       margin: 0px auto 10px auto;
 
-      & :focus{
+      & :focus {
         color: $lighter-purple;
         outline: none;
       }
     }
   }
-  &__icons{
+
+  &__icons {
     display: flex;
     flex-direction: row-reverse;
     width: 70%;
     color: $darkest-purple;
     justify-self: left;
     justify-content: space-around;
-    margin:0px auto 20px auto;
+    margin: 0px auto 20px auto;
     cursor: pointer;
 
-    &__share{
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items: center;  
-    overflow:hidden;
-    transition: all 1s;
-    color: $darkest-purple;
-    font-size:20px;
-    cursor: pointer;
-      
-      & :hover{
+    &__share {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: all 1s;
+      color: $darkest-purple;
+      font-size: 20px;
+      cursor: pointer;
+
+      & :hover {
         color: $lighter-purple;
       }
-      & button{
-        color:$darkest-purple;
+
+      & button {
+        color: $darkest-purple;
         border: none;
-        font-size:20px;
+        font-size: 20px;
         cursor: pointer;
+        background-color: transparent;
       }
     }
-    &__image{
-    position:relative;
-    display:flex;
-    justify-content:center;
-    align-items: center;  
-    overflow:hidden;
-    transition: all 1s;
-    color: $darkest-purple;
-    font-size:20px;
-    cursor: pointer;
-      
-      & :hover{
+
+    &__image {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: all 1s;
+      color: $darkest-purple;
+      font-size: 20px;
+      cursor: pointer;
+
+      & :hover {
         color: $lighter-purple;
       }
 
-      & :active{
+      & :active {
         color: $lightest-gray;
       }
 
       & input {
-      width:200px;
-      position:absolute;
-      top:0;
-      left:0;
-      opacity:0;
-      cursor:pointer;
-      };
+        width: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      ;
 
     }
   }
 }
 
-@mixin block-sent-post{
+@mixin block-sent-post {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin:0px auto 50px auto;
+  margin: 0px auto 50px auto;
   width: 100%;
   justify-self: center;
   cursor: pointer;
   background-color: white;
-  overflow-x: hidden;
+  //overflow-x: hidden;
 
 }
 
@@ -130,35 +132,40 @@
   flex-direction: row;
   justify-content: space-around;
   height: 55px;
-  border-bottom: 1px solid $light-gray;
+  //border-bottom: 1px solid $light-gray;
   width: 100%;
+  //border: 1px solid magenta;
+  margin: 5px 0px 5px 0px;
 
-  & textarea{
+
+  & textarea {
     border-color: $light-pink;
     height: 30px;
     width: 80%;
     text-align: justify;
-      padding: 8px 8px 8px 8px;
-      font-family: Lato, sans-serif;
-      font-size: 13px;
-      margin-top: 5px;
-      overflow: hidden;
-      margin: 5px 0px 0px 0px;
+    padding: 8px 8px 8px 8px;
+    font-family: Lato, sans-serif;
+    font-size: 13px;
+    margin: 5px 0px 5px 0px;
+    overflow: hidden;
   }
 
-  & button{
+  & button {
     border: transparent;
     height: 13px;
     color: $darkest-purple;
     background-color: transparent;
     cursor: pointer;
     margin: 10px 15px 10px 15px;
+    width: 20%;
+
+    & :hover {
+      color: $lighter-purple;
+    }
   }
 }
 
-@mixin comment-text {
- 
-}
+@mixin comment-text {}
 
 @mixin post-content {
   display: flex;
@@ -166,33 +173,34 @@
   justify-content: space-between;
   padding: 5px 0px 10px 0px;
   width: 100%;
-  overflow-x: hidden;
+  //overflow-x: hidden;
 
-  &__imageUrl{
+  &__imageUrl {
     width: 95%;
     justify-self: center;
     margin: 10px auto 0px auto;
     object-fit: contain;
     overflow-x: hidden;
-    & img{
+
+    & img {
       object-fit: cover;
     }
   }
-  &__text{
+
+  &__text {
     text-align: justify;
     overflow-x: hidden;
     padding: 0px 6px 10px 6px;
-  } 
+  }
 }
 
-@mixin comment-sent{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: space-evenly;
-
-   
+@mixin comment-sent {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  justify-content: space-evenly;
 }
+
 //@media screen and (min-width: 520px) and (max-width: 768px)
 @mixin section-tablet {
   //background-color: $light-gray;
@@ -202,10 +210,10 @@
   width: 80%;
   justify-self: center;
   margin: 0px auto 0px auto;
-  background-color:$lightest-gray;
+  background-color: $lightest-gray;
 }
 
-@mixin post_bloc-tablet{
+@mixin post_bloc-tablet {
   margin: 25px 0px 25px 0px;
   width: 100%;
   height: 100%;

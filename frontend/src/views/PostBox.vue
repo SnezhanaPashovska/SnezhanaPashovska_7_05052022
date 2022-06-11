@@ -1,41 +1,38 @@
 <template>
   <div class="row">
-    <div class="col-1-of-2">
-      <div :key="post.id" v-for="post in posts" class="block-sent-post">
-        <div class="block-sent-post__post">
-          <div class="block-sent-post__user">
-            <div class="post-content__delete">
-              <button @click="deletePost(post.id)" v-if="(post.idUser === currentUserId) || (this.isAdmin == true)"
-                class="delete-post">
-                <i class="fa-solid fa-xmark" title="Delete post"></i></button>
-            </div>
-            <router-link :to="{ name: 'ModifyPost', params: { id: post.id } }" title="Edit post">
-              <i v-if="(post.idUser === currentUserId) || (this.isAdmin == true)"
-                class="fa-regular fa-pen-to-square"></i>
-            </router-link>
-            <p>{{ post.fname }} {{ post.lname }}</p>
-            <div class="block-sent-post__profile-photo">
-              <img v-show="photoUrl != ''" alt="Profile photo" :src="post.photoUrl">
-            </div>
-          </div> 
-          <div class="post-content">
-            <p class="post-content__text">{{ post.text }} </p>
-            <img v-show="post.imageUrl != ''" alt="Post Image" class="post-content__imageUrl" :src="post.imageUrl">
+    <div :key="post.id" v-for="post in posts" class="block-sent-post">
+      <div class="block-sent-post__post">
+        <div class="block-sent-post__user">
+          <div class="post-content__delete">
+            <button @click="deletePost(post.id)" v-if="(post.idUser === currentUserId) || (this.isAdmin == true)"
+              class="delete-post">
+              <i class="fa-solid fa-xmark" title="Delete post"></i></button>
+          </div>
+          <router-link :to="{ name: 'ModifyPost', params: { id: post.id } }" title="Edit post">
+            <i v-if="(post.idUser === currentUserId) || (this.isAdmin == true)" class="fa-regular fa-pen-to-square"></i>
+          </router-link>
+          <p>{{ post.fname }} {{ post.lname }}</p>
+          <div class="block-sent-post__profile-photo">
+            <img v-show="photoUrl != ''" alt="Profile photo" :src="post.photoUrl">
           </div>
         </div>
-        <div class="block-sent-post__like">
-          <div class="block-sent-post__like__like">
-            <button @click="likePost(post.id)" class="like-post">
-              <i class="fa-solid fa-thumbs-up" title="Like"></i></button>
-            <p>{{ like[post.id] }} {{ postId }}</p>
-          </div>
+        <div class="post-content">
+          <p class="post-content__text">{{ post.text }} </p>
+          <img v-show="post.imageUrl != ''" alt="Post Image" class="post-content__imageUrl" :src="post.imageUrl">
         </div>
-        <CommentBox :postId="post.id">
-        </CommentBox>
-
-        <CommentSent :postId="post.id" :isAdmin="this.isAdmin">
-        </CommentSent>
       </div>
+      <div class="block-sent-post__like">
+        <div class="block-sent-post__like__like">
+          <button @click="likePost(post.id)" class="like-post" id="like-post">
+            <i class="fa-solid fa-thumbs-up" title="Like"></i>
+          </button>
+        </div>
+      </div>
+      <CommentBox :postId="post.id">
+      </CommentBox>
+
+      <CommentSent :postId="post.id" :isAdmin="this.isAdmin">
+      </CommentSent>
     </div>
   </div>
 </template>
@@ -69,7 +66,8 @@ export default {
       isAdmin: false,
       currentUserId: "",
       createdAt: "",
-      like: [],
+      like: "",
+      hasbeenLiked: false,
       textComment: "",
     }
   },
@@ -99,18 +97,15 @@ export default {
               fname: data[i].user.firstname,
               lname: data[i].user.lastname,
               imageUrl: data[i].imageUrl,
-              createdAt: data[i].createdAt.slice(0, 10).split('-').reverse(),
               photoUrl: data[i].user.photoUrl,
             });
           }
-          console.log(data, "data")
         });
       }
 
     }).catch((error) => console.log(error));
 
     this.currentUserId = localStorageData;
-    console.log(this.currentUserId, "Current user id")
     fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
       method: "GET",
       headers: {
@@ -132,7 +127,6 @@ export default {
     deletePost: function (postId) {
 
       let token = localStorage.token;
-      console.log(postId)
 
       fetch(`http://localhost:3000/api/posts/${postId}`, {
         method: "DELETE",
@@ -145,7 +139,6 @@ export default {
         .then((response) => {
           if (response.status == 401 || response.status == 400 || response.status == 404) {
           } else {
-            console.log(response);
             alert("The post has been deleted!")
             window.location.reload();
           }
@@ -154,14 +147,13 @@ export default {
     },
 
     likePost: function (postId) {
+
       let localStorageData = JSON.parse(localStorage.getItem("idUser"));
       let token = localStorage.token;
       const formData = new FormData();
       formData.append("idUser", localStorageData);
       formData.append("postId", this.postId);
-      formData.append("like", this.likes)
-      console.log(localStorageData, "id user");
-      console.log(formData)
+      formData.append("like", this.id_likes)
 
       fetch(`http://localhost:3000/api/likes/posts/${postId}`, {
         method: "POST",
@@ -171,9 +163,23 @@ export default {
         }
       })
         .then((response) => {
-          console.log(response)
-          //window.location.reload();
-          console.log("Like")
+
+          if (response.status === 201) {
+            let btn = document.querySelector('.fa-thumbs-up');
+            btn.addEventListener('click', function onClick() {
+              btn.classList.add("coral-pink");
+              btn.style.color = 'coral';
+            });
+            /* document.getElementById('like-post').onclick = changeColor;
+            function changeColor() {
+              document.body.style.color = "coral";
+              return false;
+            } */
+            console.log("Post liked")
+            //alert("Post liked")
+          } else {
+            alert("Like removed")
+          }
         })
         .catch((error) => console.log(error))
     }
@@ -189,7 +195,6 @@ export default {
       idUser: this.idUser,
       postId: this.postId,
     };
-    console.log(data)
 
     fetch("http://localhost:3000/api/comments/", {
       method: "POST",
@@ -201,7 +206,6 @@ export default {
     })
       .then((response) => {
         if (textComment == null) {
-          console.log("Cannot send an empty comment")
         } else if (response.status == 400) {
           this.status = "error_send";
         }
@@ -209,13 +213,10 @@ export default {
           response.json().then(() => {
             this.status = "success_comment";
             //window.location.reload();
-            //this.$router.push("/list")
           });
         }
       }).catch((error) => console.log(error));
-  }
-
-
+  },
 }
 
 </script>
@@ -229,7 +230,11 @@ export default {
 @import "../styles/news-feed.scss";
 
 * {
-  overflow-x: hidden;
+  //overflow-x: hidden;
+}
+
+.coral-pink {
+  color: coral;
 }
 
 .block-sent-post {
@@ -241,30 +246,20 @@ export default {
     width: 100%;
     padding-top: 2px;
     align-items: center;
-    color: $darkest-purple;
     border-top: 1px solid $light-gray;
     border-bottom: 1px solid $light-gray;
     justify-content: space-between;
     padding: 5px 0px 10px 25px;
 
-
     &__like {
       width: 10%;
       padding-bottom: 3px;
-      color: $darkest-purple;
       border: transparent;
-
-      & {
-        color: $darkest-purple;
-      }
 
       & :hover {
         color: $coral-pink;
       }
 
-      & :focus {
-        color: $coral-pink;
-      }
     }
   }
 
@@ -272,12 +267,12 @@ export default {
     border: 1px solid transparent;
     width: 20%;
     height: 40px;
-    border: 1px solid black;
 
     & img {
       object-fit: scale-down;
-      height: 100%;
-      width: 100%;
+      height: 40px;
+      width: 40px;
+      display: block !important;
     }
   }
 
@@ -311,10 +306,9 @@ export default {
 }
 
 .fa-thumbs-up {
-  border: transparent;
-  background-color: transparent;
   cursor: pointer;
   color: $darkest-purple;
+  font-size: 15px;
 }
 
 .like-post {

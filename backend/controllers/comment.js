@@ -3,10 +3,9 @@ const User = require("../models/User");
 const Post = require("../models/Post")
 
 // 1. Create a comment
-
 exports.createComment = (req, res, next) => {
   if (!req.body.postId || !req.body.idUser || !req.body.textComment) {
-    res.status(400).json({ message: "Merci de bien vérifier si les champs sont tous remplis !" });
+    res.status(400).json({ message: "Please check that the fields are all filled in !" });
     return;
   }
   Comment.create({
@@ -15,7 +14,7 @@ exports.createComment = (req, res, next) => {
     textComment: req.body.textComment,
   })
     .then((comment) =>
-      res.status(201).json({ message: "Commentaire ajouté!", comment })
+      res.status(201).json({ message: "Comment added!", comment })
     )
     .catch((error) => res.status(401).json({ error }));
 };
@@ -39,30 +38,28 @@ exports.getAllComments = (req, res, next) => {
 };
 
 // 3. Delete a comment
-
 exports.deleteComment = (req, res, next) => {
   Comment.findOne({ where: { idcomments: req.params.id } })
     .then((comment) => {
       if (!comment) {
-        return res.status(404).json({ error: "Commentaire non trouvé !" });
+        return res.status(404).json({ error: "Comment not found!" });
       }
 
-      //vérifier celui qui veut modifier le post est bien l'auteur du post ou l'administrateur
+      //check whoever wants to edit the post is the author of the post or the administrator
       User.findOne({ where: { idUser: req.auth.idUser } })
         .then((user) => {
           if (!user.isAdmin && req.auth.idUser != comment.iduser) {
             return res
               .status(401)
-              .json({ error: "Suppression non autorisée !" });
+              .json({ error: "Unauthorized !" });
           }
         })
         .catch((error) => res.status(409).json({ error }));
 
       Comment.destroy({ where: { idcomments: req.params.id } })
         .then(() =>
-          res.status(200).json({ message: "Commentaire supprimé !" })
+          res.status(200).json({ message: "The comment hasn't been deleted !" })
         )
-      //.catch((error) => res.status(402).json({ error }));
     })
 
     .catch((error) => res.status(403).json({ error }));

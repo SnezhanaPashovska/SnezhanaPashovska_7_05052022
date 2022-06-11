@@ -63,7 +63,7 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 60%;
+    width: 150px;
     height: 150px;
     
     margin: 60px auto 0px auto;
@@ -75,7 +75,7 @@
     }
 
     & img{
-      object-fit: contain;
+      object-fit: cover;
       width: 100%;
       height: 100%;
       justify-self: center;
@@ -282,7 +282,7 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 70%;
+    width: 150px;
     height: 150;
     margin: 60px auto 0px auto;
     cursor: pointer;
@@ -500,8 +500,8 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 70%;
-    height: 150;
+    width: 150px;
+    height: 150px;
     margin: 60px auto 0px auto;
     cursor: pointer;
     justify-self: center;
@@ -577,8 +577,8 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 50%;
-    height: 150;
+    width: 170px;
+    height: 170px;
     margin: 60px auto 0px auto;
     cursor: pointer;
     justify-self: center;
@@ -751,8 +751,8 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 50%;
-    height: 150;
+    width: 170px;
+    height: 170px;
     margin: 60px auto 0px auto;
     cursor: pointer;
     justify-self: center;
@@ -942,8 +942,8 @@
     box-shadow: 0px 1px 12px $lighter-purple;
     -webkit-backdrop-filter: blur 20px;
     backdrop-filter: blur 20px; 
-    width: 25%;
-    height: 150;
+    width: 180px;
+    height: 180px;
     margin: 60px auto 0px auto;
     cursor: pointer;
     justify-self: center;

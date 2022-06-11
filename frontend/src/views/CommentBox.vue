@@ -1,22 +1,21 @@
 <template>
   <div class="row">
-    <div class="col-1-of-2">
-      <div class="block-sent-post__comment">
-        <div class="block-sent-post__comment-input">
-          <textarea v-model.trim="textComment" type="text" id="comment" maxlength="225" required
-            placeholder="Comment"></textarea>
-          <div class="block-sent-post__comment-text">
-            <button @click="sendComment()" class="share-comment">
-              <i class="fa-regular fa-paper-plane" title="Share comment"></i>
-            </button>
-          </div>
+    <!-- <div class="col-1-of-2"> -->
+    <div class="block-sent-post__comment">
+      <div class="block-sent-post__comment-input">
+        <textarea v-model.trim="textComment" type="text" id="comment" maxlength="225" required
+          placeholder="Comment"></textarea>
+        <div class="block-sent-post__comment-text">
+          <button @click="sendComment()" class="share-comment">
+            <i class="fa-regular fa-paper-plane" title="Share comment"></i>
+          </button>
         </div>
-
       </div>
+
     </div>
+    <!--  </div> -->
   </div>
 </template>
-
 <script>
 import router from '../router'
 
@@ -63,8 +62,6 @@ export default {
 
           response.json().then((response) => {
             window.location.reload();
-            //this.$router.push("/list")
-            console.log(response)
           });
 
         }).catch((error) => console.log(error));
@@ -83,6 +80,14 @@ export default {
 //Mixin
 
 @import "../styles/news-feed.scss";
+
+.row {
+  width: 100%;
+}
+
+.block-sent-post__comment {
+  width: 100% !important;
+}
 
 .block-sent-post__comment__paragraph {
   padding: 5px 5px 5px 5px;
@@ -106,6 +111,7 @@ export default {
   border-bottom: 1px solid $light-gray;
   padding: 8px 0px 8px 5px;
   margin-bottom: 5px;
+  width: 100%;
 
   & button {
     height: 20px;
@@ -114,6 +120,10 @@ export default {
     background-color: transparent;
     cursor: pointer;
     margin: 2px 5px 0px 0px;
+
+    & :hover {
+      color: $lighter-purple;
+    }
 
   }
 }
@@ -125,5 +135,19 @@ export default {
 
 .block-sent-post__comment-text {
   @include comment-text;
+}
+
+@media screen and (min-width: 520px) and (max-width: 768px) {
+
+  .row {
+    width: 100%;
+  }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .row {
+    width: 100%;
+  }
 }
 </style>

@@ -1,8 +1,13 @@
+//import the 'http' package which responds to https requests
 const http = require('http');
+
+//import of the express app
 const app = require('./app');
-const db = require('./models')
 
+//import of model of database configuration
+const db = require('./models');
 
+//returns a valid port, whether supplied as a number or a string
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
@@ -15,9 +20,10 @@ const normalizePort = val => {
   return false;
 };
 const port = normalizePort(process.env.PORT || '3000');
+//on which port the server is running
 app.set('port', port);
 
-
+//error handler
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
     throw error;
@@ -38,6 +44,7 @@ const errorHandler = error => {
   }
 };
 
+// "createServer" method creates the Node "app" server
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
@@ -47,8 +54,6 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 
 });
-
-
 
 db.sequelize.sync().then((req) => {
   server.listen(port);

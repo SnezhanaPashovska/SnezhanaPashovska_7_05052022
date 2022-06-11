@@ -287,6 +287,7 @@ export default {
       },
     };
   },
+
   methods: {
     sendSignup() {
 
@@ -296,7 +297,7 @@ export default {
 
       let namesRegExp = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç' -]{1,}$/);
       let emailRegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-      const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,30})$/;
+      const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{10,30})$/;
 
       if
         (this.dataSignup.email !== null ||
@@ -318,7 +319,6 @@ export default {
           body: JSON.stringify(data),
         })
           .then((response) => {
-            console.log(response);
             this.dataSignup.email = null;
             this.dataSignup.lastname = null;
             this.dataSignup.firstname = null;
@@ -328,16 +328,23 @@ export default {
           })
           .catch((error) => console.log(error));
       } else {
-        alert("One of the fields is incorrectly filled in. Please enter a valid name and last name containing only letters without special characters or numbers. A valid email address and a valid password between 8 and 30 characters containing at least one Capital letter, at least one lowercase letter, at least one number and at least one special character.")
+        // Firstname error
+        const errMsgFirstname = document.getElementById('firstnameErrMsg');
+        errMsgFirstname.innerHTML = "<p>The name must contain at least one letter<p>";
+        // Lastname error
+        const errMsgLastname = document.getElementById('lastnameErrMsg');
+        errMsgLastname.innerHTML = "<p>The last name must contain at least one letter<p>";
+        //Email error
+        const emailErrMsg = document.getElementById('emailErrMsg');
+        emailErrMsg.innerHTML = "<p>Please enter a valid email<p>";
+        //Password error
+        const passwordErrMsg = document.getElementById('passwordErrMsg');
+        passwordErrMsg.innerHTML = "<p>The password must contain between 8 to 30 characters, including at least one capital letter, a number and a special character<p>";
+
       }
     },
   },
 };
-
-
-
-
-
 
 </script>
 

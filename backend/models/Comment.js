@@ -1,3 +1,4 @@
+//configuration of database
 const { Sequelize, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
@@ -7,12 +8,11 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
   port: 3306
 })
 
+//Models
 const User = require('./User')
 const Post = require('./Post')
 
-
-//Comment table
-
+//comments table
 const Comment = sequelize.define('comment', {
   idcomments: {
     type: DataTypes.INTEGER,
@@ -25,6 +25,7 @@ const Comment = sequelize.define('comment', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+
   iduser: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -35,6 +36,7 @@ const Comment = sequelize.define('comment', {
   },
 })
 
+//Foreign keys
 User.hasMany(Comment, { foreignKey: 'iduser', sourceKey: 'idUser' });
 Comment.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
 
@@ -44,9 +46,4 @@ Comment.belongsTo(Post, { foreignKey: 'idposts', targetKey: 'postId' });
 sequelize.models.comment;
 
 module.exports = Comment;
-/* 
-Comment.sync().then(() => {
-  console.log("SYNCED")
-}).catch(() => {
-  console.log("NOT SYNCED")
-}) */
+

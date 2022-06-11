@@ -1,12 +1,19 @@
-//General imports
-const express = require('express');
-const path = require('path');
-const app = express();
+// General imports
+const express = require('express'); //to create web apps with node
+const path = require('path');  // give access to the file path
+const app = express(); // call the "Express" module with its function
+
+// secure http headers
 const helmet = require('helmet');
+
+// clean up user supplied data to prevent injection.
+let sqlSanitizer = require('sql-sanitizer');
+
+// prevent cache stocking to prevent vulnerabilities
 const nocache = require("nocache");
+
+// to hide database sensitive info
 const dotenv = require('dotenv')
-//const session = require('express-session');
-const bodyParser = require('body-parser');
 dotenv.config();
 
 // Routes
@@ -14,7 +21,6 @@ const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
 const commentsRoutes = require("./routes/comments")
 const likeRoutes = require("./routes/like");
-
 
 // Connection to Database
 const Sequelize = require('sequelize');
@@ -31,19 +37,18 @@ sequelize.authenticate()
     console.log("Error connecting!")
   })
 
-
+// global middleware, transforms the request body into a usable javascript object
 app.use(express.json());
-const cors = require('cors');
 
 // Import cors to secure API access, reserved here for localhost:8080
+const cors = require('cors');
 let corsOptions = {
   origin: 'http://localhost:8080'
 };
-
-
-app.use(bodyParser.json());
+app.use(cors(corsOptions));
 
 //Security
+app.use(sqlSanitizer);
 app.use(nocache());
 app.use(helmet());
 app.use((req, res, next) => {
@@ -59,9 +64,6 @@ app.use((req, res, next) => {
   next();
 });
 app.disable("x-powered-by");
-
-
-app.use(cors(corsOptions));
 
 //Headers
 app.use((req, res, next) => {

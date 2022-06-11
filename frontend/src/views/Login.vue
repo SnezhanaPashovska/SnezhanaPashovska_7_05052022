@@ -52,7 +52,6 @@ export default {
       const data = {
         ...this.dataForm
       }
-      console.log(data)
       if (
         this.dataForm.email !== null ||
         this.dataForm.password !== null
@@ -83,8 +82,7 @@ export default {
                 this.idUser = data.idUser;
                 localStorage.setItem('isAdmin', data.isAdmin);
               })
-            console.log(localData)
-            console.log(localStorage, "Localstorage")
+              
             //If the request is successfull
             if (res.status === 200) {
               //this.$router.push("/ProfilePage");

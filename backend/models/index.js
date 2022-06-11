@@ -1,7 +1,8 @@
+//database configuration
 const dbConfig = require('../config/dbConfig.js');
 
 const { Sequelize, DataTypes } = require('sequelize');
-
+//database data
 const sequelize = new Sequelize(
   dbConfig.DB,
   dbConfig.user,
@@ -19,15 +20,14 @@ sequelize.authenticate().then(() => {
 });
 
 const db = {};
-
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
+//models required
 db.comments = require('./Comment.js')
-db.likesdislikes = require('./Likes.js');
+db.likes = require('./Likes.js');
 db.posts = require('./Post.js');
 db.users = require('./User.js');
-
+//sync the database
 db.sequelize.sync({ force: false })
   .then(() => {
     console.log("SYNCED")

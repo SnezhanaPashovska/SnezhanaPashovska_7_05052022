@@ -2,8 +2,7 @@ const Post = require("../models/Post")
 const Likes = require("../models/Likes");
 const User = require("../models/User")
 
-
-// Like a post
+// 1. Like a post
 exports.postLike = (req, res, next) => {
   // Find a like
   Likes.findOne({
@@ -35,9 +34,9 @@ exports.postLike = (req, res, next) => {
     })
     .catch(error => res.status(400).json({ error })
     );
-
 };
 
+// 2. Get all likes
 exports.allLikes = (req, res, next) => {
   Likes.findAll({
     where: { post_id_like: req.params.id }

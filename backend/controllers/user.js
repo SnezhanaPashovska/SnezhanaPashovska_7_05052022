@@ -5,7 +5,6 @@ const User = require('../models/User');
 
 
 // 1. Sign up
-
 exports.signup = (req, res) => {
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -25,14 +24,15 @@ exports.signup = (req, res) => {
 };
 
 // 2. Sign in/log in
-
 exports.login = (req, res, next) => {
+  //check that the email entered by the user corresponds to an existing user in the database
   User.findOne({ where: { email: req.body.email } })
     .then(user => {
       console.log(user)
       if (!user) {
         return res.status(401).json({ error: 'The user does not exist' });
       }
+      //compare the password entered by the user with the hash saved in the database
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
@@ -51,9 +51,7 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 //3. Get all users
-
 exports.getAllUsers = (req, res, next) => {
-  //The user's password is not registered
   User.scope().findAll({})
     .then(user => res.status(200).json(user))
     .catch(error => res.status(400).json({ error }))
@@ -92,26 +90,26 @@ exports.updateUser = (req, res, next) => {
     { ...userObject, idUser: req.params.id },
     { where: { idUser: req.params.id } }
   ).then((user) =>
-    // If the update us successful
+    // If the update is successful
     User.findOne({ where: { idUser: req.params.id } })
       .then((user) => {
         // Get the updated profile
-        res.status(200).json({ message: "Profil bien à jour !", user });
+        res.status(200).json({ message: "The profile has been updated !", user });
       })
       .catch((error) => res.status(410).json(error))
   );
 };
-
 
 // 6. Delete a user
 exports.deleteUser = (req, res, next) => {
   User.findOne({ where: { idUser: req.params.id } })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ error: "Utilisateur non trouvé !" });
+        return res.status(404).json({ error: "User not found !" });
       }
       const filename = user.photoUrl.split("/images/")[1];
       if (user.photoUrl = "") {
+        // deleting the image
         fs.unlink(`images/${filename}`, (error) => {
           if (error) {
             console.log(error);
@@ -121,7 +119,7 @@ exports.deleteUser = (req, res, next) => {
       // Removing the user from the database
       User.destroy({ where: { idUser: req.params.id } })
         .then((user) =>
-          res.status(200).json({ message: "Utilisateur supprimé !" })
+          res.status(200).json({ message: "The profile has been deleted !" })
         )
         .catch((error) => res.status(400).json({ error }));
     })

@@ -1,3 +1,4 @@
+//configuration of database
 const { Sequelize, Model, DataTypes } = require('sequelize');
 const dotenv = require('dotenv')
 dotenv.config();
@@ -11,8 +12,7 @@ const User = require('./User');
 const Likes = require('./Likes')
 
 
-// Post table
-
+// post table
 const Post = sequelize.define('post', {
   postId: {
     type: DataTypes.INTEGER,
@@ -53,6 +53,7 @@ const Post = sequelize.define('post', {
   }
 )
 
+//Foreign keys
 User.hasMany(Post, { foreignKey: 'iduser', sourceKey: 'idUser' });
 Post.belongsTo(User, { foreignKey: 'iduser', targetKey: 'idUser' });
 
@@ -65,10 +66,3 @@ Likes.belongsTo(Post, { foreignKey: 'post_id_like', targetKey: 'postId' });
 sequelize.models.post;
 
 module.exports = Post;
-
-/* Post.sync().then((data) => {
-  console.log("Table and model synced successfully-Post")
-}).catch((err) => {
-  console.log("Error syncing table and model-Post")
-})
-  */
