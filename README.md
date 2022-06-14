@@ -23,7 +23,7 @@ git clone https://github.com/SnezhanaPashovska/SnezhanaPashovska_7_05052022.git
 ```
 1. Ouvrir la console MySQL et créer un compte ou se connecter si vous en avez déjà un.
 2. Créer une base de données nommée "grupomania".
-3. Importer le fichier "Grupomania_database" qui se trouve à la racine du projet.
+3. Importer le fichier "Grupomania_database.sql" qui se trouve à la racine du projet.
 ```
 
 ### 4- Installer le backend
