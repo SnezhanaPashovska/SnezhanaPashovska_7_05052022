@@ -30,7 +30,7 @@ git clone https://github.com/SnezhanaPashovska/SnezhanaPashovska_7_05052022.git
 ```
 1. Exécutez la commande => cd backend.
 2. Installer npm  => npm install.
-3. Créer un fichier .env et y renseigner les variables comme indiqué dans le fichier env-exemple.
+3. Créer un fichier .env et y renseigner les variables comme indiqué dans le fichier env-example.
 4. Lancer le serveur backend => npm start ou nodemon server (si nodemon est installé).
 ```
 Il est important pour ce MVP (Minimum Viable Product) d'utiliser le port 3000.
