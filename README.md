@@ -1,6 +1,6 @@
 # Groupomania
 
-La première version de érseau social pour l'entreprise Groupomania.
+La première version de rérseau social pour l'entreprise Groupomania.
 La version actuelle est une MVP (Minimum Viable Product).
 
 ## Installation
