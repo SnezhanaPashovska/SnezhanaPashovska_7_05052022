@@ -1,4 +1,3 @@
-//Import models
 const Post = require("../models/Post")
 const Likes = require("../models/Likes");
 const User = require("../models/User")

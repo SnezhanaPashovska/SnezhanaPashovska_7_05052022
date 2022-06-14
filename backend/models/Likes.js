@@ -7,6 +7,7 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
   dialect: 'mysql',
   port: 3306
 })
+
 //likes table
 const Like = sequelize.define('like', {
 

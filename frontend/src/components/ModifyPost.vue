@@ -107,7 +107,9 @@ export default {
       })
         .then((response) => {
           if (response.status == 401 || response.status == 409) {
+            console.log(error)
           } else if (response.status == 400) {
+            console.log(error)
           }
           else {
             response.json().then((formData) => {
@@ -124,7 +126,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 //Colors
 @import "../styles/variables.scss";

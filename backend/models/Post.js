@@ -11,7 +11,6 @@ let sequelize = new Sequelize('grupomania', process.env.DB_NAME, process.env.DB_
 const User = require('./User');
 const Likes = require('./Likes')
 
-
 // post table
 const Post = sequelize.define('post', {
   postId: {
@@ -32,13 +31,14 @@ const Post = sequelize.define('post', {
     type: DataTypes.STRING,
     allowNull: true
   },
+
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: 0
   },
   likes_post: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: true
   }
 },
   {

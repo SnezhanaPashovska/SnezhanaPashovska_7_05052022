@@ -1,7 +1,6 @@
 const fs = require('fs');
-const User = require('../models/User');
-const Post = require('../models/Post');
-const Like = require('../models/Likes');
+const User = require("../models/User");
+const Post = require("../models/Post");
 
 // 1. Create a Post
 exports.createPost = (req, res) => {
@@ -24,15 +23,14 @@ exports.createPost = (req, res) => {
     imageUrl: imageUrl,
   })
     .then(post => res.status(201).json(post))
-    .catch(error => res.status(400).json({ error }));
+    .catch(error => res.status(402).json({ error }));
 };
 
 // 2. Get all posts
 exports.getAllPosts = (req, res) => {
   Post.findAll({
     include: {
-      model: User,
-      attributes: ["firstname", "lastname", "photoUrl"]
+      model: User
     },
     //filter by date, the latest is first
     order: [["createdAt", "DESC"]],
@@ -41,21 +39,7 @@ exports.getAllPosts = (req, res) => {
   }).catch(error => res.status(400).json(error))
 };
 
-// 3. Get all posts of a user
-exports.getAllPostsOfUser = (req, res, next) => {
-  Post.findAll({
-    where: { iduser: req.params.id },
-    include: {
-      model: User,
-      attributes: ["nom", "prenom", "photo"]
-    },
-    order: [["createdAt", "DESC"]]
-  })
-    .then(post => res.status(200).json(post))
-    .catch(error => res.status(404).json({ error }));
-};
-
-// 4. Delete a post
+// 3. Delete a post
 exports.deletePost = (req, res, next) => {
   Post.findOne({ where: { postId: req.params.id } })
     .then((post) => {
@@ -83,7 +67,7 @@ exports.deletePost = (req, res, next) => {
     .catch((error) => res.status(405).json({ error }));
 };
 
-// 5. Modify a post
+// 4. Modify a post
 exports.modifyPost = (req, res, next) => {
   const postObject = req.file ? {
     ...req.body, imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
@@ -126,25 +110,24 @@ exports.modifyPost = (req, res, next) => {
                       .status(200)
                       .json({ message: "The post has been updated !", post });
                   })
-                  .catch((error) => res.status(400).json(error))
+                  .catch((error) => res.status(402).json(error))
               )
               .catch((error) => res.status(403).json(error));
           } else {
-            return res.status(404).json({ error: "Unauthorized !" });
+            return res.status(401).json({ error: "Unauthorized !" });
           }
         })
-        .catch((error) => res.status(400).json(error));
+        .catch((error) => res.status(405).json(error));
     })
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(407).json({ error }));
 };
 
-// 6. Get one post
+// 5. Get one post
 exports.getOnePost = (req, res, next) => {
   Post.findOne({
     where: { postId: req.params.id },
     include: {
       model: User,
-      attributes: ["firstname", "lastname", "photoUrl"]
     },
   })
     .then((post) => {

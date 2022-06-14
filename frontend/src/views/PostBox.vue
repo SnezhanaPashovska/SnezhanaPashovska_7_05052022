@@ -31,6 +31,7 @@
       </div>
       <CommentBox :postId="post.id">
       </CommentBox>
+
       <CommentSent :postId="post.id" :isAdmin="this.isAdmin">
       </CommentSent>
     </div>
@@ -68,7 +69,7 @@ export default {
       textComment: "",
     }
   },
-  // Mounted = what happens when we go to the page
+
   mounted: function () {
     let token = localStorage.token;
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
@@ -82,14 +83,10 @@ export default {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-    }).then((res) => {
-      if (res.status == 401 || res.status == 500) {
-        this.status = "erreur_post";
+    }).then((response) => {
+      if (response.status == 401 || response.status == 500) {
       } else {
-        res.json().then((data) => {
-          if (data.length === 0) {
-            console.log("Empty")
-          }
+        response.json().then((data) => {
           for (let i = data.length - 1; i >= 0; i--) {
             this.posts.push({
               id: data[i].postId,
@@ -99,7 +96,7 @@ export default {
               lname: data[i].user.lastname,
               imageUrl: data[i].imageUrl,
               photoUrl: data[i].user.photoUrl,
-              likes_post: data[i].likes_post
+              likes_post: data[i].likes_post,
             });
             let id = data[i].postId;
             // Count likes on a post
@@ -121,7 +118,6 @@ export default {
 
     }).catch((error) => console.log(error));
 
-    //Admin account
     this.currentUserId = localStorageData;
     fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
       method: "GET",
@@ -162,7 +158,7 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    //Like a post
+
     likePost: function (postId) {
 
       let localStorageData = JSON.parse(localStorage.getItem("idUser"));

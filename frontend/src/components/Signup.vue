@@ -65,6 +65,7 @@ export default {
         ...this.dataSignup
       }
 
+      //Checking validity
       let namesRegExp = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç' -]{1,}$/);
       let emailRegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
       const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{10,30})$/;
@@ -98,6 +99,9 @@ export default {
           })
           .catch((error) => console.log(error));
       } else {
+
+        //Error messages
+
         // Firstname error
         const errMsgFirstname = document.getElementById('firstnameErrMsg');
         errMsgFirstname.innerHTML = "<p>The name must contain at least one letter<p>";
@@ -115,7 +119,6 @@ export default {
     },
   },
 };
-
 </script>
 
 <style lang="scss">
@@ -347,6 +350,8 @@ a {
   }
 }
 </style>
+
+
 
 
 

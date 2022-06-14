@@ -46,7 +46,7 @@ const errorHandler = error => {
 
 // "createServer" method creates the Node "app" server
 const server = http.createServer(app);
-//error handler
+
 server.on('error', errorHandler);
 server.on('listening', () => {
   const address = server.address();

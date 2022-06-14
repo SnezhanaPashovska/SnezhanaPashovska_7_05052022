@@ -4,6 +4,7 @@ import store from '../store/index.js'
 import NewsFeed from '../components/NewsFeed'
 import PostBox from '../components/PostBox'
 
+
 const routes = [
   {
     path: '/',
@@ -33,6 +34,7 @@ const routes = [
       hideNavbar: true
     }
   },
+
   {
     path: '/ProfilePage',
     name: 'ProfilePage',
@@ -85,6 +87,8 @@ const routes = [
       return import(/* webpackChunkName: "PostBox" */ '../components/CommentSent.vue')
     }
   }
+
+
 ]
 
 const router = createRouter({

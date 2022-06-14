@@ -26,7 +26,6 @@
     </div>
   </div>
 </template>
-
 <script>
 
 import store from '../store/index.js'
@@ -86,7 +85,6 @@ export default {
 
             //If the request is successfull
             if (res.status === 200) {
-              //this.$router.push("/ProfilePage");
               window.location.href = "ProfilePage"
             } else {
               const errMsg = document.getElementById('errorMsg');

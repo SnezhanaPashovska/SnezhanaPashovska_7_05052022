@@ -15,7 +15,6 @@
   </div>
 </template>
 
-
 <script>
 import NewsFeed from "../components/NewsFeed"
 import router from '../router'

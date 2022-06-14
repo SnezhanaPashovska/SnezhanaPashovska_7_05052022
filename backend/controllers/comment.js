@@ -16,7 +16,7 @@ exports.createComment = (req, res, next) => {
     .then((comment) =>
       res.status(201).json({ message: "Comment added!", comment })
     )
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(401).json({ error }));
 };
 
 // 2. Get a comment
@@ -44,7 +44,8 @@ exports.deleteComment = (req, res, next) => {
       if (!comment) {
         return res.status(404).json({ error: "Comment not found!" });
       }
-      //check whoever wants to the comment is the author of the comment or the administrator
+
+      //check whoever wants to edit the post is the author of the post or the administrator
       User.findOne({ where: { idUser: req.auth.idUser } })
         .then((user) => {
           if (!user.isAdmin && req.auth.idUser != comment.iduser) {
@@ -56,7 +57,8 @@ exports.deleteComment = (req, res, next) => {
         .catch((error) => res.status(409).json({ error }));
 
       Comment.destroy({ where: { idcomments: req.params.id } })
-        .then(() => res.status(200).json({ message: "The comment hasn't been deleted !" })
+        .then(() =>
+          res.status(200).json({ message: "The comment hasn't been deleted !" })
         )
     })
 

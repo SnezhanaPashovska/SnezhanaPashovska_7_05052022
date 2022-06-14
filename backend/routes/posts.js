@@ -9,6 +9,5 @@ router.get('/', auth, postsCtrl.getAllPosts);//get all posts
 router.get("/:id", auth, postsCtrl.getOnePost);//get one post
 router.delete('/:id', auth, postsCtrl.deletePost);//delete a post
 router.put("/:id", auth, multer, postsCtrl.modifyPost);//modify a post
-router.get('/user/:id', auth, postsCtrl.getAllPostsOfUser);//get all posts of a user
 
 module.exports = router;

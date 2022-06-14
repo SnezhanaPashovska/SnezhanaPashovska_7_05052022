@@ -10,7 +10,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -20,7 +19,7 @@ import router from '../router'
 export default {
   name: "CommentBox",
 
-  // pour pouvoir passer les propriétaires
+  //to be able to pass the owners
   props: {
     postId: Number
   },
@@ -71,11 +70,12 @@ export default {
               window.location.reload();
             });
           }
-
         }).catch((error) => console.log(error));
     }
   }
 }
+
+
 </script>
 
 <style lang="scss">
