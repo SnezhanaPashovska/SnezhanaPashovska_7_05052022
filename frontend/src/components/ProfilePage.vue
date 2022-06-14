@@ -47,13 +47,73 @@
   </section>
   <div class="footer_section">
     <div class="footer_section__newsfeed-icon">
-      <router-link to = "/NewsFeed"><i class="fa-solid fa-house" title="News Feed"></i></router-link>  
+      <router-link to="/NewsFeed"><i class="fa-solid fa-house" title="News Feed"></i></router-link>
     </div>
     <div @click="signOut()" class="footer_section__signout" title="Sign out">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
     </div>
   </div>
 </template>
+
+<script>
+import router from '../router'
+
+export default {
+  name: 'ProfilePage',
+
+  data() {
+    return {
+      idUser: Number,
+      firstname: "",
+      lastname: "",
+      photoUrl: "",
+      isAdmin: false,
+      description: "",
+      status: "",
+    }
+  },
+  mounted() {
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+    let idUser = localStorageData;
+    let token = localStorage.token;
+
+    //Fetching Data
+    fetch(`http://localhost:3000/api/users/${idUser}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    )
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            this.firstname = data.firstname;
+            this.lastname = data.lastname;
+            this.photoUrl = data.photoUrl;
+            this.id = data.idUser;
+            this.description = data.description
+            this.isAdmin = data.isAdmin;
+            if (data.isAdmin == true) {
+              this.status = "Success";
+            }
+            if (data.photoUrl != "") {
+              this.photoUrl = data.photoUrl;
+            }
+          });
+      })
+      .catch((error) => console.log(error, 'error'));
+  },
+
+  methods: {
+    signOut: function () {
+      localStorage.clear();
+      alert("You have signed out")
+      this.$router.push("/");
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 //Mixins
@@ -274,66 +334,4 @@ a {
   }
 }
 </style>
-
-<script>
-import router from '../router'
-
-export default {
-  name: 'ProfilePage',
-
-  data() {
-    return {
-      idUser: Number,
-      firstname: "",
-      lastname: "",
-      photoUrl: "",
-      isAdmin: false,
-      description: "",
-      status: "",
-    }
-  },
-  mounted() {
-    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-    let idUser = localStorageData;
-    let token = localStorage.token;
-    
-    //Fetching Data
-    fetch(`http://localhost:3000/api/users/${idUser}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    )
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            this.firstname = data.firstname;
-            this.lastname = data.lastname;
-            this.photoUrl = data.photoUrl;
-            this.id = data.idUser;
-            this.description = data.description
-            this.isAdmin = data.isAdmin;
-            if (data.isAdmin == true) {
-              this.status = "Success";
-            }
-            if (data.photoUrl != "") {
-              this.photoUrl = data.photoUrl;
-            }
-          });
-      })
-      .catch((error) => console.log(error, 'error'));
-  },
-
-  methods: {
-    signOut: function () {
-      localStorage.clear();
-      alert("You have signed out")
-      this.$router.push("/");
-    }
-  }
-}
-
-
-</script>
 

@@ -17,7 +17,7 @@
 
 
 <script>
-import NewsFeed from "../views/NewsFeed"
+import NewsFeed from "../components/NewsFeed"
 import router from '../router'
 import PostBox from "./PostBox.vue";
 

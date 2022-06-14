@@ -34,6 +34,97 @@
   </div>
 </template>
 
+<script>
+import router from '../router'
+
+export default {
+
+  name: 'ModifyPost',
+
+  data: function () {
+    return {
+      idUser: "",
+      text: "",
+      imageUrl: "",
+      uploadImage: "",
+      isAdmin: false
+    }
+  },
+
+  mounted: function () {
+    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+
+    let postId = this.$route.params.id
+    let token = localStorage.token;
+
+    fetch(`http://localhost:3000/api/posts/${postId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+    })
+      .then((response) => {
+        if (response.status == 401 || response.status == 500) {
+        } else {
+          response.json()
+            .then((data) => {
+              this.text = data.text,
+                this.imageUrl = data.imageUrl
+            })
+            .catch((error) => console.log(error));
+        }
+      })
+      .catch((error) => console.log(error));
+  },
+
+  methods: {
+    //select a file to upload
+    onFileSelected: function (event) {
+      this.uploadImage = event.target.files[0];
+    },
+    modifyPost: function () {
+      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
+
+      const formData = new FormData();
+      formData.append("image", this.uploadImage);
+      formData.append("text", this.text);
+      formData.append("idUser", localStorageData);
+      formData.append("imageUrl", this.imageUrl)
+
+      let token = localStorage.token;
+      let postId = this.$route.params.id
+
+      fetch(`http://localhost:3000/api/posts/${postId}`, {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          mode: "no-cors",
+          'Accept': 'application/json'
+        },
+      })
+        .then((response) => {
+          if (response.status == 401 || response.status == 409) {
+          } else if (response.status == 400) {
+          }
+          else {
+            response.json().then((formData) => {
+              this.imageUrl = formData.post.imageUrl,
+                this.uploadImage = "",
+                this.text = "";
+              alert("The post has been successfully modified")
+              this.$router.push("/NewsFeed");
+            });
+          }
+        })
+        .catch((error) => console.log(error));
+    },
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 //Colors
 @import "../styles/variables.scss";
@@ -140,96 +231,3 @@ a {
   }
 }
 </style>
-
-<script>
-import router from '../router'
-
-export default {
-
-  name: 'ModifyPost',
-
-  data: function () {
-    return {
-      idUser: "",
-      text: "",
-      imageUrl: "",
-      uploadImage: "",
-      isAdmin: false
-    }
-  },
-
-  mounted: function () {
-    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-
-    let postId = this.$route.params.id
-    let token = localStorage.token;
-    
-    fetch(`http://localhost:3000/api/posts/${postId}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-    })
-      .then((response) => {
-        if (response.status == 401 || response.status == 500) {
-        } else {
-          response.json()
-            .then((data) => {
-              this.text = data.text,
-                this.imageUrl = data.imageUrl
-            })
-            .catch((error) => console.log(error));
-        }
-      })
-      .catch((error) => console.log(error));
-  },
-
-  methods: {
-    //select a file to upload
-    onFileSelected: function (event) {
-      this.uploadImage = event.target.files[0];
-    },
-    modifyPost: function () {
-      const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-
-      const formData = new FormData();
-      formData.append("image", this.uploadImage);
-      formData.append("text", this.text);
-      formData.append("idUser", localStorageData);
-      formData.append("imageUrl", this.imageUrl)
-
-      let token = localStorage.token;
-      let postId = this.$route.params.id
-
-      fetch(`http://localhost:3000/api/posts/${postId}`, {
-        method: "PUT",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          mode: "no-cors",
-          'Accept': 'application/json'
-        },
-      })
-        .then((response) => {
-          if (response.status == 401 || response.status == 409) {
-          } else if (response.status == 400) {
-          }
-          else {
-            response.json().then((formData) => {
-              this.imageUrl = formData.post.imageUrl,
-                this.uploadImage = "",
-                this.text = "";
-              alert("The post has been successfully modified")
-              this.$router.push("/NewsFeed");
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-    },
-  }
-
-
-}
-</script>

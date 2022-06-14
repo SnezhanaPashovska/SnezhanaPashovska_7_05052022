@@ -32,14 +32,13 @@ const Post = sequelize.define('post', {
     type: DataTypes.STRING,
     allowNull: true
   },
-
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: 0
   },
-  like: {
+  likes_post: {
     type: DataTypes.INTEGER,
-    allowNull: true
+    allowNull: true,
   }
 },
   {

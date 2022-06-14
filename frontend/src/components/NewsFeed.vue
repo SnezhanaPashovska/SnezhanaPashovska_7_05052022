@@ -33,20 +33,17 @@
           </div>
           <AsyncPost>
           </AsyncPost>
-
         </div>
       </div>
     </div>
-
   </section>
 </template>
 
-
 <script>
-import post from '../views/PostBox'
+import post from '../components/PostBox'
 import router from '@/router'
 import { defineAsyncComponent } from 'vue'
-const AsyncPost = defineAsyncComponent(() => import('../views/PostBox.vue'))
+const AsyncPost = defineAsyncComponent(() => import('../components/PostBox.vue'))
 
 
 export default {
@@ -60,6 +57,7 @@ export default {
   data: function () {
     return {
       posts: [],
+      status: "",
       idUser: "",
       imageUrl: "",
       uploadImage: "",
@@ -69,7 +67,6 @@ export default {
       image: "",
       postId: "",
       createdAt: "",
-      likes: ""
     }
   },
 
@@ -105,18 +102,21 @@ export default {
           Authorization: `Bearer ${token}`
         }
       }).then((response) => {
-        response.json().then((formData) => {
-          this.imageUrl = formData.imageUrl,
-            this.uploadImage = "",
-            this.postId = "",
-            //alert("Post created")
-            this.$router.push("/NewsFeed")
-          this.$router.go()
-        })
+        if (response.status == 401 || response.status == 404) {
+          this.status = "error_sendPost";
+        } else if (response.status == 400 || this.imageUrl) {
+          this.status = "error_emptyPost"
+          alert("Empty post")
+        } else {
+          response.json().then((formData) => {
+            this.imageUrl = formData.imageUrl,
+              this.uploadImage = "",
+              this.status = "success_sendPost";
+            window.location.reload();
+          });
+        }
       }
       ).catch((error) => console.log(error));
-
-
     },
 
     signOut: function () {
@@ -127,8 +127,6 @@ export default {
   },
 }
 </script>
-
-
 
 <style lang="scss" scoped>
 //Colors

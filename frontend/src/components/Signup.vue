@@ -39,6 +39,85 @@
     </div>
   </div>
 </template>
+
+<script>
+import router from '../router'
+
+export default {
+
+  name: "Signup",
+  data() {
+    return {
+      dataSignup:
+      {
+        firstname: null,
+        lastname: null,
+        email: null,
+        password: null,
+      },
+    };
+  },
+
+  methods: {
+    sendSignup() {
+
+      const data = {
+        ...this.dataSignup
+      }
+
+      let namesRegExp = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç' -]{1,}$/);
+      let emailRegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+      const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{10,30})$/;
+
+      if
+        (this.dataSignup.email !== null ||
+        this.dataSignup.firstname !== null ||
+        this.dataSignup.lastname !== null ||
+        this.dataSignup.password !== null &&
+        this.dataSignup.firstname,
+        namesRegExp.test(this.dataSignup.firstname),
+        namesRegExp.test(this.dataSignup.lastname),
+        emailRegExp.test(this.dataSignup.email),
+        passwordRegExp.test(this.dataSignup.password)
+      ) {
+        fetch('http://localhost:3000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          mode: 'cors',
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            this.dataSignup.email = null;
+            this.dataSignup.lastname = null;
+            this.dataSignup.firstname = null;
+            this.dataSignup.password = null;
+            alert("The profile has been created")
+            router.push({ path: "/login" })
+          })
+          .catch((error) => console.log(error));
+      } else {
+        // Firstname error
+        const errMsgFirstname = document.getElementById('firstnameErrMsg');
+        errMsgFirstname.innerHTML = "<p>The name must contain at least one letter<p>";
+        // Lastname error
+        const errMsgLastname = document.getElementById('lastnameErrMsg');
+        errMsgLastname.innerHTML = "<p>The last name must contain at least one letter<p>";
+        //Email error
+        const emailErrMsg = document.getElementById('emailErrMsg');
+        emailErrMsg.innerHTML = "<p>Please enter a valid email<p>";
+        //Password error
+        const passwordErrMsg = document.getElementById('passwordErrMsg');
+        passwordErrMsg.innerHTML = "<p>The password must contain between 8 to 30 characters, including at least one capital letter, a number and a special character<p>";
+
+      }
+    },
+  },
+};
+
+</script>
+
 <style lang="scss">
 //Colors
 @import "../styles/variables.scss";
@@ -268,87 +347,6 @@ a {
   }
 }
 </style>
-
-
-<script>
-import router from '../router'
-
-export default {
-
-  name: "Signup",
-  data() {
-    return {
-      dataSignup:
-      {
-        firstname: null,
-        lastname: null,
-        email: null,
-        password: null,
-      },
-    };
-  },
-
-  methods: {
-    sendSignup() {
-
-      const data = {
-        ...this.dataSignup
-      }
-
-      let namesRegExp = new RegExp(/^[a-zA-Zàâäéèêëïîôöùûüç' -]{1,}$/);
-      let emailRegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-      const passwordRegExp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{10,30})$/;
-
-      if
-        (this.dataSignup.email !== null ||
-        this.dataSignup.firstname !== null ||
-        this.dataSignup.lastname !== null ||
-        this.dataSignup.password !== null &&
-        this.dataSignup.firstname,
-        namesRegExp.test(this.dataSignup.firstname),
-        namesRegExp.test(this.dataSignup.lastname),
-        emailRegExp.test(this.dataSignup.email),
-        passwordRegExp.test(this.dataSignup.password)
-      ) {
-        fetch('http://localhost:3000/api/users/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          mode: 'cors',
-          body: JSON.stringify(data),
-        })
-          .then((response) => {
-            this.dataSignup.email = null;
-            this.dataSignup.lastname = null;
-            this.dataSignup.firstname = null;
-            this.dataSignup.password = null;
-            alert("The profile has been created")
-            router.push({ path: "/login" })
-          })
-          .catch((error) => console.log(error));
-      } else {
-        // Firstname error
-        const errMsgFirstname = document.getElementById('firstnameErrMsg');
-        errMsgFirstname.innerHTML = "<p>The name must contain at least one letter<p>";
-        // Lastname error
-        const errMsgLastname = document.getElementById('lastnameErrMsg');
-        errMsgLastname.innerHTML = "<p>The last name must contain at least one letter<p>";
-        //Email error
-        const emailErrMsg = document.getElementById('emailErrMsg');
-        emailErrMsg.innerHTML = "<p>Please enter a valid email<p>";
-        //Password error
-        const passwordErrMsg = document.getElementById('passwordErrMsg');
-        passwordErrMsg.innerHTML = "<p>The password must contain between 8 to 30 characters, including at least one capital letter, a number and a special character<p>";
-
-      }
-    },
-  },
-};
-
-</script>
-
-
 
 
 

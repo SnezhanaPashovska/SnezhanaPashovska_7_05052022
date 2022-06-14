@@ -24,8 +24,10 @@
       <div class="block-sent-post__like">
         <div class="block-sent-post__like__like">
           <button @click="likePost(post.id)" class="like-post" id="like-post">
-            <i class="fa-solid fa-thumbs-up" title="Like"></i>
+            <i class="fa-solid fa-thumbs-up"></i>
           </button>
+          <p>{{ likes_post[post.id] }}</p>
+
         </div>
       </div>
       <CommentBox :postId="post.id">
@@ -37,13 +39,11 @@
   </div>
 </template>
 
-   
-
 <script>
-import NewsFeed from "../views/NewsFeed"
+import NewsFeed from "../components/NewsFeed"
 import router from '../router'
-import CommentBox from '../views/CommentBox'
-import CommentSent from "../views/CommentSent"
+import CommentBox from '../components/CommentBox'
+import CommentSent from "../components/CommentSent"
 
 export default {
   name: "PostBox",
@@ -56,6 +56,7 @@ export default {
   data: function () {
     return {
       posts: [],
+      likes_post: [],
       imageUrl: "",
       uploadImage: "",
       text: "",
@@ -66,12 +67,12 @@ export default {
       isAdmin: false,
       currentUserId: "",
       createdAt: "",
-      like: "",
-      hasbeenLiked: false,
       textComment: "",
+      status: "",
+      zeroPosts: ""
     }
   },
-
+  // Mounted = what happens when we go to the page
   mounted: function () {
     let token = localStorage.token;
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
@@ -85,10 +86,14 @@ export default {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-    }).then((response) => {
-      if (response.status == 401 || response.status == 500) {
+    }).then((res) => {
+      if (res.status == 401 || res.status == 500) {
+        this.status = "erreur_post";
       } else {
-        response.json().then((data) => {
+        res.json().then((data) => {
+          if (data.length === 0) {
+            this.zeroPosts = true;
+          }
           for (let i = data.length - 1; i >= 0; i--) {
             this.posts.push({
               id: data[i].postId,
@@ -98,13 +103,31 @@ export default {
               lname: data[i].user.lastname,
               imageUrl: data[i].imageUrl,
               photoUrl: data[i].user.photoUrl,
+              likes_post: data[i].likes_post
             });
+            console.log(data)
+            let id = data[i].postId;
+            // Count likes on a post
+            fetch(`http://localhost:3000/api/likes/posts/${id}`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+              .then((res) => {
+                res.json().then((likes_post) => {
+                  this.likes_post[id] = likes_post.length;
+                })
+              })
+              .catch((error) => console.log(error));
           }
-        });
+        }
+        )
       }
-
     }).catch((error) => console.log(error));
 
+
+    //Admin account
     this.currentUserId = localStorageData;
     fetch(`http://localhost:3000/api/users/${this.currentUserId}`, {
       method: "GET",
@@ -153,7 +176,6 @@ export default {
       const formData = new FormData();
       formData.append("idUser", localStorageData);
       formData.append("postId", this.postId);
-      formData.append("like", this.id_likes)
 
       fetch(`http://localhost:3000/api/likes/posts/${postId}`, {
         method: "POST",
@@ -162,191 +184,151 @@ export default {
           Authorization: `Bearer ${token}`,
         }
       })
-        .then((response) => {
-
-          if (response.status === 201) {
-            let btn = document.querySelector('.fa-thumbs-up');
-            btn.addEventListener('click', function onClick() {
-              btn.classList.add("coral-pink");
-              btn.style.color = 'coral';
-            });
-            /* document.getElementById('like-post').onclick = changeColor;
-            function changeColor() {
-              document.body.style.color = "coral";
-              return false;
-            } */
-            console.log("Post liked")
-            //alert("Post liked")
-          } else {
-            alert("Like removed")
-          }
+        .then((res) => {
+          console.log(res)
+          window.location.reload();
         })
-        .catch((error) => console.log(error))
+        .catch((erreur) => console.log(erreur));
     }
-  },
-
-  sendComment: function () {
-    const localStorageData = JSON.parse(localStorage.getItem("idUser"));
-    this.idUser = localStorageData
-    let token = localStorage.token;
-
-    const data = {
-      textComment: this.textComment,
-      idUser: this.idUser,
-      postId: this.postId,
-    };
-
-    fetch("http://localhost:3000/api/comments/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (textComment == null) {
-        } else if (response.status == 400) {
-          this.status = "error_send";
-        }
-        else {
-          response.json().then(() => {
-            this.status = "success_comment";
-            //window.location.reload();
-          });
-        }
-      }).catch((error) => console.log(error));
   },
 }
 
 </script>
 
  <style lang="scss" scoped>
-//Colors
-@import "../styles/variables.scss";
-
-//Mixin
-
-@import "../styles/news-feed.scss";
-
-* {
-  //overflow-x: hidden;
-}
-
-.coral-pink {
-  color: coral;
-}
-
-.block-sent-post {
-  @include block-sent-post;
-
-  &__like {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding-top: 2px;
-    align-items: center;
-    border-top: 1px solid $light-gray;
-    border-bottom: 1px solid $light-gray;
-    justify-content: space-between;
-    padding: 5px 0px 10px 25px;
-
-    &__like {
-      width: 10%;
-      padding-bottom: 3px;
-      border: transparent;
-
-      & :hover {
-        color: $coral-pink;
-      }
-
-    }
-  }
-
-  &__profile-photo {
-    border: 1px solid transparent;
-    width: 20%;
-    height: 40px;
-
-    & img {
-      object-fit: scale-down;
-      height: 40px;
-      width: 40px;
-      display: block !important;
-    }
-  }
-
-  &__user {
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: nowrap;
-    width: 90%;
-    justify-self: left;
-    justify-content: space-between;
-    font-weight: 600;
-    color: $darkest-purple;
-    padding: 10px 10px 0px 2px;
-    font-size: 13px;
-    margin: 0px auto 6px auto;
-  }
-}
-
-.fa-pen-to-square {
-  color: $darkest-purple;
-}
-
-.delete-post {
-  border: transparent;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.fa-xmark {
-  color: $darkest-purple;
-}
-
-.fa-thumbs-up {
-  cursor: pointer;
-  color: $darkest-purple;
-  font-size: 15px;
-}
-
-.like-post {
-  border: transparent;
-  background-color: transparent;
-}
-
-.post-content {
-  @include post-content;
-}
-
-.comment-sent {
-  @include comment-sent;
-}
-
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .row {
-    width: 60%;
-    justify-self: center;
-    margin: 0px auto 0px auto;
-    border-left: 1px solid transparent;
-    box-shadow: 0px 0px 0px 00px gray;
-  }
-}
-
-@media screen and (min-width: 991px) and (max-width: 1200px) {
-  .row {
-    width: 65%;
-    justify-self: center;
-    margin: 0px auto 0px auto;
-  }
-}
-
-@media screen and (min-width: 1201px) {
-  .row {
-    width: 50%;
-    justify-self: center;
-    margin: 0px auto 0px auto;
-  }
-}
-</style>
+ //Colors
+ @import "../styles/variables.scss";
+ 
+ //Mixin
+ 
+ @import "../styles/news-feed.scss";
+ 
+ * {
+   //overflow-x: hidden;
+ }
+ 
+ .block-sent-post {
+   @include block-sent-post;
+ 
+   &__like {
+     display: flex;
+     flex-direction: row;
+     width: 100%;
+     padding-top: 2px;
+     align-items: center;
+     border-top: 1px solid $light-gray;
+     border-bottom: 1px solid $light-gray;
+     justify-content: space-between;
+     padding: 5px 0px 10px 25px;
+ 
+     &__like {
+       width: 10%;
+       padding-bottom: 3px;
+       border: transparent;
+ 
+     }
+   }
+ 
+   &__profile-photo {
+     border: 1px solid transparent;
+     width: 20%;
+     height: 40px;
+ 
+     & img {
+       object-fit: scale-down;
+       height: 40px;
+       width: 40px;
+       display: block !important;
+     }
+   }
+ 
+   &__user {
+     display: flex;
+     flex-direction: row-reverse;
+     flex-wrap: nowrap;
+     width: 90%;
+     justify-self: left;
+     justify-content: space-between;
+     font-weight: 600;
+     color: $darkest-purple;
+     padding: 10px 10px 0px 2px;
+     font-size: 13px;
+     margin: 0px auto 6px auto;
+   }
+ }
+ 
+ .coral-pink {
+   color: $coral-pink;
+ 
+   i {
+     color: $coral-pink;
+   }
+ }
+ 
+ .dark-purple {
+   color: $darkest-purple;
+ }
+ 
+ .fa-pen-to-square {
+   color: $darkest-purple;
+ }
+ 
+ .delete-post {
+   border: transparent;
+   background-color: transparent;
+   cursor: pointer;
+ }
+ 
+ .fa-xmark {
+   color: $darkest-purple;
+ }
+ 
+ .fa-thumbs-up {
+   cursor: pointer;
+   color: $darkest-purple;
+   font-size: 15px;
+ }
+ 
+ .like-post {
+   border: transparent;
+   background-color: transparent;
+ 
+   & :hover {
+     color: $coral-pink;
+   }
+ }
+ 
+ .post-content {
+   @include post-content;
+ }
+ 
+ .comment-sent {
+   @include comment-sent;
+ }
+ 
+ @media screen and (min-width: 768px) and (max-width: 991px) {
+   .row {
+     width: 60%;
+     justify-self: center;
+     margin: 0px auto 0px auto;
+     border-left: 1px solid transparent;
+     box-shadow: 0px 0px 0px 00px gray;
+   }
+ }
+ 
+ @media screen and (min-width: 991px) and (max-width: 1200px) {
+   .row {
+     width: 65%;
+     justify-self: center;
+     margin: 0px auto 0px auto;
+   }
+ }
+ 
+ @media screen and (min-width: 1201px) {
+   .row {
+     width: 50%;
+     justify-self: center;
+     margin: 0px auto 0px auto;
+   }
+ }
+ </style>

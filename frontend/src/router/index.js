@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import store from '../store/index.js'
-import NewsFeed from '../views/NewsFeed'
-import PostBox from '../views/PostBox'
-
+import NewsFeed from '../components/NewsFeed'
+import PostBox from '../components/PostBox'
 
 const routes = [
   {
@@ -18,7 +17,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: function () {
-      return import(/* webpackChunkName: "login" */ '../views/Login.vue')
+      return import(/* webpackChunkName: "login" */ '../components/Login.vue')
     },
     meta: {
       hideNavbar: true
@@ -28,18 +27,17 @@ const routes = [
     path: '/signup',
     name: 'Signup',
     component: function () {
-      return import(/* webpackChunkName: "signup" */ '../views/Signup.vue')
+      return import(/* webpackChunkName: "signup" */ '../components/Signup.vue')
     },
     meta: {
       hideNavbar: true
     }
   },
-
   {
     path: '/ProfilePage',
     name: 'ProfilePage',
     component: function () {
-      return import(/* webpackChunkName: "ProfilePage" */ '../views/ProfilePage.vue')
+      return import(/* webpackChunkName: "ProfilePage" */ '../components/ProfilePage.vue')
     },
     meta: {
       hideNavbar: true
@@ -49,54 +47,44 @@ const routes = [
     path: '/Newsfeed',
     name: 'NewsFeed',
     component: function () {
-      return import(/* webpackChunkName: "NewsFeed" */ '../views/NewsFeed.vue')
+      return import(/* webpackChunkName: "NewsFeed" */ '../components/NewsFeed.vue')
     }
   },
-  {
-    path: '/Header',
-    name: 'Header',
-    component: function () {
-      return import(/* webpackChunkName: "Header" */ '../components/Header.vue')
-    }
-  },
-
   {
     path: '/Settings',
     name: 'Settings',
     component: function () {
-      return import(/* webpackChunkName: "Settings" */ '../views/Settings.vue')
+      return import(/* webpackChunkName: "Settings" */ '../components/Settings.vue')
     }
   },
   {
     path: '/PostBox',
     name: 'PostBox',
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../views/PostBox.vue')
+      return import(/* webpackChunkName: "PostBox" */ '../components/PostBox.vue')
     }
   },
   {
     path: '/post/:id',
     name: 'ModifyPost',
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../views/ModifyPost.vue')
+      return import(/* webpackChunkName: "PostBox" */ '../components/ModifyPost.vue')
     }
   },
   {
     path: "/CommentBox",
     name: "CommentBox",
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../views/CommentBox.vue')
+      return import(/* webpackChunkName: "PostBox" */ '../components/CommentBox.vue')
     }
   },
   {
     path: "/CommentSent",
     name: "CommentSent",
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../views/CommentSent.vue')
+      return import(/* webpackChunkName: "PostBox" */ '../components/CommentSent.vue')
     }
   }
-
-
 ]
 
 const router = createRouter({

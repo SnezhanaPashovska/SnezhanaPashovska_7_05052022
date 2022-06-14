@@ -10,17 +10,26 @@ const helmet = require('helmet');
 let sqlSanitizer = require('sql-sanitizer');
 
 // prevent cache stocking to prevent vulnerabilities
-const nocache = require("nocache");
+const nocache = require('nocache');
 
 // to hide database sensitive info
 const dotenv = require('dotenv')
 dotenv.config();
 
-// Routes
+//cache control-middleware to set url cache options with globs
+const cache = require('cache-control');
+app.use(cache({
+  '/index.html': 1000,
+  '/none/**/*.html': false,
+  '/private.html': 'private, max-age=300',
+  '/**': 500, // Default to caching all items for 500
+}));
+
+// import routes
 const userRoutes = require('./routes/user');
 const postsRoutes = require('./routes/posts');
-const commentsRoutes = require("./routes/comments")
-const likeRoutes = require("./routes/like");
+const commentsRoutes = require('./routes/comments')
+const likeRoutes = require('./routes/like');
 
 // Connection to Database
 const Sequelize = require('sequelize');
@@ -71,6 +80,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, X-API-KEY');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  res.setHeader('Cache-Control', 'public, max-age=31557600, s-maxage=31557600');//cache control, 1 year
   next();
 });
 
@@ -79,7 +89,7 @@ app.use((req, res, next) => {
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/posts', postsRoutes);
 app.use('/api/users', userRoutes);
-app.use("/api/comment", commentsRoutes);
+app.use('/api/comment', commentsRoutes);
 app.use('/api/likes', likeRoutes);
 
 module.exports = app;

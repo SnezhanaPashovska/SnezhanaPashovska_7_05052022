@@ -1,6 +1,5 @@
 <template>
   <div class="row">
-    <!-- <div class="col-1-of-2"> -->
     <div class="block-sent-post__comment">
       <div class="block-sent-post__comment-input">
         <textarea v-model.trim="textComment" type="text" id="comment" maxlength="225" required
@@ -13,7 +12,6 @@
       </div>
 
     </div>
-    <!--  </div> -->
   </div>
 </template>
 <script>
@@ -59,17 +57,25 @@ export default {
         body: JSON.stringify(data),
       })
         .then((response) => {
-
-          response.json().then((response) => {
-            window.location.reload();
-          });
+          //if the comment field is empty send an error alert
+          if (response.status == 401 || response.status == 404) {
+            this.status = "error_comment";
+            alert("Cannot send an empty comment")
+          } else if (response.status == 400) {
+            this.status = "error_send";
+            alert("Cannot send an empty comment")
+          }
+          else {
+            response.json().then(() => {
+              this.status = "success_comment";
+              window.location.reload();
+            });
+          }
 
         }).catch((error) => console.log(error));
     }
   }
 }
-
-
 </script>
 
 <style lang="scss">

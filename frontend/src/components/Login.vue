@@ -26,6 +26,7 @@
     </div>
   </div>
 </template>
+
 <script>
 
 import store from '../store/index.js'
@@ -82,7 +83,7 @@ export default {
                 this.idUser = data.idUser;
                 localStorage.setItem('isAdmin', data.isAdmin);
               })
-              
+
             //If the request is successfull
             if (res.status === 200) {
               //this.$router.push("/ProfilePage");
