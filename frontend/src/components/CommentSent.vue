@@ -122,8 +122,6 @@ export default {
 .comment-content {
   display: flex;
   flex-direction: row;
-  //border-bottom: 1px solid $light-gray;
-
   padding: 2px 0px 2px 0px;
   width: 100%;
 }
@@ -141,6 +139,6 @@ export default {
   justify-content: space-between;
   margin: 2px 0px 2px 0px;
   border-top: 1px solid $light-gray;
-  width: 100%;
+  width: 98%;
 }
 </style>
