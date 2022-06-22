@@ -20,7 +20,6 @@
             <p class="header_section__information-name">{{ firstname }} </p>
             <p class="header_section__information-lastname">{{ lastname }}</p>
           </div>
-
           <div class="header_section__settings">
           </div>
         </div>
@@ -34,9 +33,7 @@
             <p class="about_section__text-description">
               {{ description }}
             </p>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -61,6 +58,7 @@ import router from '../router'
 export default {
   name: 'ProfilePage',
 
+//store data - has an object as its value, it accepts any pair key-value like in Java Script
   data() {
     return {
       idUser: Number,
@@ -72,6 +70,7 @@ export default {
       status: "",
     }
   },
+  // Mounted = what happens when we go to the page
   mounted() {
     const localStorageData = JSON.parse(localStorage.getItem("idUser"));
     let idUser = localStorageData;
@@ -104,7 +103,7 @@ export default {
       })
       .catch((error) => console.log(error, 'error'));
   },
-
+  //accesible from the template usually used as an event listener
   methods: {
     signOut: function () {
       localStorage.clear();

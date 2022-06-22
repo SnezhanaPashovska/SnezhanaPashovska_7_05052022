@@ -70,34 +70,35 @@ const routes = [
     path: '/post/:id',
     name: 'ModifyPost',
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../components/ModifyPost.vue')
+      return import(/* webpackChunkName: "ModifyPost" */ '../components/ModifyPost.vue')
     }
   },
   {
     path: "/CommentBox",
     name: "CommentBox",
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../components/CommentBox.vue')
+      return import(/* webpackChunkName: "CommentBox" */ '../components/CommentBox.vue')
     }
   },
   {
     path: "/CommentSent",
     name: "CommentSent",
     component: function () {
-      return import(/* webpackChunkName: "PostBox" */ '../components/CommentSent.vue')
+      return import(/* webpackChunkName: "CommentSent" */ '../components/CommentSent.vue')
     }
   }
-
-
 ]
 
+//Navigation Guards
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
+//Global Before Guards - called in creation order, whenever a navigation is triggered.
 router.beforeEach((to, from, next) => {
   const isLogged = store.state.isLogged
+  // make sure the user is authenticated, avoid an infinite redirect, redirect the user to the login page
   if ((to.name !== 'Login' && !isLogged) && (to.name !== 'Signup' && !isLogged)) next({ name: 'Login' })
   else next()
 })

@@ -16,10 +16,11 @@
 <script>
 import router from '../router'
 
+//We can use export-default for creating local registration for the Vue component
 export default {
   name: "CommentBox",
 
-  //to be able to pass the owners
+  //Vue components require explicit props declaration so that Vue knows what external props passed to the component should be treated as attributes (to be able to pass the owners)
   props: {
     postId: Number
   },
@@ -33,7 +34,7 @@ export default {
   },
 
   methods: {
-
+    //sharing a comment
     sendComment: function () {
       const localStorageData = JSON.parse(localStorage.getItem("idUser"));
       this.idUser = localStorageData
@@ -74,7 +75,6 @@ export default {
     }
   }
 }
-
 
 </script>
 
