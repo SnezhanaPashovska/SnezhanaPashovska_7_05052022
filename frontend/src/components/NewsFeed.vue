@@ -41,10 +41,10 @@
 
 
 <script>
-import post from '../views/PostBox'
+import post from '../components/PostBox'
 import router from '@/router'
 import { defineAsyncComponent } from 'vue'
-const AsyncPost = defineAsyncComponent(() => import('../views/PostBox.vue'))
+const AsyncPost = defineAsyncComponent(() => import('../components/PostBox.vue'))
 
 
 export default {

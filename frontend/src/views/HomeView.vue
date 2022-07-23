@@ -1,17 +1,14 @@
 <template>
   <div class="home">
-   
   </div>
   <div class="links">
-    <router-link class="welcome" to="/signup">Sign up</router-link>
-    <router-link class="welcome" to="/login">Sign in</router-link>
-    
+    <router-link to="/login" class="signIn" title="Sign in">Sign in</router-link>
+    <router-link to="/signup" class="signUp">Sign up</router-link>
   </div>
   <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
 </template>
 <style lang="scss">
-
-
+@import "../styles/variables.scss";
 
 .home {
   width: 100%;
@@ -19,24 +16,13 @@
 }
 
 .logoGrupomania {
-  width: 95%;
-  object-fit: contain;
-  filter: invert(18%) sepia(25%) saturate(1883%) hue-rotate(212deg) brightness(92%) contrast(94%);
-  height: 250px;
-  justify-self: center;
-}
-
-.links {
-  width: 85%;
-  display: inline-flex;
-  font-family: 'Lato', sans-serif;
-  align-self: center;
-  justify-items: center;
-  justify-content: space-around;
+  object-fit: cover;
+  width: 40%;
+  height: 40px;
+  filter: invert(100%) sepia(0%) saturate(7491%) hue-rotate(236deg) brightness(103%) contrast(100%);
 }
 
 .welcome {
-
   width: 25%;
   justify-self: center;
 }

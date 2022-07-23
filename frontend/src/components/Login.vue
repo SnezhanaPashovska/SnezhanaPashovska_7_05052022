@@ -1,14 +1,11 @@
 <template>
-  <div id="app">
-    <nav class="navigation">
-      <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania-li">
-    </nav>
-    <div class="signin">
-      <div class="links">
-        <router-link to="/signup" class="signUp">Sign up</router-link>
-        <router-link to="/login" class="signIn">Sign in</router-link>
-      </div>
-      <div class="login_form" method="post">
+  <div class="signin">
+    <div id="app_signin">
+      <nav class="navigation">
+        <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+      </nav>
+      <p class="signin-headline">Sign in</p>
+      <div class="signin_form" method="post">
         <div class="email_input-login">
           <label for="email"></label>
           <input type="text" id="email" name="email" v-model="dataForm.email" placeholder="Email" required>
@@ -22,6 +19,10 @@
           <button @click.prevent="SignIn()" class="btn_li">Log in</button>
           <p id="errorMsg"></p>
         </div>
+      </div>
+      <div class="links">
+        <p>Don't have an account?</p>
+        <router-link to="/signup" class="signUp">Sign up</router-link>
       </div>
     </div>
   </div>
@@ -97,38 +98,21 @@ export default {
 
 <style lang="scss">
 //Colors
-@import "../styles/variables.scss";
+@import '../styles/variables';
+
 //Mixins
-@import "../styles/mixins-login.scss";
-
-body {
-  background-color: $light-beige;
-}
-
-input {
-  padding: 0px 0px 0px 5px;
-  box-shadow: 0px 1px 12px $lighter-purple;
-  -webkit-backdrop-filter: blur 20px;
-  backdrop-filter: blur 20px;
-  border: 1px solid transparent;
-}
-
-input:focus {
-  outline: none !important;
-  border-color: $lighter-purple;
-  box-shadow: 2px 2px 1px $lighter-purple;
-}
+@import '../styles/mixins-login';
 
 .signin {
   @include signin;
 }
 
-.logoGrupomania-li {
-  @include logoGrupomania-li;
+.signin-headline {
+  @include signin-headline;
 }
 
-.login_form {
-  @include login_form;
+.signin_form {
+  @include signin_form;
 }
 
 .email_input-login {
@@ -143,122 +127,7 @@ input:focus {
   @include login_btn;
 }
 
-.btn_li {
-  @include button_su_li;
-}
-
-//Large phone and tablet responsive
-@media screen and (min-width: 425px) and (max-width: 519.9px) {
-  .btn_li {
-    @include button_su_li-425;
-  }
-
-}
-
-@media screen and (min-width: 520px) and (max-width: 768px) {
-  .signin {
-    @include signin-t;
-  }
-
-  .login_form {
-    @include signin_form-t
-  }
-
-  .logoGrupomania-li {
-    @include logoGrupomania-tl;
-  }
-
-  .email_input-login {
-    @include email_input-signin-t
-  }
-
-  .password_input-login {
-    @include password_input-signin-t
-  }
-
-  .login_btn {
-    @include signin_btn-t
-  }
-
-  .btn_li {
-    @include button_su_si-t
-  }
-
-
-}
-
-//Tablet and small laptop responsive
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .signin {
-    @include signin-tl;
-  }
-
-  .login_form {
-    @include login-form-tl
-  }
-
-  .logoGrupomania-li {
-    @include logoGrupomania-tl;
-  }
-
-
-}
-
-//Laptop screen responsive
-@media screen and (min-width: 991px) and (max-width: 1200px) {
-
-  .signin {
-    @include signin-tl
-  }
-
-  .login_btn {
-    @include sigin_btn-tl
-  }
-
-  .btn_li {
-    @include button_si_li-425
-  }
-
-  .login_form {
-    @include sigin_form-tl
-  }
-
-  .logoGrupomania-li {
-    @include logoGrupomania-li-l
-  }
-}
-
-@media screen and (min-width: 1201px) {
-
-  .logoGrupomania-li {
-    @include logoGrupomania-li-tl
-  }
-
-  .email_input-login {
-    @include email_input-signin-xxl;
-  }
-
-  .password_input-login {
-    @include password_input-signin-xxl
-  }
-
-  .login_btn {
-    @include signin_btn-xl;
-  }
-
-  .btn_li {
-    @include button_su_si-xl;
-  }
-
-  .signin {
-    @include signin-xl;
-  }
-
-  .login_form {
-    @include login-form-xl;
-  }
-
-  @media screen and (min-width: 1920px) {}
-
+.links {
+  @include links;
 }
 </style>

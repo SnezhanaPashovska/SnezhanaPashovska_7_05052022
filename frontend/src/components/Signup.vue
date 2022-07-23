@@ -1,18 +1,16 @@
 <template>
-  <div id="app">
-    <nav class="navigation">
-      <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
-    </nav>
-    <div class="signup">
-      <div class="links">
-        <router-link to="/signup" class="signUp">Sign up</router-link>
-        <router-link to="/login" class="signIn">Sign in</router-link>
-      </div>
+  <div class="signup">
+    <div id="app_signup">
+      <nav class="navigation">
+        <img src="../assets/icon-left-font-monochrome-black.png" alt="Logo Grupomania" class="logoGrupomania">
+      </nav>
+      <p class="signup-headline">Create new account</p>
       <div class="signup_form" method="post">
         <div class="name_input">
           <label for="firstname"></label>
-          <input type="text" id="firstname" name="name" placeholder="First name" v-model="dataSignup.firstname"
+          <input type="text" id="firstname" name="name" placeholder="First Name" v-model="dataSignup.firstname"
             required>
+          <span class="name_input__separator"> </span>
           <p id="firstnameErrMsg"></p>
         </div>
         <div class="lastname_input">
@@ -33,9 +31,13 @@
           <p id="passwordErrMsg"></p>
         </div>
         <div id="signup_btn" class="signup_btn">
-          <button @click="sendSignup()" id="signup" class="btn_su" type="submit">Sign up</button>
+          <button @click="sendSignup()" id="signup" class="btn_su" type="submit">Create account</button>
         </div>
       </div>
+    </div>
+    <div class="links">
+      <p class="account">Already have an account?</p>
+      <router-link to="/login" class="signIn" title="Sign in">Sign in</router-link>
     </div>
   </div>
 </template>
@@ -123,42 +125,25 @@ export default {
 
 <style lang="scss">
 //Colors
-@import "../styles/variables.scss";
+@import '../styles/variables';
+
 //Mixins
-@import "../styles/mixins-signup.scss";
-
-body {
-  background-color: $light-beige;
-}
-
-input {
-  border: 1px solid transparent;
-  box-shadow: 0px 1px 12px $lighter-purple;
-  -webkit-backdrop-filter: blur 20px;
-  backdrop-filter: blur 20px;
-  padding: 0px 0px 0px 5px;
-}
-
-input:focus {
-  outline: none !important;
-  border-color: $lighter-purple;
-  box-shadow: 2px 2px 1px $lighter-purple;
-}
+@import '../styles/mixins-signup';
 
 a {
-  width: 25%;
-}
+  color: $darkest-purple;
 
-.links {
-  @include links;
+  &:hover {
+    color: $dark-purple;
+  }
 }
 
 .signup {
   @include signup;
 }
 
-.logoGrupomania {
-  @include logoGrupomania-t;
+.signup-headline {
+  @include signup-headline;
 }
 
 .signup_form {
@@ -170,11 +155,11 @@ a {
 }
 
 .lastname_input {
-  @include lastname_input;
+  @include name_input;
 }
 
 .email_input-signup {
-  @include email_input-signup;
+  @include email_input-signup
 }
 
 .password_input-signup {
@@ -185,169 +170,8 @@ a {
   @include signup_btn;
 }
 
-.btn_su {
-  @include button_su_li;
-}
-
-//Large phone and tablet responsive
-
-@media screen and (min-width: 425px) and (max-width: 519.9px) {
-  .btn_su {
-    @include button_su_li-425;
-  }
-
-}
-
-@media screen and (min-width: 520px) and (max-width: 768px) {
-
-
-  .signup {
-    @include signup-t;
-  }
-
-  .signup_form {
-    @include signup_form-t;
-  }
-
-
-  .signup_btn {
-    @include signup_btn-t;
-  }
-
-  .btn_su {
-    @include button_su_li-t;
-  }
-
-  .logoGrupomania {
-    @include logoGrupomania-tl;
-  }
-
-}
-
-//Tablet and small laptop responsive
-
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  a {
-    width: 15%
-  }
-
-
-  .signup {
-    @include signup-tl;
-  }
-
-  .links {
-    @include links-tl;
-  }
-
-  .signup_form {
-    @include signup_form-tl;
-  }
-
-  .signup_btn {
-    @include signup_btn-tl;
-  }
-
-  .btn_su {
-    @include button_su_li-t;
-  }
-
-  .logoGrupomania {
-    @include logoGrupomania-tl;
-  }
-}
-
-//Laptop screen responsive
-@media screen and (min-width: 991px) and (max-width: 1200px) {
-
-
-  a {
-    width: 10%
-  }
-
-  .links {
-    @include links
-  }
-
-  .signUp {
-    @include signUp
-  }
-
-  .signIn {
-    @include signIn
-  }
-
-  .signup {
-    @include signup-tl;
-  }
-
-  .signup_form {
-    @include signup_form-tl;
-  }
-
-
-  .signup_btn {
-    @include signup_btn-tl;
-  }
-
-  .btn_su {
-    @include button_su_li-t;
-  }
-
-  .logoGrupomania {
-    @include logoGrupomania-l;
-  }
-}
-
-@media screen and (min-width: 1201px) {
-
-
-  a {
-    width: 10%
-  }
-
-  .name_input {
-    @include name_input-xxl;
-  }
-
-  .lastname_input {
-    @include lastname_input-xxl;
-  }
-
-  .email_input-signup {
-    @include email_input-signup-xxl
-  }
-
-  .password_input-signup {
-    @include password_input-signup-xxl
-  }
-
-  .signUp {
-    @include signUp
-  }
-
-  .signIn {
-    @include signIn
-  }
-
-  .signup_btn {
-    @include signup_btn-xl;
-  }
-
-  .btn_su {
-    @include button_su_li-xl;
-  }
-
-  .logoGrupomania {
-    @include logoGrupomania-xl;
-  }
-}
-
-@media screen and (min-width: 1920px) {
-
-  .signup_btn {
-    @include signup_btn-xxl;
-  }
+.links {
+  @include links;
 }
 </style>
 

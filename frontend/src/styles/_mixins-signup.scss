@@ -1,352 +1,134 @@
 @mixin signup {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  border: 1px solid transparent;
-  box-shadow: 1px 1px 3px $dark-purple;
-  width: 100%;
-  height: 450px;
+  justify-content: space-between;
+  background-image: linear-gradient( $lighter-purple, $light-pink, white);
+-webkit-backdrop-filter: blur(20px);
+}
+
+@mixin signup-headline {
+  margin: 0px 0px 20px 20px;
+  justify-self: left;
+  justify-content: start;
+  font-weight: 600;
   font-family: 'Lato', sans-serif;
-  font-weight: 400px;
-  font-size: 15px;
-  background-color: white;
-
+  color: whitesmoke;
+  width: 52%;
 }
 
-@mixin links {
-  display: inline-flex;
-}
-
-@mixin signup_form {
+@mixin signup_form{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
-  height: 330px;
-  align-items: flex-start;
-  align-self: center;
-
-  & p{
-    font-size: 12px;
-    color: $darkest-purple;
-  }
+  height: 300px;
 }
 
 @mixin name_input {
   width: 100%;
-  align-self: center;
-  
 
   & input{
+    width: 82%;
     height: 35px;
-    width: 80%;
-  }
+    border: none;
+    padding: 0px 0px 0px 10px;
+    border-bottom: 1px solid $light-gray;
+}
+& :focus {
+  outline: none;
+  border-bottom: 2px solid $darkest-purple;
+  width: 82%;
+  transform: scaleX(1) translateY(-1px);   
+  opacity: 1;
+  transition: all .20s linear;
+}
 }
 
 @mixin lastname_input {
   width: 100%;
-  align-self: center;
 
   & input{
+    width: 82%;
     height: 35px;
-    width: 80%;
-}
-  
+    border: none;
+    padding: 0px 0px 0px 10px;
   }
+  & :focus {
+    outline: none;
+    border-bottom: 2px solid $darkest-purple;
+    width: 82%;
+    transform: scaleX(1) translateY(-1px);   
+    opacity: 1;
+    transition: all .20s linear;
+  }
+}
 
 @mixin email_input-signup {
-  width: 100%; 
-  align-self: center;
+  width: 100%;
 
   & input{
+    width: 82%;
     height: 35px;
-    width: 80%;
-    }
+    border: none;
+    padding: 0px 0px 0px 10px;
   }
+  & :focus {
+    outline: none;
+    border-bottom: 2px solid $darkest-purple;
+    width: 82%;
+    transform: scaleX(1) translateY(-1px);   
+    opacity: 1;
+    transition: all .20s linear;
+  }
+}
 
 @mixin password_input-signup {
-  width: 100%; 
-  align-self: center;
-  & input{
+  width: 100%;
 
+  & input{
+    width: 82%;
     height: 35px;
-    width: 80%;
+    border: none;
+    padding: 0px 0px 0px 10px;
+  }
+  & :focus {
+    outline: none;
+    border-bottom: 2px solid $darkest-purple;
+    width: 82%;
+    transform: scaleX(1) translateY(-1px);   
+    opacity: 1;
+    transition: all .20s linear;
+    background-color: white;
   }
 }
 
 @mixin signup_btn {
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  margin: 0px auto 35px auto;
-  height: 35px;
-}
-@mixin button_su_li {
-  width: 80%;
-  height: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  border: 1px solid transparent;
-  font-size: 17px;
-  color: white;
-  background-color: $darkest-purple;
-  cursor: pointer;
- 
 
-  &:hover {
-    background-color: $lighter-purple;
-    border: 1px solid transparent;
+  & button {
+    width: 82%;
+    height: 35px;
+    font-family: 'Lato', sans-serif;
+    border: none;
+    cursor: pointer;
+    background-color: $darkest-purple;
+    color: white;
+    letter-spacing: 1px;
+  }
+  & :hover{
+    background-color: $dark-purple;
   }
 }
 
-//Large phone and tablet responsive
-@mixin signup-t {
+@mixin links {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  width: 100%;
-  height: 450px;
+  width: 74%;
+  justify-self: center;
+  margin: 30px auto 30px auto;
   font-family: 'Lato', sans-serif;
-  font-weight: 300px;
-  font-size: 15px;
-  margin: 0px auto 0px auto;
-  padding-top: 20px;
 }
 
-@mixin signup_form-t {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 70%;
-  height: 280px;
-  align-items: flex-start;
-  margin: 0px 0px 20px 25px;
-  align-self: center;
- 
-}
-
-@mixin name_input-t {
-  width: 100%;
-  align-self: center;
- 
-}
-@mixin logoGrupomania-t {
-  height: 150px;
-  object-fit: cover;
-  width: 70%;
-}
-
-@mixin lastname_input-t {
-  width: 100%;
-  align-self: center;
-  
-}
-
-@mixin email_input-signup-t {
-  width: 100%;
-  align-self: center;
-} 
-
-@mixin password_input-signup-t {
-  width: 100%;
-  align-self: center;
-}
-
-@mixin signup_btn-t {
-  width: 80%;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0px auto;
-  height: 30px;
-}
-@mixin button_su_li-t {
-  width: 100%;
-  height: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  border: 1px solid transparent;
-  font-size: 17px;
-  color: white;
-  background-color: $darkest-purple;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $lighter-purple;
-    border: 1px solid transparent;
-  }
-}
-
-//Tablet and small laptop responsive
-
-@mixin signup-tl {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
-  height: 450px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300px;
-  font-size: 15px;
-  margin: 0px auto 0px auto;
-  padding-top: 20px;
-}
-
-@mixin links-tl {
-  width: 56%;
- 
-}
-
-@mixin signUp {
-  width: 30%;
-}
-
-@mixin signIn {
-  width: 30%;
-}
-
-@mixin signup_form-tl {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 50%;
-  height: 270px;
-  align-items: flex-start;
-  margin: 0px 0px 20px 25px;
-  align-self: center;
-}
-
-@mixin logoGrupomania-tl {
-  height: 150px;
-  object-fit: cover;
-  width: 40%;
-}
-
-@mixin signup_btn-tl {
-  width: 80%;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0px auto;
-  height: 30px;
-}
-@mixin button_su_li-425 {
-  width: 80%;
-  height: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  border: 1px solid transparent;
-  font-size: 17px;
-  color: white;
-  background-color: $darkest-purple;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $lighter-purple;
-    border: 1px solid transparent;
-  }
-}
-
-//Laptop screen responsive---------------
-@mixin logoGrupomania-l {
-  height: 150px;
-  object-fit: cover;
-  width: 30%;
-}
-
-@mixin signup_btn-l {
-  width: 40%;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0px auto;
-  height: 30px;
-}
-@mixin button_su_li-l {
-  width: 70%;
-  height: 30px;
-  font-family: 'Josefin Sans', sans-serif;
-  border: 1px solid transparent;
-  font-size: 17px;
-  color: white;
-  background-color: $darkest-purple;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $lighter-purple;
-    border: 1px solid transparent;
-  }
-}
-//
-
-@mixin signup_btn-xl {
-  width: 30%;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0px auto;
-  height: 35px;
-}
-@mixin button_su_li-xl {
-  width: 82%;
-  height: 35px;
-  font-family: 'Josefin Sans', sans-serif;
-  border: 1px solid transparent;
-  font-size: 17px;
-  color: white;
-  background-color: $darkest-purple;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $lighter-purple;
-    border: 1px solid transparent;
-  }
-}
-@mixin logoGrupomania-xl {
-  height: 150px;
-  object-fit: cover;
-  width: 20%;
-}
-
-@mixin signup_btn-xxl {
-  width: 20%;
-  align-items: center;
-  justify-content: center;
-  margin: 50px auto 0px auto;
-  height: 35px;
-}
-
-@mixin name_input-xxl {
-  width: 50%;
-  align-self: center;
-
-  & input{
-    height: 35px;
-    width: 50%;
-}
-}
-
-@mixin lastname_input-xxl {
-  width: 50%;
-  align-self: center;
-
-  & input{
-    height: 35px;
-    width: 50%;
-} 
-}
-
-@mixin email_input-signup-xxl {
-  width: 50%; 
-  align-self: center;
-
-  & input{
-    height: 35px;
-    width: 50%;
-    }
-  }
-
-@mixin password_input-signup-xxl {
-  width: 50%; 
-  align-self: center;
-  & input{
-    height: 35px;
-    width: 50%;
-  }
-}
 
 
 
