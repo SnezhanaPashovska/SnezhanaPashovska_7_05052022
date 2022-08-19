@@ -88,3 +88,67 @@
   margin: 30px auto 30px auto;
   font-family: 'Lato', sans-serif;
 }
+
+//Media queries 612px and 768px
+
+@mixin signin_form-tablet{
+  width: 80%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin signin-headline-tablet {
+  margin: 0px 0px 20px 70px;
+}
+
+@mixin links-tablet {
+  width: 65%;
+}
+
+//Media queries 769px and 1024px
+
+@mixin signin_form-laptop{
+  width: 50%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin signin-headline-laptop {
+  width: 59%;
+}
+
+@mixin links-laptop {
+  width: 41%;
+}
+
+// Media queries 1025px and 1200px
+
+@mixin signin_form-large-screen{
+  width: 50%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin signin-headline-large-screen {
+  width: 59%;
+}
+
+@mixin links-large-screen {
+  width: 41%;
+}
+
+// Media queries min 1201
+
+@mixin signin_form-xlarge-screen{
+  width: 50%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin signin-headline-xlarge-screen {
+  width: 59%;
+}
+
+@mixin links-xlarge-screen {
+  width: 41%;
+}

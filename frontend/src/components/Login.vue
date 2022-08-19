@@ -130,4 +130,62 @@ export default {
 .links {
   @include links;
 }
+
+@media screen and (min-width: 612px) and (max-width: 768px) {
+
+  .signin_form {
+    @include signin_form-tablet;
+  }
+
+  .signin-headline {
+    @include signin-headline-tablet;
+  }
+
+  .links {
+    @include links-tablet;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .signin_form {
+    @include signin_form-laptop;
+  }
+
+  .signin-headline {
+    @include signin-headline-laptop;
+  }
+
+  .links {
+    @include links-laptop;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+  .signin_form {
+    @include signin_form-large-screen;
+  }
+
+  .signin-headline {
+    @include signin-headline-large-screen;
+  }
+
+  .links {
+    @include links-large-screen;
+  }
+}
+
+@media screen and (min-width: 1201px) {
+
+  .signin_form {
+    @include signin_form-xlarge-screen;
+  }
+
+  .signin-headline {
+    @include signin-headline-xlarge-screen;
+  }
+
+  .links {
+    @include links-xlarge-screen;
+  }
+}
 </style>

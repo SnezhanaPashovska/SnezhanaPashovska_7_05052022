@@ -173,6 +173,65 @@ a {
 .links {
   @include links;
 }
+
+@media screen and (min-width: 612px) and (max-width: 768px) {
+
+  .signup_form {
+    @include signup_form-tablet;
+  }
+
+  .signup-headline {
+    @include signup-headline-tablet;
+  }
+
+  .links {
+    @include links-tablet;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .signup_form {
+    @include signup_form-tablet-laptop;
+  }
+
+  .signup-headline {
+    @include signup-headline-tablet-laptop;
+  }
+
+  .links {
+    @include links-tablet-laptop;
+  }
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+
+  .signup_form {
+    @include signup_form-large-screen;
+  }
+
+  .signup-headline {
+    @include signup-headline-large-screen;
+  }
+
+  .links {
+    @include links-large-screen;
+  }
+
+}
+
+@media screen and (min-width: 1201px) {
+  .signup_form {
+    @include signup_form-xlarge-screen;
+  }
+
+  .signup-headline {
+    @include signup-headline-xlarge-screen;
+  }
+
+  .links {
+    @include links-xlarge-screen;
+  }
+}
 </style>
 
 

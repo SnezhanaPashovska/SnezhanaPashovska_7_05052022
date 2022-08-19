@@ -31,11 +31,19 @@
   .links {
     width: 50%;
   }
+
+  .logoGrupomania {
+    width: 30%;
+  }
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {
+@media screen and (min-width: 768.9px) and (max-width: 991px) {
   .links {
     width: 40%;
+  }
+
+  .logoGrupomania {
+    width: 30%;
   }
 }
 
@@ -43,11 +51,9 @@
   .links {
     width: 40%;
   }
-}
 
-@media screen and (min-width: 1200px) and (max-width: 1920px) {
-  .links {
-    width: 35%;
+  .logoGrupomania {
+    width: 20%;
   }
 }
 
@@ -55,7 +61,14 @@
   .links {
     width: 30%;
   }
+
+  .logoGrupomania {
+    width: 9%;
+  }
 }
+
+  
+
 </style>
 <script>
 // @ is an alias to /src

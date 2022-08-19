@@ -129,6 +129,69 @@
   font-family: 'Lato', sans-serif;
 }
 
+//Media queries 612px and 768px
+
+@mixin signup_form-tablet{
+  width: 80%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin links-tablet {
+  width: 65%;
+}
+
+@mixin signup-headline-tablet {
+  width: 48%;
+}
+
+//Media queries 769px and 1024px
+
+@mixin signup_form-tablet-laptop{
+  width: 50%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin links-tablet-laptop {
+  width: 41%;
+}
+
+@mixin signup-headline-tablet-laptop {
+  width: 72%;
+}
+
+// Media queries 1025px and 1200px
+
+@mixin signup_form-large-screen{
+  width: 50%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin links-large-screen {
+  width: 41%;
+}
+
+@mixin signup-headline-large-screen {
+  width: 69%;
+}
+
+// Media queries min 1201
+
+@mixin signup_form-xlarge-screen{
+  width: 45%;
+  justify-self: center;
+  margin: auto;
+}
+
+@mixin links-xlarge-screen {
+  width: 37%;
+}
+
+@mixin signup-headline-xlarge-screen {
+  width: 70%;
+}
 
 
 
